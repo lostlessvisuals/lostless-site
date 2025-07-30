@@ -1,7 +1,8 @@
+
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
-  background-color: #0d0d0d;
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
   color: #f2f2f2;
 }
 
@@ -14,11 +15,8 @@ nav {
   padding: 1rem 2rem;
 }
 
-nav h1 {
-  color: #ff0055;
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.5rem;
+.site-logo img {
+  height: 36px;
 }
 
 nav ul {
@@ -30,213 +28,116 @@ nav ul {
 nav a {
   color: #f2f2f2;
   text-decoration: none;
-  transition: color 0.3s, transform 0.2s;
+  transition: color 0.3s ease;
 }
 
-nav a:hover {
-  color: #ffcc00;
-  transform: translateY(-1px);
+nav a:hover,
+nav a.active {
+  color: #ff3366;
 }
 
-/* Hero Section */
-.hero {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(145deg, #000, #1a001a);
+/* Centered content for secondary pages */
+.centered-section {
   text-align: center;
-}
-
-.hero h2 {
-  font-size: 2.5rem;
-  color: #ff0055;
-}
-
-.hero p {
-  margin-top: 0.5rem;
-  color: #ccc;
-  font-style: italic;
-}
-
-/* Button */
-.btn {
-  margin-top: 1rem;
-  display: inline-block;
-  padding: 0.75rem 2rem;
-  background: #ffcc00;
-  color: #000;
-  font-weight: bold;
-  text-transform: uppercase;
-  border: none;
-  text-decoration: none;
-  transition: background 0.3s;
-}
-
-.btn:hover {
-  background: #fff000;
-}
-
-/* Instagram Section */
-.instagram {
-  padding: 2rem;
-  background-color: #111;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.insta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1rem;
-  margin: 1rem auto 2rem;
-  max-width: 800px;
-}
-
-.insta-grid img {
-  width: 100%;
-  height: auto;
-  border-radius: 6px;
-  transition: transform 0.3s ease;
-  box-shadow: 0 0 8px rgba(255, 0, 85, 0.3);
-}
-
-.insta-grid img:hover {
-  transform: scale(1.05);
-}
-
-.follow-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.75rem 2rem;
-  background-color: #ff0055;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-
-.follow-btn:hover {
-  background-color: #ff3366;
-}
-
-/* Gallery Page */
-.gallery-header {
-  text-align: center;
-  padding: 2rem;
-}
-
-.gallery-header h2 {
-  color: #ff0055;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.filters button {
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 2px solid #ff0055;
-  color: #ff0055;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.filters button.active,
-.filters button:hover {
-  background: #ff0055;
-  color: #000;
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 2rem;
-}
-
-.gallery-item {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: 0.4s ease;
-}
-
-.gallery-item .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 0, 85, 0.8);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: 0.3s;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 1.2rem;
-}
-
-.gallery-item:hover .overlay {
-  opacity: 1;
-}
-
-.contact-section {
-  background: #0d0d0d;
-  text-align: center;
-  padding: 4rem 2rem;
-}
-
-.contact-section h2 {
-  font-size: 2rem;
-  color: #ff0055;
-  margin-bottom: 1rem;
-}
-
-.contact-section p {
-  color: #ccc;
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-}
-
-.contact-link {
-  background-color: #ff0055;
-  color: #fff;
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-
-.contact-link:hover {
-  background-color: #ff3366;
-}
-
-.about-section {
   padding: 4rem 2rem;
   max-width: 700px;
   margin: 0 auto;
-  text-align: center;
 }
 
-.about-section h2 {
+.centered-section h2 {
   font-size: 2rem;
-  color: #ff0055;
+  color: #ff3366;
   margin-bottom: 1rem;
 }
 
-.about-section p {
+.centered-section p {
   font-size: 1.1rem;
   color: #ccc;
   line-height: 1.6;
+}
+
+/* Highlights video links */
+.video-link {
+  display: block;
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 700px;
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+}
+
+.video-link iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Big logo on index */
+.logo-big {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.logo-big img {
+  max-width: 300px;
+  width: 60%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Masonry Grid */
+.gallery-grid {
+  column-count: 4;
+  column-gap: 1rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-item img,
+.gallery-item video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gallery-grid {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-grid {
+    column-count: 1;
+  }
+
+  .site-logo img {
+    height: 28px;
+  }
+
+  nav ul {
+    gap: 1rem;
+  }
+
+  .gallery-header h2 {
+    font-size: 1.5rem;
+  }
 }
