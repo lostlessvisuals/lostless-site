@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.querySelector(".gallery-grid");
   const msnry = new Masonry(grid, {

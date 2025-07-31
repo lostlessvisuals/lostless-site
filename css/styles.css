@@ -74,6 +74,15 @@ nav a.active {
   border: none;
 }
 
+/* Layout container for the first two highlight videos */
+.video-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
 /* Big logo on index */
 .logo-big {
   text-align: center;
