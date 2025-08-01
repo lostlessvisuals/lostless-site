@@ -122,7 +122,14 @@ nav a.active {
   height: auto;
   display: block;
   border-radius: 8px;
-  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  object-fit: contain;
+}
+
+.gallery-item.loaded img,
+.gallery-item.loaded video {
+  opacity: 1;
 }
 
 /* Responsive */
