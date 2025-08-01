@@ -7,9 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const el = entry.target;
-          el.src = el.dataset.src;
+          const onLoad = () => {
+            el.parentElement.classList.add("loaded");
+          };
           if (el.tagName === "VIDEO") {
+            el.src = el.dataset.src;
             el.load();
+            el.addEventListener("loadeddata", onLoad, { once: true });
+          } else {
+            el.src = el.dataset.src;
+            el.addEventListener("load", onLoad, { once: true });
           }
           observer.unobserve(el);
         }
