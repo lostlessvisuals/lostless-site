@@ -114,6 +114,7 @@ nav a.active {
   margin-bottom: 1rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
   break-inside: avoid;
+  aspect-ratio: 1/1;
 }
 
 .gallery-item img,
@@ -123,6 +124,13 @@ nav a.active {
   display: block;
   border-radius: 8px;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.gallery-item.loaded img,
+.gallery-item.loaded video {
+  opacity: 1;
 }
 
 /* Responsive */
