@@ -74,6 +74,15 @@ nav a.active {
   border: none;
 }
 
+/* Layout container for the first two highlight videos */
+.video-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
 /* Big logo on index */
 .logo-big {
   text-align: center;
@@ -99,13 +108,12 @@ nav a.active {
 }
 
 .gallery-item {
-  break-inside: avoid;
-  margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
-  display: inline-block;
   width: 100%;
+  margin-bottom: 1rem;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  break-inside: avoid;
 }
 
 .gallery-item img,
@@ -126,7 +134,7 @@ nav a.active {
 
 @media (max-width: 600px) {
   .gallery-grid {
-    column-count: 1;
+    column-count: 2;
   }
 
   .site-logo img {
