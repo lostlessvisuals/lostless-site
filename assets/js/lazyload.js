@@ -10,9 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const parent = el.closest(".gallery-item");
 
         const onLoad = () => {
-          parent?.classList.add("loaded");
-          el.removeEventListener("load", onLoad);
-          el.removeEventListener("loadeddata", onLoad);
+          setTimeout(() => {
+            parent?.classList.add("loaded");
+            el.removeEventListener("load", onLoad);
+            el.removeEventListener("loadeddata", onLoad);
+          }, 50);
         };
 
         if (el.tagName === "IMG") {
