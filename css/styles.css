@@ -125,6 +125,18 @@ nav a.active {
   object-fit: cover;
 }
 
+.grid img,
+.grid video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.grid picture,
+.grid video {
+  display: block;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .gallery-grid {
