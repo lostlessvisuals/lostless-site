@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="/assets/favicon/favicon.ico">
+  <script defer data-domain="lostless.live" src="https://plausible.io/js/script.js"></script>
 
 </head>
 <body style="background-color: #000;">
@@ -360,6 +361,21 @@
   </div>
     </section>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const media = item.querySelector('img, video');
+          if (!media) return;
+          const slug = media.getAttribute('alt') || media.getAttribute('src').split('/').pop().split('.')[0];
+          if (window.plausible) {
+            plausible('Lightbox Open', { props: { item: slug } });
+          }
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>

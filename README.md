@@ -21,3 +21,7 @@ lostless.live
 ```
 
 When the site is deployed with GitHub Pages, GitHub reads this file and configures the deployment so that `lostless.live` resolves to the contents of this repository.
+
+## Analytics
+
+This site uses [Plausible](https://plausible.io/) for privacy-friendly analytics. The service offers a free trial and then requires a paid plan. All events are tracked for the `lostless.live` domain.
