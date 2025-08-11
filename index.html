@@ -388,6 +388,20 @@
           observer.observe(video);
         });
 
+        const gallery = document.querySelector('.gallery-grid');
+        if (gallery) {
+          const items = Array.from(gallery.children);
+          const imageItems = items.filter(item => item.querySelector('img'));
+          const videoItems = items.filter(item => item.querySelector('video'));
+          const mixed = [];
+          const maxLength = Math.max(imageItems.length, videoItems.length);
+          for (let i = 0; i < maxLength; i++) {
+            if (imageItems[i]) mixed.push(imageItems[i]);
+            if (videoItems[i]) mixed.push(videoItems[i]);
+          }
+          mixed.forEach(item => gallery.appendChild(item));
+        }
+
         document.querySelectorAll('.gallery-item').forEach(item => {
           item.addEventListener('click', () => {
             const media = item.querySelector('img, video');
