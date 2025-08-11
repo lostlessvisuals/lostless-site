@@ -115,7 +115,8 @@ nav a.active {
 
 /* Masonry Grid */
 .gallery-grid {
-  column-count: 4;
+  --cols: 3;
+  column-count: var(--cols);
   column-gap: 1rem;
   max-width: 1600px;
   margin: 0 auto;
@@ -165,13 +166,13 @@ nav a.active {
 /* Responsive */
 @media (max-width: 1024px) {
   .gallery-grid {
-    column-count: 2;
+    --cols: 2;
   }
 }
 
 @media (max-width: 600px) {
   .gallery-grid {
-    column-count: 2;
+    --cols: 1;
   }
 
   .site-logo img {
