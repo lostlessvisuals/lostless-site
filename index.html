@@ -364,12 +364,6 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const grid = document.querySelector('.gallery-grid');
-      if (grid) {
-        const items = Array.from(grid.children);
-        items.sort(() => Math.random() - 0.5);
-        items.forEach(item => grid.appendChild(item));
-      }
 
       document.querySelectorAll('.gallery-item').forEach(item => {
         item.addEventListener('click', () => {
