@@ -364,6 +364,29 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+      const gallery = document.querySelector('.gallery-grid');
+      if (gallery) {
+        const items = Array.from(gallery.children);
+        const cols = parseInt(getComputedStyle(gallery).getPropertyValue('--cols')) || 1;
+        const rows = Math.ceil(items.length / cols);
+        const columns = [];
+        for (let c = 0; c < cols; c++) {
+          columns[c] = items.slice(c * rows, (c + 1) * rows);
+          const media = columns[c][0] && columns[c][0].querySelector('img, video');
+          if (media) {
+            media.setAttribute('fetchpriority', 'high');
+          }
+        }
+        const newOrder = [];
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const item = columns[c][r];
+            if (item) newOrder.push(item);
+          }
+        }
+        gallery.append(...newOrder);
+      }
+
       const lazyMedia = document.querySelectorAll('img[loading="lazy"], video[loading="lazy"]');
       lazyMedia.forEach(media => {
         const isVideo = media.tagName.toLowerCase() === 'video';
