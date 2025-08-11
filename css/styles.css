@@ -56,6 +56,11 @@ nav a.active {
   line-height: 1.6;
 }
 
+/* scatter effect letters */
+.scatter-letter {
+  display: inline-block;
+}
+
 /* Highlights video links */
 .video-link {
   display: block;
