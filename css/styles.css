@@ -152,6 +152,16 @@ nav a.active {
   display: block;
 }
 
+/* Lazy-loaded media fade-in */
+.lazy-media {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.lazy-media.loaded {
+  opacity: 1;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .gallery-grid {

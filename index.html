@@ -365,6 +365,20 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+      const lazyMedia = document.querySelectorAll('img[loading="lazy"], video[loading="lazy"]');
+      lazyMedia.forEach(media => {
+        const isVideo = media.tagName.toLowerCase() === 'video';
+        const alreadyLoaded = isVideo ? media.readyState >= 2 : media.complete;
+        if (alreadyLoaded) return;
+        media.classList.add('lazy-media');
+        const onLoaded = () => media.classList.add('loaded');
+        if (isVideo) {
+          media.addEventListener('loadeddata', onLoaded, { once: true });
+        } else {
+          media.addEventListener('load', onLoaded, { once: true });
+        }
+      });
+
       document.querySelectorAll('.gallery-item').forEach(item => {
         item.addEventListener('click', () => {
           const media = item.querySelector('img, video');
