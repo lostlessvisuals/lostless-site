@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="/assets/favicon/favicon.ico">
+  <link rel="preload" as="image" href="/assets/meta/logo-big.png">
   <script defer data-domain="lostless.live" src="https://plausible.io/js/script.js"></script>
 
 </head>
@@ -29,12 +30,10 @@
     </nav>
   </header>
 
-  <div class="logo-big">
-    <img src="/assets/meta/logo-big.png" alt="lostless large logo" />
-  </div>
-
   <main>
- 
+    <div class="logo-big">
+      <img src="/assets/meta/logo-big.png" alt="lostless large logo" width="512" height="512" fetchpriority="high" decoding="async" />
+    </div>
 
     <section class="gallery-grid grid">
   <div class="gallery-item">
