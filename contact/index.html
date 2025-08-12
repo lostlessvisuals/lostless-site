@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.youtube.com;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.youtube-nocookie.com https://www.youtube.com;" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>contact — lostless</title>
@@ -36,15 +36,7 @@
   <main class="centered-section">
     <p>inquiries, bookings, commissions:</p>
 
-    <a id="email-link" class="contact-link" onclick="plausible('Contact Email')"></a>
-    <script>
-      const u = "lostless.visuals";
-      const d = "gmail.com";
-      const email = u + "@" + d;
-      const link = document.getElementById("email-link");
-      link.href = "mailto:" + email;
-      link.textContent = email;
-    </script>
+    <a href="mailto:lostless.visuals@gmail.com" class="contact-link" onclick="plausible('Contact Email')">lostless.visuals@gmail.com</a>
 
     <p style="margin-top: 2rem;">
       or dm on instagram:<br>
