@@ -35,9 +35,15 @@
   <main class="centered-section">
     <p>inquiries, bookings, commissions:</p>
 
-    <a href="mailto:lostless.visuals@gmail.com" class="contact-link" onclick="plausible('Contact Email')">
-      lostless.visuals@gmail.com
-    </a>
+    <a id="email-link" class="contact-link" onclick="plausible('Contact Email')"></a>
+    <script>
+      const u = "lostless.visuals";
+      const d = "gmail.com";
+      const email = u + "@" + d;
+      const link = document.getElementById("email-link");
+      link.href = "mailto:" + email;
+      link.textContent = email;
+    </script>
 
     <p style="margin-top: 2rem;">
       or dm on instagram:<br>
