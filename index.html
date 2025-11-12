@@ -818,76 +818,48 @@
   </main>
   <script>
    document.addEventListener('DOMContentLoaded', function () {
-        let scheduleEnforce = null;
-        let enforceFirstColumn = null;
-
         const gallery = document.querySelector('.gallery-grid');
+        let originalOrder = [];
+        let applyOrder = () => {};
+
         if (gallery) {
           const items = Array.from(gallery.children);
-          if (items.length > 1) {
-            const itemData = items.map(item => ({
-              node: item,
-              key: Math.random(),
-            }));
+          const images = items.filter(item => item.querySelector('img'));
+          const videos = items.filter(item => item.querySelector('video'));
+          const mixedOrder = [];
 
-            const sortedItems = [...itemData].sort((a, b) => a.key - b.key);
-            const isVideoNode = node => !!node.querySelector('video');
+          let imageIndex = 0;
+          let videoIndex = 0;
 
-            const swapNodes = (nodeA, nodeB) => {
-              if (nodeA === nodeB) return;
-              const parent = nodeA.parentNode;
-              if (!parent || parent !== nodeB.parentNode) return;
-              const placeholder = document.createElement('div');
-              placeholder.style.display = 'none';
-              parent.replaceChild(placeholder, nodeA);
-              parent.replaceChild(nodeA, nodeB);
-              parent.replaceChild(nodeB, placeholder);
-            };
-
-            const getFirstColumnNodes = () => {
-              const children = Array.from(gallery.children);
-              if (!children.length) return [];
-              const rects = children.map(child => child.getBoundingClientRect());
-              const minLeft = Math.min(...rects.map(rect => rect.left));
-              const threshold = minLeft + 1;
-              return children.filter((child, index) => rects[index].left <= threshold);
-            };
-
-            scheduleEnforce =
-              window.requestAnimationFrame
-                ? callback => window.requestAnimationFrame(callback)
-                : callback => setTimeout(callback, 0);
-
-            enforceFirstColumn = () => {
-              let safety = 0;
-              while (safety < 50) {
-                const firstColumnNodes = getFirstColumnNodes();
-                const videoInFirstColumn = firstColumnNodes.find(isVideoNode);
-                if (!videoInFirstColumn) break;
-                const replacementImage = Array.from(gallery.children).find(
-                  node => !firstColumnNodes.includes(node) && !isVideoNode(node),
-                );
-                if (!replacementImage) break;
-                swapNodes(videoInFirstColumn, replacementImage);
-                safety += 1;
-              }
-            };
-
-            const applyOrder = () => {
-              sortedItems.forEach(entry => {
-                gallery.appendChild(entry.node);
-              });
-              scheduleEnforce(enforceFirstColumn);
-            };
-
-            applyOrder();
-
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-              clearTimeout(resizeTimer);
-              resizeTimer = setTimeout(applyOrder, 150);
-            });
+          while (imageIndex < images.length || videoIndex < videos.length) {
+            if (imageIndex < images.length) {
+              mixedOrder.push(images[imageIndex]);
+              imageIndex += 1;
+            }
+            if (videoIndex < videos.length) {
+              mixedOrder.push(videos[videoIndex]);
+              videoIndex += 1;
+            }
           }
+
+          originalOrder = mixedOrder.length ? mixedOrder : items;
+
+          applyOrder = () => {
+            if (!originalOrder.length) return;
+            const fragment = document.createDocumentFragment();
+            originalOrder.forEach(node => {
+              fragment.appendChild(node);
+            });
+            gallery.appendChild(fragment);
+          };
+
+          applyOrder();
+
+          let resizeTimer;
+          window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(applyOrder, 150);
+          });
         }
 
         const lazyImages = document.querySelectorAll('img[loading="lazy"]');
@@ -898,9 +870,7 @@
             'load',
             () => {
               img.classList.add('loaded');
-              if (typeof scheduleEnforce === 'function' && typeof enforceFirstColumn === 'function') {
-                scheduleEnforce(enforceFirstColumn);
-              }
+              applyOrder();
             },
             { once: true },
           );
@@ -929,9 +899,7 @@
             'loadeddata',
             () => {
               video.classList.add('loaded');
-              if (typeof scheduleEnforce === 'function' && typeof enforceFirstColumn === 'function') {
-                scheduleEnforce(enforceFirstColumn);
-              }
+              applyOrder();
             },
             { once: true },
           );
