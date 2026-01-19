@@ -863,17 +863,26 @@
         }
 
         const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        const revealImage = img => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              img.classList.add('loaded');
+            });
+          });
+        };
         lazyImages.forEach(img => {
-          if (img.complete) return;
           img.classList.add('lazy-media');
           img.addEventListener(
             'load',
             () => {
-              img.classList.add('loaded');
+              revealImage(img);
               applyOrder();
             },
             { once: true },
           );
+          if (img.complete) {
+            revealImage(img);
+          }
         });
 
         const lazyVideos = document.querySelectorAll('video[data-lazy]');
