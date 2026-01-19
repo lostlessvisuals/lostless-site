@@ -870,19 +870,35 @@
             });
           });
         };
+        const imageObserver = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const img = entry.target;
+            img.dataset.inView = 'true';
+            if (img.complete || img.dataset.hasLoaded === 'true') {
+              revealImage(img);
+              obs.unobserve(img);
+            }
+          });
+        });
         lazyImages.forEach(img => {
           img.classList.add('lazy-media');
           img.addEventListener(
             'load',
             () => {
-              revealImage(img);
+              img.dataset.hasLoaded = 'true';
+              if (img.dataset.inView === 'true') {
+                revealImage(img);
+                imageObserver.unobserve(img);
+              }
               applyOrder();
             },
             { once: true },
           );
           if (img.complete) {
-            revealImage(img);
+            img.dataset.hasLoaded = 'true';
           }
+          imageObserver.observe(img);
         });
 
         const lazyVideos = document.querySelectorAll('video[data-lazy]');
