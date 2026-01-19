@@ -158,11 +158,15 @@ nav a.active {
 }
 
 /* Lazy-loaded media fade-in */
+img[loading="lazy"],
+video[data-lazy],
 .lazy-media {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
+img.loaded,
+video.loaded,
 .lazy-media.loaded {
   opacity: 1;
 }
