@@ -1,15 +1,23 @@
 (() => {
-  const gallery = document.querySelector('.gallery-grid');
-  if (!gallery) {
+  const main = document.querySelector('main');
+  if (!main) {
     return;
   }
 
   const fadeClass = 'lazy-fade';
   const loadedClass = 'is-loaded';
+  const boundClass = 'lazy-fade-bound';
 
-  const images = gallery.querySelectorAll('img');
-  images.forEach((img) => {
-    img.classList.add(fadeClass);
+  const handleImage = (img) => {
+    if (!img || img.classList.contains(boundClass)) {
+      return;
+    }
+
+    img.classList.add(fadeClass, boundClass);
+
+    if (!img.hasAttribute('loading')) {
+      img.setAttribute('loading', 'lazy');
+    }
 
     if (img.complete && img.naturalWidth > 0) {
       img.classList.add(loadedClass);
@@ -23,11 +31,14 @@
       },
       { once: true }
     );
-  });
+  };
 
-  const videos = Array.from(gallery.querySelectorAll('video'));
-  videos.forEach((video) => {
-    video.classList.add(fadeClass);
+  const handleVideo = (video, observerInstance) => {
+    if (!video || video.classList.contains(boundClass)) {
+      return;
+    }
+
+    video.classList.add(fadeClass, boundClass);
 
     if (video.readyState >= 2) {
       video.classList.add(loadedClass);
@@ -40,7 +51,11 @@
         { once: true }
       );
     }
-  });
+
+    if (observerInstance) {
+      observerInstance.observe(video);
+    }
+  };
 
   const observer = new IntersectionObserver(
     (entries, observerInstance) => {
@@ -67,7 +82,36 @@
     { rootMargin: '300px' }
   );
 
-  videos.forEach((video) => {
-    observer.observe(video);
+  const registerMedia = (node) => {
+    if (!node) {
+      return;
+    }
+
+    if (node.matches && node.matches('img')) {
+      handleImage(node);
+    }
+
+    if (node.matches && node.matches('video')) {
+      handleVideo(node, observer);
+    }
+
+    if (node.querySelectorAll) {
+      node.querySelectorAll('img').forEach(handleImage);
+      node.querySelectorAll('video').forEach((video) => {
+        handleVideo(video, observer);
+      });
+    }
+  };
+
+  registerMedia(main);
+
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        registerMedia(node);
+      });
+    });
   });
+
+  mutationObserver.observe(main, { childList: true, subtree: true });
 })();

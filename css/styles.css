@@ -158,12 +158,12 @@ nav a.active {
 }
 
 /* Lazy-loaded media fade-in */
-.lazy-fade {
+body.homepage .lazy-fade {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-.lazy-fade.is-loaded {
+body.homepage .lazy-fade.is-loaded {
   opacity: 1;
 }
 
