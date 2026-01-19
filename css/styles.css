@@ -158,16 +158,12 @@ nav a.active {
 }
 
 /* Lazy-loaded media fade-in */
-img[loading="lazy"],
-video[data-lazy],
-.lazy-media {
+.lazy-fade {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-img.loaded,
-video.loaded,
-.lazy-media.loaded {
+.lazy-fade.is-loaded {
   opacity: 1;
 }
 
