@@ -39,6 +39,8 @@
     }
 
     video.classList.add(fadeClass, boundClass);
+    video.muted = true;
+    video.autoplay = true;
 
     if (video.readyState >= 2) {
       video.classList.add(loadedClass);
@@ -74,6 +76,19 @@
 
         if (sources.length > 0) {
           video.load();
+        }
+
+        const playWhenReady = () => {
+          const playAttempt = video.play();
+          if (playAttempt && typeof playAttempt.catch === 'function') {
+            playAttempt.catch(() => {});
+          }
+        };
+
+        if (video.readyState >= 2) {
+          playWhenReady();
+        } else {
+          video.addEventListener('loadeddata', playWhenReady, { once: true });
         }
 
         observerInstance.unobserve(video);
