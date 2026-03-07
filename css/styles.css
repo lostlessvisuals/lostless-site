@@ -169,6 +169,16 @@ nav a.active {
   transform: translateY(-1px);
 }
 
+.about-links {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 1.35rem;
+}
+
+.about-card {
+  width: 100%;
+}
+
 .contact-links {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
