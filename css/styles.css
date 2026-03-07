@@ -72,8 +72,9 @@ nav a.active {
   min-height: calc(100vh - 88px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
+  padding-top: clamp(3.5rem, 12vh, 7rem);
 }
 
 .contact-kicker {
@@ -102,6 +103,70 @@ nav a.active {
 
 .contact-note {
   margin: 0.25rem 0 0;
+}
+
+.about-section {
+  min-height: calc(100vh - 88px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(3.5rem, 12vh, 7rem);
+}
+
+.about-shell {
+  width: 100%;
+  max-width: 760px;
+  padding: 1.3rem 1.3rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  text-align: left;
+}
+
+.about-kicker {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8d8d8d;
+}
+
+.about-shell h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+.about-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.about-copy p {
+  margin: 0;
+}
+
+.about-behave {
+  padding-top: 0.35rem;
+}
+
+.about-link {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1.35rem;
+  color: #ff3366;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.about-link:hover,
+.about-link:focus-visible {
+  color: #ff6b93;
+  transform: translateY(-1px);
 }
 
 .contact-links {
@@ -384,6 +449,12 @@ body.homepage .lazy-fade.is-loaded {
     padding-bottom: 5rem;
   }
 
+  .about-section {
+    min-height: auto;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
   .contact-links {
     grid-template-columns: 1fr;
   }
@@ -395,6 +466,10 @@ body.homepage .lazy-fade.is-loaded {
 
   .highlight-card-featured {
     grid-column: span 1;
+  }
+
+  .about-shell {
+    padding: 1.1rem;
   }
 
   .gallery-header h2 {

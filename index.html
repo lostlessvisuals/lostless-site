@@ -17,6 +17,10 @@
     line-height: 0;
    }
 
+   .homepage .lazy-fade {
+    opacity: 0;
+   }
+
    .site-logo img,
    .logo-big img,
    .gallery-item img,
@@ -80,7 +84,7 @@
      <picture>
       <source srcset="assets/images/image7-480.avif 480w" type="image/avif">
        <source srcset="assets/images/image7-480.webp 480w" type="image/webp">
-        <img alt="audio-react" decoding="async" fetchpriority="high" height="1080" sizes="(min-width:1200px) 33vw, (min-width:768px) 50vw, 100vw" src="/assets/images/image7.webp" width="608">
+        <img alt="audio-react" class="lazy-fade" decoding="async" fetchpriority="high" height="1080" sizes="(min-width:1200px) 33vw, (min-width:768px) 50vw, 100vw" src="/assets/images/image7.webp" width="608">
      </picture>
     </div>
     <div class="gallery-item">
