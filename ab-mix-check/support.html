@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AB Mix Check Support</title>
+  <meta name="description" content="Support page for AB Mix Check.">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <link rel="canonical" href="https://lostless.live/ab-mix-check/support.html">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #081018;
+      --panel: #0f1d2d;
+      --panel-border: rgba(158, 188, 217, 0.18);
+      --text: #f4f7fb;
+      --muted: #b2c0d1;
+      --accent: #1e89b5;
+      --accent-soft: rgba(30, 137, 181, 0.18);
+      --link: #cde8ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(30, 137, 181, 0.16), transparent 24rem),
+        radial-gradient(circle at 82% 10%, rgba(244, 247, 251, 0.08), transparent 18rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    main {
+      width: min(48rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 3rem 0 4rem;
+    }
+    .hero, .panel {
+      background: rgba(15, 29, 45, 0.9);
+      border: 1px solid var(--panel-border);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+    .hero { margin-bottom: 1rem; }
+    h1, h2 { margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+    h2 { font-size: 1.05rem; color: var(--text); }
+    p, li { color: var(--muted); }
+    a { color: var(--link); }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .mark {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(180deg, rgba(30, 137, 181, 0.45), rgba(30, 137, 181, 0.18));
+      border: 1px solid rgba(158, 188, 217, 0.24);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      margin-top: 1rem;
+    }
+    code {
+      color: var(--text);
+      background: var(--accent-soft);
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.35rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="brand">
+        <div class="mark">AB</div>
+        <span>AB MIX CHECK</span>
+      </div>
+      <h1>Support</h1>
+      <p>AB Mix Check is a local, headphone-first A/B reference tool for iPhone. This page covers the core workflow, expected behavior, and basic troubleshooting for release support.</p>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Core workflow</h2>
+        <ul>
+          <li>Import two local audio files in the Library.</li>
+          <li>Tap <code>Start A/B Check</code> to open the player.</li>
+          <li>Switch between Mix and Reference with loudness matching enabled when making balance decisions.</li>
+          <li>Use markers and notes to capture the exact place you want to revisit.</li>
+          <li>Export TXT or CSV if you want a handoff to Files or Notes.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>What is expected</h2>
+        <ul>
+          <li>All processing stays on-device.</li>
+          <li>No account is required.</li>
+          <li>Mono, Mid, and Side audibly change playback in Critical Listening.</li>
+          <li>Blind Compare hides source labels until you reveal the mapping.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Troubleshooting</h2>
+        <ul>
+          <li>If playback is silent, reopen the session and tap <code>Play</code> again after switching sources.</li>
+          <li>If an imported file becomes unavailable, re-import it from the Library.</li>
+          <li>If export does not appear, tap <code>Export TXT</code> or <code>Export CSV</code> again and use the iOS share sheet.</li>
+          <li>If a comparison feels unfair, turn on <code>Match Reference To Mix</code>.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Contact</h2>
+        <p>For support, email <a href="mailto:lostless.visuals@gmail.com">lostless.visuals@gmail.com</a> or use <a href="https://lostless.live/contact/">lostless.live/contact/</a>.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
