@@ -7,9 +7,45 @@
   const fadeClass = 'lazy-fade';
   const loadedClass = 'is-loaded';
   const boundClass = 'lazy-fade-bound';
+  const videoLoadedFlag = 'videoLoaded';
+
+  const loadVideoSources = (video) => {
+    if (!video || video.dataset[videoLoadedFlag] === 'true') {
+      return;
+    }
+
+    const sources = video.querySelectorAll('source[data-src]');
+    sources.forEach((source) => {
+      if (!source.src) {
+        source.src = source.dataset.src;
+      }
+    });
+
+    if (sources.length > 0) {
+      video.load();
+    }
+
+    video.dataset[videoLoadedFlag] = 'true';
+  };
+
+  const playVideo = (video) => {
+    if (!video) {
+      return;
+    }
+
+    const playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.catch(() => {});
+    }
+  };
 
   const handleImage = (img) => {
     if (!img || img.classList.contains(boundClass)) {
+      return;
+    }
+
+    if (img.dataset.heroReveal === 'true') {
+      img.classList.add(boundClass, loadedClass);
       return;
     }
 
@@ -62,36 +98,22 @@
   const observer = new IntersectionObserver(
     (entries, observerInstance) => {
       entries.forEach((entry) => {
+        const video = entry.target;
+
         if (!entry.isIntersecting) {
+          if (!video.paused) {
+            video.pause();
+          }
           return;
         }
 
-        const video = entry.target;
-        const sources = video.querySelectorAll('source[data-src]');
-        sources.forEach((source) => {
-          if (!source.src) {
-            source.src = source.dataset.src;
-          }
-        });
-
-        if (sources.length > 0) {
-          video.load();
-        }
-
-        const playWhenReady = () => {
-          const playAttempt = video.play();
-          if (playAttempt && typeof playAttempt.catch === 'function') {
-            playAttempt.catch(() => {});
-          }
-        };
+        loadVideoSources(video);
 
         if (video.readyState >= 2) {
-          playWhenReady();
+          playVideo(video);
         } else {
-          video.addEventListener('loadeddata', playWhenReady, { once: true });
+          video.addEventListener('loadeddata', () => playVideo(video), { once: true });
         }
-
-        observerInstance.unobserve(video);
       });
     },
     { rootMargin: '300px' }

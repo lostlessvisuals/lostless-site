@@ -16,7 +16,7 @@
   <link rel="manifest" href="/manifest.webmanifest">
   <script defer data-domain="lostless.live" src="https://plausible.io/js/script.js"></script>
 </head>
-<body>
+<body class="contact-page">
 
   <header>
     <nav>
@@ -32,20 +32,27 @@
     </nav>
   </header>
 
-  <main class="centered-section">
-    <p>inquiries, bookings, commissions:</p>
+  <main class="centered-section contact-section">
+    <p class="contact-kicker">inquiries, bookings, commissions</p>
 
-    <a href="mailto:lostless.visuals@gmail.com" class="contact-link" onclick="plausible('Contact Email')">
+    <a href="mailto:lostless.visuals@gmail.com" class="contact-link contact-primary" onclick="plausible('Contact Email')">
       lostless.visuals@gmail.com
     </a>
 
-    <p style="margin-top: 2rem;">
-      or dm on instagram:<br>
-      <a href="https://www.instagram.com/lostless.visuals/" target="_blank" rel="noopener noreferrer" class="ig-link" onclick="plausible('Instagram Click')" style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:#ff3366;">
-        <img src="/assets/meta/instagram-icon.svg" alt="instagram" style="height: 18px; width: 18px;" />
-        @lostless.visuals
+    <p class="contact-note">or reach out here</p>
+
+    <div class="contact-links" aria-label="social links">
+      <a href="https://www.instagram.com/lostless.visuals/" target="_blank" rel="noopener noreferrer" class="contact-chip contact-chip-instagram" onclick="plausible('Instagram Click')">
+        <img src="/assets/meta/instagram-icon.svg" alt="" aria-hidden="true" />
+        instagram
       </a>
-    </p>
+      <a href="https://www.linkedin.com/in/porter-769a97190/" target="_blank" rel="noopener noreferrer" class="contact-chip" onclick="plausible('LinkedIn Click')">
+        linkedin
+      </a>
+      <a href="https://github.com/lostlessvisuals" target="_blank" rel="noopener noreferrer" class="contact-chip" onclick="plausible('GitHub Click')">
+        github
+      </a>
+    </div>
   </main>
 
 </body>
