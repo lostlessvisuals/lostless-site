@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FireCheck Lite Support</title>
+  <meta name="description" content="Support page for FireCheck Lite.">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <link rel="canonical" href="https://lostless.live/firecheck-lite/support.html">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #160f0d;
+      --panel: #241714;
+      --panel-border: rgba(255, 205, 187, 0.14);
+      --text: #fff7f2;
+      --muted: #ddc6bb;
+      --accent: #db5935;
+      --accent-soft: rgba(219, 89, 53, 0.16);
+      --link: #ffd2bc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 12%, rgba(219, 89, 53, 0.16), transparent 22rem),
+        radial-gradient(circle at 80% 0%, rgba(255, 247, 242, 0.06), transparent 18rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    main {
+      width: min(48rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 3rem 0 4rem;
+    }
+    .hero, .panel {
+      background: rgba(36, 23, 20, 0.92);
+      border: 1px solid var(--panel-border);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+    .hero { margin-bottom: 1rem; }
+    h1, h2 { margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+    h2 { font-size: 1.05rem; color: var(--text); }
+    p, li { color: var(--muted); }
+    a { color: var(--link); }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .mark {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(180deg, rgba(219, 89, 53, 0.44), rgba(219, 89, 53, 0.18));
+      border: 1px solid rgba(255, 205, 187, 0.2);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      margin-top: 1rem;
+    }
+    code {
+      color: var(--text);
+      background: var(--accent-soft);
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.35rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="brand">
+        <div class="mark">FC</div>
+        <span>FIRECHECK LITE</span>
+      </div>
+      <h1>Support</h1>
+      <p>FireCheck Lite is an offline iPhone logbook for monthly fire extinguisher inspections. This page covers the expected workflow, common questions, and basic troubleshooting for the release build.</p>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Core workflow</h2>
+        <ul>
+          <li>Create a property and add each extinguisher by tag ID and location.</li>
+          <li>Start a monthly check from the property screen.</li>
+          <li>Complete the six-point inspection, enter inspector initials, and save the check.</li>
+          <li>Generate PDF or CSV exports from the Reports screen when you need to share records.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>What is expected</h2>
+        <ul>
+          <li>Inspection records stay local to the iPhone.</li>
+          <li>No account creation is required.</li>
+          <li>QR and NFC support are optional convenience paths, not required for basic use.</li>
+          <li>The free tier supports one property with up to three extinguishers.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Troubleshooting</h2>
+        <ul>
+          <li>If scanning does not work, use manual tag entry instead.</li>
+          <li>If you cannot add another extinguisher or property, check whether you are at the free-tier limit.</li>
+          <li>If an export does not appear immediately, reopen Reports and generate it again from the selected export card.</li>
+          <li>If camera or NFC access is denied, the app should still work for manual inspections and exports.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Contact</h2>
+        <p>For support, email <a href="mailto:lostless.visuals@gmail.com">lostless.visuals@gmail.com</a> or use <a href="https://lostless.live/contact/">lostless.live/contact/</a>.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
