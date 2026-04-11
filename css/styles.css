@@ -357,7 +357,7 @@ nav a:focus-visible {
 .home-intro {
   max-width: 980px;
   margin: 0 auto;
-  padding: 1.1rem 1rem 0.5rem;
+  padding: 1rem 1rem 1.6rem;
   display: grid;
   grid-template-columns: 1fr;
   justify-items: center;
@@ -401,17 +401,19 @@ body.homepage .home-intro-mark .hero-logo {
 
 .home-intro h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 4.4rem);
-  line-height: 0.94;
+  font-size: clamp(1.55rem, 3.2vw, 2.7rem);
+  line-height: 1;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .home-intro-description {
   margin: 0;
-  max-width: 44rem;
-  font-size: clamp(1rem, 1.6vw, 1.22rem);
-  line-height: 1.45;
+  max-width: none;
+  font-size: clamp(0.94rem, 1vw, 1.04rem);
+  line-height: 1.35;
   color: #c9c9c9;
+  white-space: nowrap;
 }
 
 /* Masonry Grid */
@@ -477,10 +479,16 @@ body.homepage .lazy-fade.is-loaded {
 @media (max-width: 1024px) {
   .home-intro {
     padding-top: 0.95rem;
+    padding-bottom: 1.15rem;
   }
 
   .home-intro-mark img {
     width: min(220px, 58vw);
+  }
+
+  .home-intro h1,
+  .home-intro-description {
+    white-space: normal;
   }
 
   .gallery-grid {
