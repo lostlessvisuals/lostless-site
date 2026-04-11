@@ -353,25 +353,65 @@ nav a:focus-visible {
   transform: translateY(-1px);
 }
 
-/* Big logo on index */
-.logo-big {
-  text-align: center;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
-
-.logo-big img {
-  max-width: 300px;
-  width: 60%;
-  height: auto;
-  display: block;
+/* Homepage intro */
+.home-intro {
+  max-width: 980px;
   margin: 0 auto;
+  padding: 1.1rem 1rem 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 1rem;
+  align-items: center;
+  text-align: center;
 }
 
-body.homepage .logo-big .hero-logo {
+.home-intro-mark {
+  display: flex;
+  justify-content: center;
+}
+
+.home-intro-mark img {
+  max-width: 300px;
+  width: min(100%, 300px);
+  height: auto;
+}
+
+body.homepage .home-intro-mark .hero-logo {
   opacity: 0;
   transform: translateY(28px) scale(0.985);
   animation: hero-logo-reveal 1800ms cubic-bezier(0.18, 0.8, 0.22, 1) 180ms forwards;
+}
+
+.home-intro-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 700px;
+  align-items: center;
+}
+
+.home-intro-kicker {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8d8d8d;
+}
+
+.home-intro h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 4.4rem);
+  line-height: 0.94;
+  font-weight: 700;
+}
+
+.home-intro-description {
+  margin: 0;
+  max-width: 44rem;
+  font-size: clamp(1rem, 1.6vw, 1.22rem);
+  line-height: 1.45;
+  color: #c9c9c9;
 }
 
 /* Masonry Grid */
@@ -380,7 +420,7 @@ body.homepage .logo-big .hero-logo {
   column-gap: 1rem;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 0.5rem 1rem 1rem;
 }
 
 .gallery-item {
@@ -425,7 +465,7 @@ body.homepage .lazy-fade.is-loaded {
 
 @media (prefers-reduced-motion: reduce) {
   body.homepage .lazy-fade,
-  body.homepage .logo-big .hero-logo {
+  body.homepage .home-intro-mark .hero-logo {
     opacity: 1;
     transform: none;
     transition: none;
@@ -435,12 +475,32 @@ body.homepage .lazy-fade.is-loaded {
 
 /* Responsive */
 @media (max-width: 1024px) {
+  .home-intro {
+    padding-top: 0.95rem;
+  }
+
+  .home-intro-mark img {
+    width: min(220px, 58vw);
+  }
+
   .gallery-grid {
     column-count: 2;
   }
 }
 
 @media (max-width: 600px) {
+  .home-intro {
+    padding: 0.85rem 1rem 0.25rem;
+  }
+
+  .home-intro h1 {
+    font-size: clamp(1.7rem, 10vw, 2.7rem);
+  }
+
+  .home-intro-description {
+    font-size: 0.98rem;
+  }
+
   .gallery-grid {
     column-count: 2;
   }
