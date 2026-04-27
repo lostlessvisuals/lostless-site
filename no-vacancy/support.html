@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No Vacancy Support</title>
+  <meta name="description" content="Support page for No Vacancy.">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <link rel="canonical" href="https://lostless.live/no-vacancy/support.html">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0d0b12;
+      --panel: rgba(23, 18, 31, 0.92);
+      --panel-border: rgba(255, 214, 167, 0.14);
+      --text: #fff6ec;
+      --muted: #d8c5b4;
+      --accent: #d57a43;
+      --accent-soft: rgba(213, 122, 67, 0.16);
+      --link: #ffd9b6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 14% 14%, rgba(213, 122, 67, 0.16), transparent 22rem),
+        radial-gradient(circle at 82% 4%, rgba(255, 246, 236, 0.06), transparent 18rem),
+        linear-gradient(180deg, rgba(64, 40, 26, 0.18), transparent 20rem),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    main {
+      width: min(48rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 3rem 0 4rem;
+    }
+    .hero, .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+      backdrop-filter: blur(8px);
+    }
+    .hero { margin-bottom: 1rem; }
+    h1, h2 { margin: 0 0 0.5rem; line-height: 1.15; }
+    h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+    h2 { font-size: 1.05rem; color: var(--text); }
+    p, li { color: var(--muted); }
+    a { color: var(--link); }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .mark {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.75rem;
+      background: linear-gradient(180deg, rgba(213, 122, 67, 0.45), rgba(213, 122, 67, 0.18));
+      border: 1px solid rgba(255, 214, 167, 0.22);
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      margin-top: 1rem;
+    }
+    code {
+      color: var(--text);
+      background: var(--accent-soft);
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.35rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="brand">
+        <div class="mark">NV</div>
+        <span>NO VACANCY</span>
+      </div>
+      <h1>Support</h1>
+      <p>No Vacancy is an on-device iPhone focus blocker built around Apple's Screen Time tools. This page covers the expected workflow, common sticking points, and basic troubleshooting for the current release.</p>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Core workflow</h2>
+        <ul>
+          <li>Create a preset with the apps, websites, or categories you want blocked.</li>
+          <li>Add a schedule, a daily limit, or start a focus session from Home.</li>
+          <li>Grant Screen Time access when prompted so blocking can actually apply.</li>
+          <li>Use <code>Reload / Re-apply Shields</code> on the Blocks screen if the system ever looks out of sync.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>What is expected</h2>
+        <ul>
+          <li>All presets, logs, and reflections stay on the device.</li>
+          <li>No account is required.</li>
+          <li>Notifications are optional and blocking should still work without them.</li>
+          <li>Hard and Deep add more friction before you can end a session early.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Troubleshooting</h2>
+        <ul>
+          <li>If nothing blocks, reopen the app and confirm Screen Time access is still enabled.</li>
+          <li>If a blocked app slips through, go to Blocks and tap <code>Reload / Re-apply Shields</code>.</li>
+          <li>If something stays blocked longer than expected, reopen the app so it can recheck the active rule state.</li>
+          <li>If a daily limit or schedule looks wrong, edit the rule and confirm the selected preset and days are correct.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Purchases</h2>
+        <p>No Vacancy Pro is a one-time unlock handled through Apple's in-app purchase flow. Free includes one preset plus one schedule or limit. Pro unlocks unlimited rules, stronger friction modes, and weekly review features.</p>
+      </article>
+
+      <article class="panel">
+        <h2>Contact</h2>
+        <p>If you need help with support or privacy questions, use <a href="https://lostless.live/contact/">lostless.live/contact/</a>.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
