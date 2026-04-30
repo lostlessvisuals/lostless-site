@@ -170,6 +170,9 @@ nav a.active {
 }
 
 .about-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
   width: 100%;
   max-width: 360px;
   margin-top: 1.35rem;
