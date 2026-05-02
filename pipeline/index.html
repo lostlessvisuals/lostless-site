@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>lostless — pipeline</title>
-  <meta name="description" content="how lostless builds AI visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
+  <meta name="description" content="how lostless builds ai visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
   <meta name="author" content="lostless">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="lostless">
   <meta property="og:title" content="lostless — pipeline">
-  <meta property="og:description" content="how lostless builds AI visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
+  <meta property="og:description" content="how lostless builds ai visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
   <meta property="og:url" content="https://lostless.live/pipeline/">
   <meta property="og:image" content="https://lostless.live/assets/meta/preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="lostless — pipeline">
-  <meta name="twitter:description" content="how lostless builds AI visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
+  <meta name="twitter:description" content="how lostless builds ai visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
   <meta name="twitter:image" content="https://lostless.live/assets/meta/preview.jpg">
   <link rel="stylesheet" href="/css/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -47,7 +47,7 @@
     <section class="pipeline-hero">
       <div class="pipeline-intro-card">
         <p class="pipeline-kicker">process</p>
-        <h1>how i build my ai visuals pipeline for live performance</h1>
+        <h1>how I build my ai visuals pipeline for live performance</h1>
         <p class="pipeline-subhead">
           from image-led starts and Wan AnimateDiff to V2V cleanup, loop handling, color correction, final upscale, TouchDesigner and live audio-reactive control.
         </p>
@@ -60,7 +60,7 @@
       <figure class="pipeline-figure">
         <img src="/assets/pipeline/pipeline-workflow-touchdesigner.png" alt="TouchDesigner workflow screenshot from the lostless live visuals pipeline" loading="eager" fetchpriority="high" width="1904" height="757" />
         <figcaption class="pipeline-figcaption">
-          One view into the real-time side of the system: routing, image treatment, and control inside a live TouchDesigner patch.
+          one view into the real-time side of the system: routing, image treatment, and control inside a live TouchDesigner patch.
         </figcaption>
       </figure>
     </section>
@@ -71,16 +71,16 @@
 
         <p>Usually that means generating a lot of stills first, often with something like Flux, then choosing the ones that feel like they already have motion trapped inside them. I am looking for shape, mood, palette, tension, and the kind of image that might hold up once it starts moving on a screen behind music.</p>
 
-        <p>That part matters because I don't think of AI video as a finished product. The first render is raw material. It still has to survive iteration, color correction, loop cutting, loop repair, real upscaling, and then the live side of the process in TouchDesigner and sometimes Resolume.</p>
+        <p>That part matters because I don't think of ai video as a finished product. The first render is raw material. It still has to survive iteration, color correction, loop cutting, loop repair, real upscaling, and then the live side of the process in TouchDesigner and sometimes Resolume.</p>
 
         <p>The goal is not just to make a cool clip. The goal is to make something I can actually use in performance.</p>
 
         <p>This is the pipeline I keep coming back to.</p>
 
-        <h2>The Current Core Workflow</h2>
+        <h2>the current core workflow</h2>
 
         <div class="pipeline-callout">
-          <p>My current core setup is a Wan AnimateDiff workflow, to a low-noise V2V correction pass to a loop fixer workflow.</p>
+          <p>my current core setup is a Wan AnimateDiff workflow, to a low-noise V2V correction pass to a loop fixer workflow.</p>
         </div>
 
         <p>I used to spend more time in SD1.5 and older AnimateDiff workflows, and I still like that lineage, but it is not the center of what I am doing now. Wan AnimateDiff generates motion that feels more interesting to me, and my Windows workstation with a Pro 6000 Blackwell can handle that kind of iteration comfortably.</p>
@@ -89,13 +89,20 @@
 
         <p>The thing I love about ComfyUI is that it becomes a library. Over time you build up stills, clips, prompts, branches, and workflows that you can revisit whenever you want to return to a certain style.</p>
 
-        <h2>Start Wide, Then Choose</h2>
+        <figure class="pipeline-figure pipeline-figure-compact">
+          <img src="/assets/pipeline/why-i-love-stable-diffusion-talk.jpg" alt="Porter speaking about his visuals process at a live talk" loading="lazy" width="2048" height="1365" />
+          <figcaption class="pipeline-figcaption">
+            sharing the process in person, and why older open-source workflows still matter to me.
+          </figcaption>
+        </figure>
+
+        <h2>start wide, then choose</h2>
 
         <p>My process is not about getting one perfect result on the first try. It is the opposite.</p>
 
         <p>I make a lot of generations. Then I keep the ones that have the most life in them. Then I iterate on those.</p>
 
-        <p>The reason I start wide is simple: a lot of AI generations are just bad. They are generic, muddy, overcooked, or they lose the thing that made the starting image interesting. If I am not selective early, I end up spending time refining clips that were never worth saving in the first place.</p>
+        <p>The reason I start wide is simple: a lot of ai generations are just bad. They are generic, muddy, overcooked, or they lose the thing that made the starting image interesting. If I am not selective early, I end up spending time refining clips that were never worth saving in the first place.</p>
 
         <p>That sounds simple, but it changes the whole feel of the workflow. I am not trying to force one render to become great. I am trying to generate enough variation that something surprising appears, then I can push that result further.</p>
 
@@ -103,7 +110,7 @@
 
         <p>I care about whether the motion feels good, whether the image keeps its identity, and whether the final result will still be strong once it is looped and pushed into a live environment.</p>
 
-        <h2>Correct the Color Before the Final Upscale</h2>
+        <h2>correct the color before the final upscale</h2>
 
         <p>Once the motion is working, I usually need to level the clip before I treat it as done.</p>
 
@@ -111,7 +118,7 @@
 
         <p>So there is a separate color correction stage in the pipeline before I commit to a real upscale. The point is not to reinvent the image. It is to stabilize it enough that the color holds together and the loop can actually work.</p>
 
-        <h2>Only Upscale Once the Clip Earns It</h2>
+        <h2>only upscale once the clip earns it</h2>
 
         <p>I do not want to spend final-render time on every test.</p>
 
@@ -121,11 +128,11 @@
 
         <p>For me, upscaling is not the interesting part of the pipeline. It is important, but it comes after the clip proves itself. The creative decisions happen earlier.</p>
 
-        <h2>Cut the Loop, Then Repair the Seam</h2>
+        <h2>cut the loop, then repair the seam</h2>
 
         <p>A clip can look great and still fail as a loop.</p>
 
-        <p>This is one of the biggest differences between making AI video for a feed and making visuals that have to repeat in a live context. On a stage or a large surface, the seam becomes obvious fast. Small tonal problems turn into big ones.</p>
+        <p>This is one of the biggest differences between making ai video for a feed and making visuals that have to repeat in a live context. On a stage or a large surface, the seam becomes obvious fast. Small tonal problems turn into big ones.</p>
 
         <p>So after the motion is working, I use a separate loop-cutting workflow to decide where the seam should land and how the cadence should close. That step is about structure and timing.</p>
 
@@ -133,31 +140,31 @@
 
         <p>That balance matters a lot to me. I want the blacks and levels to lock in, but I do not want to flatten the color or wash out the strange details that made the clip interesting.</p>
 
-        <figure class="pipeline-figure pipeline-inline-media">
+        <div class="pipeline-video-block pipeline-inline-media">
           <p class="pipeline-figure-kicker">live clip</p>
-          <video controls playsinline preload="metadata" poster="/assets/pipeline/sf-live-performance-c0080-poster.jpg">
+          <video class="pipeline-video-embed" autoplay muted loop playsinline preload="metadata" poster="/assets/pipeline/sf-live-performance-c0080-poster.jpg">
             <source src="/assets/pipeline/sf-live-performance-c0080.mp4" type="video/mp4" />
           </video>
-          <figcaption class="pipeline-figcaption">
-            A short clip from a San Francisco live performance setup, trimmed from the start of the original capture.
-          </figcaption>
-        </figure>
+          <p class="pipeline-figcaption">
+            a short clip from a live performance setup in San Francisco.
+          </p>
+        </div>
 
-        <h2>Audio-Reactive Scenes</h2>
+        <h2>audio-reactive scenes</h2>
 
         <p>My love of music is the whole reason I make visuals.</p>
 
         <p>Once the clip is stable enough, I bring it into TouchDesigner and the live side of the process starts. That is where the visuals stop being just exported media and start becoming responsive material. Audio analysis, motion response, distortion, feedback, layering, and control all start to matter more than the original render by itself.</p>
 
-        <p>Most of the Instagram examples I post are audio reactive in some way. That is a big part of what I love about this work. I do not just want visuals that sit behind music. I want visuals that feel connected to it.</p>
+        <p>Most of the instagram examples I post are audio reactive in some way. That is a big part of what I love about this work. I do not just want visuals that sit behind music. I want visuals that feel connected to it.</p>
 
         <p>I also want room for manual control. Audio reactivity alone is not enough. I want to be able to route TouchDesigner into the live setup, turn knobs, push effects, and shape the visuals in real time beyond whatever the automatic reaction is doing.</p>
 
         <p>Sometimes Resolume is part of that final handling layer too, but I think about it more as practical live support than the heart of the process. The heart of the process is getting the clip into a form that can respond and be played with.</p>
 
-        <h2>What I Am Actually Optimizing For</h2>
+        <h2>what I am actually optimizing for</h2>
 
-        <p>When I make AI visuals for live performance, I am asking:</p>
+        <p>When I make ai visuals for live performance, I am asking:</p>
 
         <ul class="pipeline-list">
           <li>Does this image still feel strong once it starts moving?</li>
