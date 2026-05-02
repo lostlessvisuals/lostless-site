@@ -345,9 +345,38 @@ nav a:focus-visible {
   margin: 0 auto 2.5rem;
 }
 
+.highlights-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.85fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.highlights-work,
+.highlights-article-rail {
+  min-width: 0;
+}
+
+.highlights-article-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.highlights-section-header {
+  margin-bottom: 0.9rem;
+}
+
+.highlights-section-title {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  line-height: 1.1;
+  font-weight: 700;
+  color: #f2f2f2;
+}
+
 .highlights-article-teaser {
-  max-width: 760px;
-  margin: 0 auto 1.6rem;
+  margin: 0;
   padding: 1rem 1.1rem 1.05rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
@@ -806,6 +835,11 @@ body.homepage .lazy-fade.is-loaded {
 
   .highlight-card-featured {
     grid-column: span 1;
+  }
+
+  .highlights-content {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 
   .about-shell {
