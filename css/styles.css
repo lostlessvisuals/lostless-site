@@ -452,9 +452,9 @@ nav a:focus-visible {
 }
 
 .article-index-card {
-  display: grid;
-  grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.08fr);
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
   padding: 1.15rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
@@ -476,23 +476,14 @@ nav a:focus-visible {
 .article-index-media img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1904 / 757;
   object-fit: cover;
-}
-
-.article-index-caption {
-  margin: 0;
-  padding: 0.85rem 0.95rem 0.95rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: #a9a9a9;
 }
 
 .article-index-copy {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.7rem;
+  gap: 0.55rem;
 }
 
 .article-index-copy h2 {
@@ -869,10 +860,6 @@ body.homepage .lazy-fade.is-loaded {
 
   .highlight-card-featured {
     grid-column: span 1;
-  }
-
-  .article-index-card {
-    grid-template-columns: 1fr;
   }
 
   .about-shell {
