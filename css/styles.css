@@ -858,6 +858,11 @@ body.homepage .lazy-fade.is-loaded {
     text-align: center;
   }
 
+  .article-index-media img {
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
   .highlight-card-featured {
     grid-column: span 1;
   }
