@@ -858,9 +858,17 @@ body.homepage .lazy-fade.is-loaded {
     text-align: center;
   }
 
+  .article-index-media {
+    width: min(100%, 20rem);
+    margin-right: auto;
+  }
+
   .article-index-media img {
+    width: 200%;
+    max-width: none;
     aspect-ratio: auto;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: left center;
   }
 
   .highlight-card-featured {
