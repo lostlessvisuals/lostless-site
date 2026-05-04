@@ -196,6 +196,8 @@ nav a.active {
 .contact-card {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
   align-items: flex-start;
   gap: 0.35rem;
   padding: 1rem 1.05rem;
@@ -864,11 +866,11 @@ body.homepage .lazy-fade.is-loaded {
   }
 
   .article-index-media img {
-    width: 200%;
+    width: 160%;
     max-width: none;
     aspect-ratio: auto;
     object-fit: cover;
-    object-position: left center;
+    object-position: right center;
   }
 
   .highlight-card-featured {
