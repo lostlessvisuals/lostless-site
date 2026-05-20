@@ -117,7 +117,8 @@ nav a.active {
 
 .contact-lede {
   max-width: 38rem;
-  margin-top: 0.15rem;
+  margin: 0.15rem auto 0;
+  text-align: center;
 }
 
 .about-section {
