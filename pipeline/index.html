@@ -86,7 +86,7 @@
       <figure class="pipeline-figure">
         <img src="/assets/pipeline/pipeline-workflow-touchdesigner.png" alt="TouchDesigner workflow screenshot from the lostless live visuals pipeline" loading="eager" fetchpriority="high" width="1904" height="757" />
         <figcaption class="pipeline-figcaption">
-          one view into the real-time side of the system: routing, treatment, and control inside a live TouchDesigner patch.
+          one view into the real-time side of the system: routing, treatment and control inside a live TouchDesigner patch.
         </figcaption>
       </figure>
     </section>
@@ -95,9 +95,9 @@
       <div class="pipeline-prose">
         <p>I start with an image, not a video.</p>
 
-        <p>Usually that means generating a lot of stills first, often with something like Flux, then choosing the ones that feel like they already have motion trapped inside them. I am looking for shape, mood, palette, tension, and the kind of image that might hold up once it starts moving on a screen behind music.</p>
+        <p>Usually that means generating a lot of stills first, often with something like Flux, then choosing the ones that feel like they already have motion trapped inside them. I am looking for shape, mood, palette, tension and the kind of image that might hold up once it starts moving on a screen behind music.</p>
 
-        <p>That part matters because I don't think of ai video as a finished product. The first render is raw material. It still has to survive iteration, color correction, loop cutting, loop repair, real upscaling, and then the live side of the process in TouchDesigner and sometimes Resolume.</p>
+        <p>That part matters because I don't think of ai video as a finished product. The first render is raw material. It still has to survive iteration, color correction, loop cutting, loop repair, real upscaling and then the live side of the process in TouchDesigner and sometimes Resolume.</p>
 
         <p>The goal is not just to make a cool clip. The goal is to make something I can actually use in performance.</p>
 
@@ -105,13 +105,13 @@
 
         <h2>the current core workflow</h2>
 
-        <p>My current core setup is a Wan AnimateDiff workflow, a low-noise V2V correction pass, and a loop fixer workflow.</p>
+        <p>My current core setup is a Wan AnimateDiff workflow, a low-noise V2V correction pass and a loop fixer workflow.</p>
 
-        <p>I used to spend more time in SD1.5 and older AnimateDiff workflows, and I still like that lineage, but it is not the center of what I am doing now. Wan AnimateDiff generates motion that feels more interesting to me, and my Windows workstation with a Pro 6000 Blackwell can handle that kind of iteration comfortably.</p>
+        <p>I used to spend more time in SD1.5 and older AnimateDiff workflows and I still like that lineage, but it is not the center of what I am doing now. Wan AnimateDiff generates motion that feels more interesting to me, and my Windows workstation with a Pro 6000 Blackwell can handle that kind of iteration comfortably.</p>
 
-        <p>One thing I like about this space is that a lot of the generative side is built on open-source tools. ComfyUI, Wan, Flux, LoRAs, and all the surrounding workflow logic mean that anyone can experiment with a version of this pipeline if they are willing to put the time in.</p>
+        <p>One thing I like about this space is that a lot of the generative side is built on open-source tools. ComfyUI, Wan, Flux, LoRAs and all the surrounding workflow logic mean that anyone can experiment with a version of this pipeline if they are willing to put the time in.</p>
 
-        <p>The thing I love about ComfyUI is that it becomes a library. Over time you build up stills, clips, prompts, branches, and workflows that you can revisit whenever you want to return to a certain style.</p>
+        <p>The thing I love about ComfyUI is that it becomes a library. Over time you build up stills, clips, prompts, branches and workflows that you can revisit whenever you want to return to a certain style.</p>
 
         <figure class="pipeline-figure pipeline-figure-compact">
           <img src="/assets/pipeline/why-i-love-stable-diffusion-talk.jpg" alt="Porter speaking about his visuals process at a live talk" loading="lazy" width="2048" height="1365" />
@@ -130,9 +130,9 @@
 
         <p>That sounds simple, but it changes the whole feel of the workflow. I am not trying to force one render to become great. I am trying to generate enough variation that something surprising appears, then I can push that result further.</p>
 
-        <p>The initial Wan AnimateDiff generation is where a lot of that happens. I will start with a still or a strong image idea, run a ton of generations, and then use the low-noise V2V correction pass to clean up the pixels or motion. I care much more about whether the image stays visually alive than whether it looks perfectly realistic. I am optimizing for wild visuals.</p>
+        <p>The initial Wan AnimateDiff generation is where a lot of that happens. I will start with a still or a strong image idea, run a ton of generations and then use the low-noise V2V correction pass to clean up the pixels or motion. I care much more about whether the image stays visually alive than whether it looks perfectly realistic. I am optimizing for wild visuals.</p>
 
-        <p>I care about whether the motion feels good, whether the image keeps its identity, and whether the final result will still be strong once it is looped and pushed into a live environment.</p>
+        <p>I care about whether the motion feels good, whether the image keeps its identity and whether the final result will still be strong once it is looped and pushed into a live environment.</p>
 
         <h2>correct the color before the final upscale</h2>
 
@@ -160,7 +160,7 @@
 
         <p>So after the motion is working, I use a separate loop-cutting workflow to decide where the seam should land and how the cadence should close. That step is about structure and timing.</p>
 
-        <p>After that, I usually run LoopLift, a tool I made for cleaning up color and tonal problems in looped clips. LoopLift is not the thing that decides seam placement. It comes after the loop has already been cut, and it is there to fix gray pockets, lifted blacks, haze, and the little pop that can still remain around the join.</p>
+        <p>After that, I usually run LoopLift, a tool I made for cleaning up color and tonal problems in looped clips. LoopLift is not the thing that decides seam placement. It comes after the loop has already been cut and it is there to fix gray pockets, lifted blacks, haze and the little pop that can still remain around the join.</p>
 
         <p>That balance matters a lot to me. I want the blacks and levels to lock in, but I do not want to flatten the color or wash out the strange details that made the clip interesting.</p>
 
@@ -178,11 +178,11 @@
 
         <p>My love of music is the whole reason I make visuals.</p>
 
-        <p>Once the clip is stable enough, I bring it into TouchDesigner and the live side of the process starts. That is where the visuals stop being just exported media and start becoming responsive material. Audio analysis, motion response, distortion, feedback, layering, and control all start to matter more than the original render by itself.</p>
+        <p>Once the clip is stable enough, I bring it into TouchDesigner and the live side of the process starts. That is where the visuals stop being just exported media and start becoming responsive material. Audio analysis, motion response, distortion, feedback, layering and control all start to matter more than the original render by itself.</p>
 
         <p>Most of the instagram examples I post are audio reactive in some way. That is a big part of what I love about this work. I do not just want visuals that sit behind music. I want visuals that feel connected to it.</p>
 
-        <p>I also want room for manual control. Audio reactivity alone is not enough. I want to be able to route TouchDesigner into the live setup, turn knobs, push effects, and shape the visuals in real time beyond whatever the automatic reaction is doing.</p>
+        <p>I also want room for manual control. Audio reactivity alone is not enough. I want to be able to route TouchDesigner into the live setup, turn knobs, push effects and shape the visuals in real time beyond whatever the automatic reaction is doing.</p>
 
         <p>Sometimes Resolume is part of that final handling layer too, but I think about it more as practical live support than the heart of the process. The heart of the process is getting the clip into a form that can respond and be played with.</p>
 
