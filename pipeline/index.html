@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>inside the lostless pipeline — ai visuals for live performance</title>
+  <title>inside the lostless pipeline - ai visuals for live performance</title>
   <meta name="description" content="how lostless builds ai visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
   <meta name="author" content="lostless">
   <link rel="canonical" href="https://lostless.live/pipeline/">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="lostless">
-  <meta property="og:title" content="inside the lostless pipeline — ai visuals for live performance">
+  <meta property="og:title" content="inside the lostless pipeline - ai visuals for live performance">
   <meta property="og:description" content="how lostless builds ai visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
   <meta property="og:url" content="https://lostless.live/pipeline/">
   <meta property="og:image" content="https://lostless.live/assets/meta/preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="inside the lostless pipeline — ai visuals for live performance">
+  <meta name="twitter:title" content="inside the lostless pipeline - ai visuals for live performance">
   <meta name="twitter:description" content="how lostless builds ai visuals for live performance, from still-image selection and Wan AnimateDiff to V2V cleanup, loop repair, TouchDesigner and audio-reactive scenes.">
   <meta name="twitter:image" content="https://lostless.live/assets/meta/preview.jpg">
   <script type="application/ld+json">
@@ -45,7 +45,7 @@
   }
   </script>
   <link rel="stylesheet" href="/css/styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
@@ -63,9 +63,9 @@
       <ul>
         <li><a href="/">work</a></li>
         <li><a href="/highlights/">highlights</a></li>
+        <li><a href="/ai-pipeline-consulting/">consulting</a></li>
         <li><a href="/articles/" class="active">articles</a></li>
         <li><a href="/about/">about</a></li>
-        <li><a href="/contact/">contact</a></li>
       </ul>
     </nav>
   </header>
@@ -76,7 +76,7 @@
         <p class="pipeline-kicker">process</p>
         <h1>how I build my ai visuals pipeline for live performance</h1>
         <p class="pipeline-subhead">
-          from image-led starts and Wan AnimateDiff to V2V cleanup, loop handling, color correction, final upscale, TouchDesigner and live audio-reactive control.
+          From image-led starts and Wan AnimateDiff to V2V cleanup, loop handling, color correction, final upscale, TouchDesigner and live audio-reactive control.
         </p>
         <div class="pipeline-nav-links" aria-label="pipeline links">
           <a href="https://www.instagram.com/lostless.visuals" target="_blank" rel="noopener noreferrer" onclick="plausible('Instagram Click')">instagram</a>
@@ -107,7 +107,7 @@
 
         <p>My current core setup is a Wan AnimateDiff workflow, a low-noise V2V correction pass and a loop fixer workflow.</p>
 
-        <p>I used to spend more time in SD1.5 and older AnimateDiff workflows and I still like that lineage, but it is not the center of what I am doing now. Wan AnimateDiff generates motion that feels more interesting to me, and my Windows workstation with a Pro 6000 Blackwell can handle that kind of iteration comfortably.</p>
+        <p>I used to spend more time in SD1.5 and older AnimateDiff workflows and I still like that lineage, but it is not the center of what I am doing now. Wan AnimateDiff generates motion that feels more interesting to me and my Windows workstation with a Pro 6000 Blackwell can handle that kind of iteration comfortably.</p>
 
         <p>One thing I like about this space is that a lot of the generative side is built on open-source tools. ComfyUI, Wan, Flux, LoRAs and all the surrounding workflow logic mean that anyone can experiment with a version of this pipeline if they are willing to put the time in.</p>
 
@@ -126,7 +126,7 @@
 
         <p>I make a lot of generations. Then I keep the ones that have the most life in them. Then I iterate on those.</p>
 
-        <p>The reason I start wide is simple: a lot of ai generations are just bad. They are generic, muddy, overcooked, or they lose the thing that made the starting image interesting. If I am not selective early, I end up spending time refining clips that were never worth saving in the first place.</p>
+        <p>The reason I start wide is simple: a lot of ai generations are just bad. They are generic, muddy, overcooked or they lose the thing that made the starting image interesting. If I am not selective early, I end up spending time refining clips that were never worth saving in the first place.</p>
 
         <p>That sounds simple, but it changes the whole feel of the workflow. I am not trying to force one render to become great. I am trying to generate enough variation that something surprising appears, then I can push that result further.</p>
 
