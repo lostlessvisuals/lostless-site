@@ -1152,58 +1152,6 @@ body.homepage .home-intro-mark .hero-logo {
   break-inside: avoid;
 }
 
-.gallery-item-showcase {
-  column-span: all;
-  max-width: 1180px;
-  margin: 0.6rem auto 1rem;
-  padding: 1.15rem 1.2rem 1.25rem;
-  box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
-  overflow: visible;
-}
-
-.gallery-item-showcase-shell {
-  display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(300px, 0.98fr);
-  gap: 1.15rem;
-  align-items: start;
-}
-
-.gallery-item-showcase-copy h2 {
-  margin: 0;
-  font-size: clamp(1.45rem, 1.9vw, 1.95rem);
-  line-height: 1.05;
-  color: #f2f2f2;
-}
-
-.gallery-item-showcase-copy p {
-  margin: 0.8rem 0 0;
-  font-size: 1rem;
-  line-height: 1.62;
-  color: #cfcfcf;
-}
-
-.gallery-item-showcase-copy .showcase-note {
-  color: #b9b9b9;
-}
-
-.gallery-item-showcase-copy .pipeline-nav-links {
-  margin-top: 1rem;
-}
-
-.gallery-item-showcase-media {
-  min-width: 0;
-}
-
-.showcase-media-tile {
-  margin: 0;
-  max-width: none;
-  border-radius: 16px;
-}
-
 .gallery-item img,
 .gallery-item video {
   width: 100%;
@@ -1257,7 +1205,6 @@ body.homepage .lazy-fade.is-loaded {
   }
 
   .showcase-shell,
-  .gallery-item-showcase-shell,
   .consulting-hero,
   .consulting-grid,
   .consulting-process,
@@ -1267,12 +1214,6 @@ body.homepage .lazy-fade.is-loaded {
 
   .gallery-grid {
     column-count: 2;
-  }
-
-  .gallery-item-showcase {
-    max-width: none;
-    margin-left: 0;
-    margin-right: 0;
   }
 }
 
@@ -1291,18 +1232,6 @@ body.homepage .lazy-fade.is-loaded {
 
   .gallery-grid {
     column-count: 2;
-  }
-
-  .gallery-item-showcase {
-    padding: 1rem;
-  }
-
-  .gallery-item-showcase-copy h2 {
-    font-size: clamp(1.35rem, 6vw, 1.8rem);
-  }
-
-  .gallery-item-showcase-media {
-    display: none;
   }
 
   .site-logo img {
