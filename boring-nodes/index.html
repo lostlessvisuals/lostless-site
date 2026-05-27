@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>the boring nodes that make comfyui workflows usable</title>
+  <meta name="description" content="A short breakdown of ComfyUI Lostless Nodes: shared random image controls, frame padding for Wan and LTX, masking video inside ComfyUI, and image-to-mask handoffs.">
+  <meta name="author" content="lostless">
+  <link rel="canonical" href="https://lostless.live/boring-nodes/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="lostless">
+  <meta property="og:title" content="the boring nodes that make comfyui workflows usable">
+  <meta property="og:description" content="A short breakdown of ComfyUI Lostless Nodes: shared random image controls, frame padding for Wan and LTX, masking video inside ComfyUI, and image-to-mask handoffs.">
+  <meta property="og:url" content="https://lostless.live/boring-nodes/">
+  <meta property="og:image" content="https://lostless.live/assets/boring-nodes/lostless-randomize-workflow.png">
+  <meta property="og:image:width" content="2008">
+  <meta property="og:image:height" content="790">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="the boring nodes that make comfyui workflows usable">
+  <meta name="twitter:description" content="A short breakdown of ComfyUI Lostless Nodes: shared random image controls, frame padding for Wan and LTX, masking video inside ComfyUI, and image-to-mask handoffs.">
+  <meta name="twitter:image" content="https://lostless.live/assets/boring-nodes/lostless-randomize-workflow.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "the boring nodes that make comfyui workflows usable",
+    "mainEntityOfPage": "https://lostless.live/boring-nodes/",
+    "description": "A short breakdown of ComfyUI Lostless Nodes: shared random image controls, frame padding for Wan and LTX, masking video inside ComfyUI, and image-to-mask handoffs.",
+    "image": "https://lostless.live/assets/boring-nodes/lostless-randomize-workflow.png",
+    "datePublished": "2026-05-27",
+    "dateModified": "2026-05-27",
+    "author": {
+      "@type": "Person",
+      "name": "Porter",
+      "url": "https://lostless.live/about/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "lostless",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://lostless.live/assets/meta/logo.png"
+      }
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <script defer data-domain="lostless.live" src="https://plausible.io/js/script.js"></script>
+</head>
+<body class="boring-nodes-page">
+
+  <header>
+    <nav>
+      <a href="/" class="site-logo">
+        <img src="/assets/meta/logo.png" alt="lostless logo" />
+      </a>
+      <ul>
+        <li><a href="/">work</a></li>
+        <li><a href="/highlights/">highlights</a></li>
+        <li><a href="/ai-pipeline-consulting/">consulting</a></li>
+        <li><a href="/articles/" class="active">articles</a></li>
+        <li><a href="/about/">about</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="centered-section pipeline-page-shell">
+    <section class="pipeline-hero">
+      <div class="pipeline-intro-card">
+        <p class="pipeline-kicker">nodes</p>
+        <h1>the boring nodes that make comfyui workflows usable</h1>
+        <p class="pipeline-subhead">
+          Why I built a small ComfyUI node pack for shared image randomization, frame-count padding, masking video inside the graph and quick image-to-mask handoffs.
+        </p>
+        <div class="pipeline-nav-links" aria-label="node pack links">
+          <a href="https://github.com/lostlessvisuals/comfyui-lostless-nodes" target="_blank" rel="noopener noreferrer">github</a>
+        </div>
+      </div>
+
+      <figure class="pipeline-figure">
+        <img src="/assets/boring-nodes/lostless-randomize-workflow.png" alt="ComfyUI workflow screenshot showing Lostless random image nodes feeding a Wan AnimateDiff process" loading="eager" fetchpriority="high" width="2008" height="790" />
+        <figcaption class="pipeline-figcaption">
+          a real workflow using multiple Lostless Random Image nodes at the front of a Wan AnimateDiff setup.
+        </figcaption>
+      </figure>
+    </section>
+
+    <article class="pipeline-article-card">
+      <div class="pipeline-prose">
+        <p>A lot of ComfyUI writing focuses on the model.</p>
+
+        <p>That makes sense. The model is the named part. It gets the release notes, the demos and the jump in quality that everyone notices first.</p>
+
+        <p>But when I am actually building visual systems in ComfyUI, the friction is usually somewhere else. It is in cycling source images, keeping one good input while the rest keep moving, padding a sequence so Wan or LTX will accept it, or masking video without leaving the graph.</p>
+
+        <p>That is why I built ComfyUI Lostless Nodes. It is a small node pack for the repeated problems that make a workflow usable more than once.</p>
+
+        <h2>the friction is usually smaller</h2>
+
+        <p>A graph can be technically correct and still be annoying to use.</p>
+
+        <p>You can have the right model and the right settings and still lose time on the boring parts around them. Those parts matter more once a workflow needs to be reopened, taught, repeated or used under pressure.</p>
+
+        <p>That is the standard I care about. Not just whether a graph can work, but whether it keeps working.</p>
+
+        <h2>random image plus randomize button</h2>
+
+        <p>The first pair is <strong>Lostless Random Image</strong> and <strong>Lostless Randomize Button</strong>.</p>
+
+        <p>Lostless Random Image points at a folder and picks a source image, while still letting me manually choose one in the node UI when I need to. Lostless Randomize Button plugs into as many Lostless Random Image nodes as I want, so one click can re-roll every connected image slot in the graph.</p>
+
+        <p>That matters most at the start of my Wan AnimateDiff workflows. I can cycle through possible starting images quickly, then use the per-node Broadcast Lock toggle to keep the one good image fixed while the rest keep shuffling.</p>
+
+        <figure class="pipeline-figure pipeline-figure-compact" style="max-width: 246px;">
+          <img src="/assets/boring-nodes/lostless-random-image-node.png" alt="Close-up screenshot of the Lostless Random Image node in ComfyUI" loading="lazy" width="246" height="506" />
+          <figcaption class="pipeline-figcaption">
+            Lostless Random Image keeps the folder, current pick and manual override in one place.
+          </figcaption>
+        </figure>
+
+        <h2>buffer solves the frame-count problem</h2>
+
+        <p><strong>Lostless Buffer</strong> exists because Wan and LTX care about frame counts. A sequence can look right and still be wrong for the next stage of the pipeline.</p>
+
+        <p>The node fixes that by duplicating the last frame until the sequence satisfies <code>WAN (4n+1)</code> or <code>LTX (8n+1)</code>. If a short clip would otherwise get its last few frames lopped off, the graph can absorb the mismatch and keep moving.</p>
+
+        <p>That is not a glamorous feature, but it is exactly the kind of thing that matters in production.</p>
+
+        <h2>masking video inside comfyui</h2>
+
+        <p><strong>Lostless Mask Editor</strong> is the part I use most when I need to work through video masks fast. It lets me paint or erase while moving through a batch of frames, with carry and memory behavior that makes the sequence feel connected instead of resetting every time.</p>
+
+        <p>That is useful for a simple reason: I do not want to round-trip into After Effects just to mask a video. I want to stay inside ComfyUI, move quickly and keep the workflow intact.</p>
+
+        <p><strong>Lostless Image To Mask</strong> is the smaller handoff node in that process. If a mask starts life as a black-and-white image or an RGB image, it turns it into a usable <code>MASK</code> output plus a preview image for sanity-checking.</p>
+
+        <h2>small on purpose</h2>
+
+        <p>The pack is there to do a few specific jobs well:</p>
+
+        <ul class="pipeline-list">
+          <li>randomize multiple source-image slots with one control</li>
+          <li>lock a useful source while the rest keep exploring</li>
+          <li>pad sequences so Wan and LTX get the frame counts they expect</li>
+          <li>mask video inside ComfyUI instead of bouncing to another app</li>
+          <li>turn image masks into usable mask outputs when the workflow needs them</li>
+        </ul>
+
+        <p>The point is not to make a giant node suite. The point is to remove the repeated little fixes that make a workflow brittle.</p>
+
+        <p>If the graph can hold state, absorb format mismatches and stay usable under pressure, the creative part goes faster.</p>
+
+        <h2>available now</h2>
+
+        <p>ComfyUI Lostless Nodes is on <a href="https://github.com/lostlessvisuals/comfyui-lostless-nodes" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+
+        <p>The current pack is intentionally focused: Lostless Random Image, Lostless Randomize Button, Lostless Buffer, Lostless Mask Editor and Lostless Image To Mask. I will probably keep adding to it when I hit more workflow friction, but I want the purpose to stay obvious.</p>
+      </div>
+    </article>
+  </main>
+
+</body>
+</html>
