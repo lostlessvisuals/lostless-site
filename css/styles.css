@@ -1155,7 +1155,7 @@ body.homepage .home-intro-mark .hero-logo {
 .gallery-item-showcase {
   column-span: all;
   max-width: 1180px;
-  margin: 0 auto 1rem;
+  margin: 0.6rem auto 1rem;
   padding: 1.15rem 1.2rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
