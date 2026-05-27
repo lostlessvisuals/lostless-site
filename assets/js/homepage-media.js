@@ -74,7 +74,8 @@
       return;
     }
 
-    video.classList.add(fadeClass, boundClass);
+    // Keep the poster visible immediately; only the playable sources load lazily.
+    video.classList.add(boundClass);
     video.muted = true;
     video.autoplay = true;
 
