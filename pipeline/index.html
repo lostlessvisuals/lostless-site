@@ -134,7 +134,7 @@
 
         <p>I care about whether the motion feels good, whether the image keeps its identity and whether the final result will still be strong once it is looped and pushed into a live environment.</p>
 
-        <h2>correct the color before the final upscale</h2>
+        <h2>correct the color</h2>
 
         <p>Once the motion is working, I usually need to level the clip before I treat it as done.</p>
 
@@ -180,7 +180,7 @@
 
         <p>Once the clip is stable enough, I bring it into TouchDesigner and the live side of the process starts. That is where the visuals stop being just exported media and start becoming responsive material. Audio analysis, motion response, distortion, feedback, layering and control all start to matter more than the original render by itself.</p>
 
-        <p>Most of the instagram examples I post are audio reactive in some way. That is a big part of what I love about this work. I do not just want visuals that sit behind music. I want visuals that feel connected to it.</p>
+        <p>Most of the instagram examples I post are audio reactive in some way. A lot of that response layer comes from using SARV's audio analysis tool inside TouchDesigner. That is a big part of what I love about this work. I do not just want visuals that sit behind music. I want visuals that feel connected to it.</p>
 
         <p>I also want room for manual control. Audio reactivity alone is not enough. I want to be able to route TouchDesigner into the live setup, turn knobs, push effects and shape the visuals in real time beyond whatever the automatic reaction is doing.</p>
 
@@ -188,22 +188,38 @@
 
         <h2>what I am actually optimizing for</h2>
 
-        <p>When I make ai visuals for live performance, I am asking:</p>
+        <div class="pipeline-optimization-layout">
+          <div class="pipeline-optimization-copy">
+            <p>When I make ai visuals for live performance, I am asking:</p>
 
-        <ul class="pipeline-list">
-          <li>Does this image still feel strong once it starts moving?</li>
-          <li>Can I generate enough variation to discover something worth keeping?</li>
-          <li>Can I fix the seam without killing the video?</li>
-          <li>Can I level the color so it loops cleanly?</li>
-          <li>Can I make it respond to music in a way that feels alive?</li>
-          <li>Can I still perform with it once it is live?</li>
-        </ul>
+            <ul class="pipeline-list">
+              <li>Does this image still feel strong once it starts moving?</li>
+              <li>Can I generate enough variation to discover something worth keeping?</li>
+              <li>Can I fix the seam without killing the video?</li>
+              <li>Can I level the color so it loops cleanly?</li>
+              <li>Can I make it respond to music in a way that feels alive?</li>
+              <li>Can I still perform with it once it is live?</li>
+            </ul>
 
-        <p>That is the pipeline.</p>
+            <p>That is the pipeline.</p>
+          </div>
+
+          <figure class="pipeline-optimization-media">
+            <p class="pipeline-figure-kicker">loop example</p>
+            <video class="pipeline-video-embed pipeline-video-embed-vertical" autoplay muted loop playsinline preload="metadata" poster="/assets/pipeline/wan-loop-vertical-q2-2026-poster.jpg" aria-label="Vertical loop-ready ai visual clip from the lostless pipeline">
+              <source src="/assets/pipeline/wan-loop-vertical-q2-2026.mp4" type="video/mp4" />
+            </video>
+            <figcaption class="pipeline-figcaption pipeline-figcaption-inline">
+              a vertical loop from the pipeline in its live-ready form, before it gets pushed deeper into the performance patch.
+            </figcaption>
+          </figure>
+        </div>
 
         <p>Generate widely. Choose carefully. Iterate. V2V. Correct the color. Upscale only when it earns it. Repair the seam for the loop. Then bring it back into music.</p>
 
         <p>The render is not the endpoint. It is the midpoint.</p>
+
+        <p>If you want to go deeper into the open-source side of this world, I highly recommend looking up <a href="https://www.banodoco.ai/" target="_blank" rel="noopener noreferrer">Banodoco</a>. Their site points into a Discord community that stays close to the technical and artistic edge of ai art, and it is a good place to keep up with the community-driven side of these workflows.</p>
       </div>
     </article>
   </main>
