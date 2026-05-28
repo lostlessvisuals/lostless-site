@@ -95,7 +95,7 @@
       <div class="pipeline-prose">
         <p>A lot of ComfyUI writing focuses on the model.</p>
 
-        <p>That makes sense. The model is the named part. It gets the release notes, the demos and the jump in quality that everyone notices first.</p>
+        <p>That makes sense. Models are usually where the most visible jumps happen, and they are what people notice first: better motion, better detail, better coherence.</p>
 
         <p>But when I am actually building visual systems in ComfyUI, the friction is usually somewhere else. It is in cycling source images, keeping one good input while the rest keep moving, padding a sequence so Wan or LTX will accept it, or masking video without leaving the graph.</p>
 
@@ -111,18 +111,24 @@
 
         <h2>random image plus randomize button</h2>
 
-        <p>The first pair is <strong>Lostless Random Image</strong> and <strong>Lostless Randomize Button</strong>.</p>
+        <div class="pipeline-optimization-layout boring-nodes-random-layout">
+          <div class="pipeline-optimization-copy">
+            <p>The first pair is <strong>Lostless Random Image</strong> and <strong>Lostless Randomize Button</strong>.</p>
 
-        <p>Lostless Random Image points at a folder and picks a source image, while still letting me manually choose one in the node UI when I need to. Lostless Randomize Button plugs into as many Lostless Random Image nodes as I want, so one click can re-roll every connected image slot in the graph.</p>
+            <p>Lostless Random Image points at a folder and picks a source image, while still letting me manually choose one in the node UI when I need to. Lostless Randomize Button plugs into as many Lostless Random Image nodes as I want, so one click can re-roll every connected image slot in the graph.</p>
 
-        <p>That matters most at the start of my Wan AnimateDiff workflows. I can cycle through possible starting images quickly, then use the per-node Broadcast Lock toggle to keep the one good image fixed while the rest keep shuffling.</p>
+            <p>That matters most at the start of my Wan AnimateDiff workflows. I can cycle through possible starting images quickly, then use the per-node Broadcast Lock toggle to keep the one good source fixed while the rest keep changing.</p>
 
-        <figure class="pipeline-figure pipeline-figure-compact" style="max-width: 246px;">
-          <img src="/assets/boring-nodes/lostless-random-image-node.png" alt="Close-up screenshot of the Lostless Random Image node in ComfyUI" loading="lazy" width="246" height="506" />
-          <figcaption class="pipeline-figcaption">
-            Lostless Random Image keeps the folder, current pick and manual override in one place.
-          </figcaption>
-        </figure>
+            <p>The usability gain is simple: the front of the workflow stops feeling like file management and starts feeling like iteration.</p>
+          </div>
+
+          <figure class="pipeline-optimization-media boring-nodes-node-figure">
+            <img src="/assets/boring-nodes/lostless-random-image-node.png" alt="Close-up screenshot of the Lostless Random Image node in ComfyUI" loading="lazy" width="246" height="506" />
+            <figcaption class="pipeline-figcaption">
+              Lostless Random Image keeps the folder, current pick and manual override in one place.
+            </figcaption>
+          </figure>
+        </div>
 
         <h2>buffer solves the frame-count problem</h2>
 
@@ -134,11 +140,11 @@
 
         <h2>masking video inside comfyui</h2>
 
-        <p><strong>Lostless Mask Editor</strong> is the part I use most when I need to work through video masks fast. It lets me paint or erase while moving through a batch of frames, with carry and memory behavior that makes the sequence feel connected instead of resetting every time.</p>
+        <p><strong>Lostless Mask Editor</strong> is the part I use most when I need to work through video masks fast. It is especially useful in inpainting workflows and Wan AnimateDiff workflows, where I want to paint or erase while moving through a batch of frames and keep the mask coherent as I go.</p>
 
         <p>That is useful for a simple reason: I do not want to round-trip into After Effects just to mask a video. I want to stay inside ComfyUI, move quickly and keep the workflow intact.</p>
 
-        <p><strong>Lostless Image To Mask</strong> is the smaller handoff node in that process. If a mask starts life as a black-and-white image or an RGB image, it turns it into a usable <code>MASK</code> output plus a preview image for sanity-checking.</p>
+        <p><strong>Lostless Image To Mask</strong> is the smaller handoff node in that process. It turns image sequences into mask outputs I can feed forward through the graph or back into the mask editor.</p>
 
         <h2>small on purpose</h2>
 
@@ -158,9 +164,9 @@
 
         <h2>available now</h2>
 
-        <p>ComfyUI Lostless Nodes is on <a href="https://github.com/lostlessvisuals/comfyui-lostless-nodes" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+        <p>ComfyUI Lostless Nodes is available on <a href="https://github.com/lostlessvisuals/comfyui-lostless-nodes" target="_blank" rel="noopener noreferrer">GitHub</a> and through ComfyUI Manager.</p>
 
-        <p>The current pack is intentionally focused: Lostless Random Image, Lostless Randomize Button, Lostless Buffer, Lostless Mask Editor and Lostless Image To Mask. I will probably keep adding to it when I hit more workflow friction, but I want the purpose to stay obvious.</p>
+        <p>The current pack is focused: Lostless Random Image, Lostless Randomize Button, Lostless Buffer, Lostless Mask Editor and Lostless Image To Mask. I will keep adding to this node pack as I continue to hit more workflow friction and make nodes to solve specific problems.</p>
       </div>
     </article>
   </main>

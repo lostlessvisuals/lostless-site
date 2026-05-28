@@ -605,6 +605,12 @@ nav a:focus-visible {
   object-position: 62% center;
 }
 
+.article-index-media--boring-nodes img {
+  transform: scale(1.12);
+  transform-origin: center;
+  object-position: 34% center;
+}
+
 .article-index-copy {
   display: flex;
   flex-direction: column;
@@ -796,6 +802,28 @@ nav a:focus-visible {
 .pipeline-figure-compact {
   max-width: 360px;
   margin: 0.6rem auto 0.35rem;
+}
+
+.boring-nodes-random-layout {
+  margin-top: 0.15rem;
+}
+
+.boring-nodes-node-figure {
+  justify-self: end;
+  width: 100%;
+  max-width: 246px;
+  padding: 0.75rem;
+}
+
+.boring-nodes-node-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+.boring-nodes-node-figure .pipeline-figcaption {
+  padding: 0.75rem 0 0;
 }
 
 .pipeline-video-block {
@@ -1296,6 +1324,11 @@ body.homepage .lazy-fade.is-loaded {
     object-position: 72% center;
   }
 
+  .article-index-media--boring-nodes img {
+    transform: scale(1.15);
+    object-position: 30% center;
+  }
+
   .highlight-card-featured {
     grid-column: span 1;
   }
@@ -1315,6 +1348,10 @@ body.homepage .lazy-fade.is-loaded {
 
   .pipeline-optimization-layout {
     grid-template-columns: 1fr;
+  }
+
+  .boring-nodes-node-figure {
+    justify-self: center;
   }
 
   .pipeline-intro-card,
