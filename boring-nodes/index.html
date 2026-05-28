@@ -84,9 +84,9 @@
       </div>
 
       <figure class="pipeline-figure">
-        <img src="/assets/boring-nodes/lostless-randomize-workflow.png" alt="ComfyUI workflow screenshot showing Lostless random image nodes feeding a Wan AnimateDiff process" loading="eager" fetchpriority="high" width="2008" height="790" />
+        <img src="/assets/boring-nodes/lostless-randomize-workflow.png" alt="ComfyUI workflow screenshot showing Lostless random image nodes feeding a Wan Animate process" loading="eager" fetchpriority="high" width="2008" height="790" />
         <figcaption class="pipeline-figcaption">
-          a real workflow using multiple Lostless Random Image nodes at the front of a Wan AnimateDiff setup.
+          a real workflow using multiple Lostless Random Image nodes at the front of a Wan Animate setup.
         </figcaption>
       </figure>
     </section>
@@ -117,7 +117,7 @@
 
             <p>Lostless Random Image points at a folder and picks a source image, while still letting me manually choose one in the node UI when I need to. Lostless Randomize Button plugs into as many Lostless Random Image nodes as I want, so one click can re-roll every connected image slot in the graph.</p>
 
-            <p>That matters most at the start of my Wan AnimateDiff workflows. I can cycle through possible starting images quickly, then use the per-node Broadcast Lock toggle to keep the one good source fixed while the rest keep changing.</p>
+            <p>That matters most at the start of my Wan Animate workflows. I can cycle through possible starting images quickly, then use the per-node Broadcast Lock toggle to keep the one good source fixed while the rest keep changing.</p>
 
             <p>The usability gain is simple: the front of the workflow stops feeling like file management and starts feeling like iteration.</p>
           </div>
@@ -134,13 +134,13 @@
 
         <p><strong>Lostless Buffer</strong> exists because Wan and LTX care about frame counts. A sequence can look right and still be wrong for the next stage of the pipeline.</p>
 
-        <p>The node fixes that by duplicating the last frame until the sequence satisfies <code>WAN (4n+1)</code> or <code>LTX (8n+1)</code>. If a short clip would otherwise get its last few frames lopped off, the graph can absorb the mismatch and keep moving.</p>
+        <p>The node fixes that by duplicating the last frame until the sequence satisfies <code>Wan(4n+1)</code> or <code>LTX(8n+1)</code>. If a short clip would otherwise get its last few frames lopped off, the graph can absorb the mismatch and keep moving.</p>
 
         <p>That is not a glamorous feature, but it is exactly the kind of thing that matters in production.</p>
 
         <h2>masking video inside comfyui</h2>
 
-        <p><strong>Lostless Mask Editor</strong> is the part I use most when I need to work through video masks fast. It is especially useful in inpainting workflows and Wan AnimateDiff workflows, where I want to paint or erase while moving through a batch of frames and keep the mask coherent as I go.</p>
+        <p><strong>Lostless Mask Editor</strong> is the part I use most when I need to work through video masks fast. It is especially useful in inpainting workflows and Wan Animate workflows, where I want to paint or erase while moving through a batch of frames and keep the mask coherent as I go.</p>
 
         <p>That is useful for a simple reason: I do not want to round-trip into After Effects just to mask a video. I want to stay inside ComfyUI, move quickly and keep the workflow intact.</p>
 
