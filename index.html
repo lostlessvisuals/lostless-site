@@ -44,10 +44,23 @@
           "https://www.linkedin.com/in/porter-769a97190/"
         ]
       }
-    ]
+   ]
    }
   </script>
+  <script>
+   document.documentElement.classList.add('js');
+  </script>
   <style>
+   html {
+    background: #000;
+   }
+
+   body.homepage {
+    margin: 0;
+    background-color: #000;
+    color: #f2f2f2;
+   }
+
    .site-logo,
    .home-intro-mark,
    .gallery-item,
@@ -55,8 +68,25 @@
     line-height: 0;
    }
 
-   .homepage .lazy-fade {
+   .home-intro-mark {
+    display: flex;
+    justify-content: center;
+   }
+
+   .home-intro-mark img {
+    max-width: 260px;
+    width: min(100%, 260px);
+    height: auto;
+   }
+
+   html.js .homepage .lazy-fade {
     opacity: 0;
+   }
+
+   html.js body.homepage .home-intro-mark .hero-logo {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.985);
+    will-change: transform, opacity;
    }
 
    .site-logo img,
@@ -71,8 +101,18 @@
    .gallery-item img {
     color: transparent;
    }
+
+   @media (prefers-reduced-motion: reduce) {
+    html.js body.homepage .home-intro-mark .hero-logo,
+    html.js .homepage .lazy-fade {
+     opacity: 1;
+     transform: none;
+     transition: none;
+     animation: none;
+    }
+   }
   </style>
-  <link href="/css/styles.css" rel="stylesheet">
+  <link href="/css/styles.css?v=20260603a" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -911,7 +951,7 @@
     </div>
   </section>
  </main>
-  <script defer src="/assets/js/homepage-media.js?v=20260527b"></script>
+  <script defer src="/assets/js/homepage-media.js?v=20260603a"></script>
   <script>
    document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.gallery-item').forEach(item => {

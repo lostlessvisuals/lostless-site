@@ -1008,10 +1008,14 @@ nav a:focus-visible {
   height: auto;
 }
 
-body.homepage .home-intro-mark .hero-logo {
+html.js body.homepage .home-intro-mark .hero-logo {
   opacity: 0;
-  transform: translateY(28px) scale(0.985);
-  animation: hero-logo-reveal 1800ms cubic-bezier(0.18, 0.8, 0.22, 1) 180ms forwards;
+  transform: translate3d(0, 28px, 0) scale(0.985);
+  will-change: transform, opacity;
+}
+
+html.js body.homepage .home-intro-mark .hero-logo.is-loaded {
+  animation: hero-logo-reveal 1800ms cubic-bezier(0.18, 0.8, 0.22, 1) 180ms both;
 }
 
 .home-intro-copy {
@@ -1202,18 +1206,18 @@ body.homepage .home-intro-mark .hero-logo {
 }
 
 /* Lazy-loaded media fade-in */
-body.homepage .lazy-fade {
+html.js body.homepage .lazy-fade {
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-body.homepage .lazy-fade.is-loaded {
+html.js body.homepage .lazy-fade.is-loaded {
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.homepage .lazy-fade,
-  body.homepage .home-intro-mark .hero-logo {
+  html.js body.homepage .lazy-fade,
+  html.js body.homepage .home-intro-mark .hero-logo {
     opacity: 1;
     transform: none;
     transition: none;
