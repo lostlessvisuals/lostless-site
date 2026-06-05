@@ -8,6 +8,32 @@
   const loadedClass = 'is-loaded';
   const boundClass = 'lazy-fade-bound';
   const videoLoadedFlag = 'videoLoaded';
+  const revealOnNextPaint = (node) => {
+    if (!node || node.classList.contains(loadedClass)) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        node.classList.add(loadedClass);
+      });
+    });
+  };
+
+  const revealAfterDecode = (img) => {
+    if (!img) {
+      return;
+    }
+
+    const finishReveal = () => revealOnNextPaint(img);
+
+    if (typeof img.decode === 'function') {
+      img.decode().catch(() => {}).finally(finishReveal);
+      return;
+    }
+
+    finishReveal();
+  };
 
   const loadVideoSources = (video) => {
     if (!video || video.dataset[videoLoadedFlag] === 'true') {
@@ -45,7 +71,20 @@
     }
 
     if (img.dataset.heroReveal === 'true') {
-      img.classList.add(boundClass, loadedClass);
+      img.classList.add(boundClass);
+
+      if (img.complete && img.naturalWidth > 0) {
+        revealAfterDecode(img);
+        return;
+      }
+
+      img.addEventListener(
+        'load',
+        () => {
+          revealAfterDecode(img);
+        },
+        { once: true }
+      );
       return;
     }
 
@@ -56,14 +95,14 @@
     }
 
     if (img.complete && img.naturalWidth > 0) {
-      img.classList.add(loadedClass);
+      revealOnNextPaint(img);
       return;
     }
 
     img.addEventListener(
       'load',
       () => {
-        img.classList.add(loadedClass);
+        revealOnNextPaint(img);
       },
       { once: true }
     );
