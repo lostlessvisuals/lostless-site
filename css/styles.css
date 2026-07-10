@@ -18,6 +18,18 @@ body {
   }
 }
 
+@keyframes page-surface-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Navigation */
 nav {
   display: flex;
@@ -48,6 +60,108 @@ nav a {
 nav a:hover,
 nav a.active {
   color: #ff3366;
+}
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.55rem;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #f2f2f2;
+  font: inherit;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.nav-toggle-mark {
+  position: relative;
+  display: inline-block;
+  width: 1.05rem;
+  height: 0.7rem;
+  border-top: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.nav-toggle-mark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid currentColor;
+  transform: translateY(-50%);
+}
+
+.nav-toggle:hover,
+.nav-toggle:focus-visible {
+  color: #ff3366;
+}
+
+.nav-toggle:focus-visible {
+  outline: 2px solid #ff3366;
+  outline-offset: 4px;
+}
+
+/* Shared depth for the writing, process and consulting surfaces. */
+.about-page,
+.articles-page,
+.highlights-page,
+.consulting-page,
+.pipeline-page,
+.boring-nodes-page {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.about-page::before,
+.articles-page::before,
+.highlights-page::before,
+.consulting-page::before,
+.pipeline-page::before,
+.boring-nodes-page::before {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 86% 12%, rgba(255, 51, 102, 0.12), transparent 30%),
+    radial-gradient(circle at 10% 78%, rgba(74, 183, 174, 0.07), transparent 32%),
+    linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
+  background-size: auto, auto, 72px 72px, 72px 72px;
+  opacity: 0.78;
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.72) 54%, transparent 100%);
+}
+
+.about-page > header,
+.articles-page > header,
+.highlights-page > header,
+.consulting-page > header,
+.pipeline-page > header,
+.boring-nodes-page > header,
+.about-page main,
+.articles-page main,
+.highlights-page main,
+.consulting-page main,
+.pipeline-page main,
+.boring-nodes-page main {
+  position: relative;
+  z-index: 1;
+}
+
+.about-page main,
+.articles-page main,
+.highlights-page main,
+.consulting-page main,
+.pipeline-page main,
+.boring-nodes-page main {
+  animation: page-surface-enter 620ms cubic-bezier(0.18, 0.8, 0.22, 1) both;
 }
 
 /* Centered content for secondary pages */
@@ -138,6 +252,40 @@ nav a.active {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
   text-align: left;
+}
+
+.about-shell,
+.highlight-card,
+.article-index-card,
+.consulting-hero-card,
+.consulting-services-card,
+.consulting-process-card,
+.consulting-cta-card,
+.pipeline-intro-card,
+.pipeline-article-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018) 52%, rgba(255, 51, 102, 0.025));
+  backdrop-filter: blur(14px);
+}
+
+.about-shell::before,
+.highlight-card::before,
+.article-index-card::before,
+.consulting-hero-card::before,
+.consulting-services-card::before,
+.consulting-process-card::before,
+.consulting-cta-card::before,
+.pipeline-intro-card::before,
+.pipeline-article-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 1.2rem;
+  left: 1.2rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 51, 102, 0.72), rgba(242, 242, 242, 0.38), transparent);
+  pointer-events: none;
 }
 
 .about-kicker {
@@ -508,6 +656,16 @@ nav a:focus-visible {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
   text-align: left;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.highlight-card:hover,
+.highlight-card:focus-within,
+.article-index-card:hover,
+.article-index-card:focus-within {
+  transform: translateY(-3px);
+  border-color: rgba(255, 51, 102, 0.38);
+  box-shadow: 0 30px 72px rgba(0, 0, 0, 0.34);
 }
 
 .highlight-card-featured {
@@ -583,6 +741,7 @@ nav a:focus-visible {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018));
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
   text-align: left;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .article-index-media {
@@ -984,6 +1143,20 @@ nav a:focus-visible {
   color: #8d8d8d;
 }
 
+/* Keep the page-card treatment consistent after individual page rules. */
+.about-shell,
+.highlight-card,
+.article-index-card,
+.consulting-hero-card,
+.consulting-services-card,
+.consulting-process-card,
+.consulting-cta-card,
+.pipeline-intro-card,
+.pipeline-article-card {
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018) 52%, rgba(255, 51, 102, 0.025));
+  backdrop-filter: blur(14px);
+}
+
 /* Homepage intro */
 .home-intro {
   max-width: 980px;
@@ -1015,7 +1188,7 @@ html.js body.homepage .home-intro-mark .hero-logo {
 }
 
 html.js body.homepage .home-intro-mark .hero-logo.is-loaded {
-  animation: hero-logo-reveal 1800ms cubic-bezier(0.18, 0.8, 0.22, 1) 180ms both;
+  animation: hero-logo-reveal 1050ms cubic-bezier(0.18, 0.8, 0.22, 1) 80ms both;
 }
 
 .home-intro-copy {
@@ -1193,6 +1366,10 @@ html.js body.homepage .home-intro-mark .hero-logo.is-loaded {
   object-fit: cover;
 }
 
+.gallery-item video {
+  background: radial-gradient(circle at 45% 35%, rgba(255, 51, 102, 0.14), rgba(8, 8, 8, 0.96) 68%);
+}
+
 .grid img,
 .grid video {
   display: block;
@@ -1222,6 +1399,20 @@ html.js body.homepage .lazy-fade.is-loaded {
     transform: none;
     transition: none;
     animation: none;
+  }
+
+  .about-page main,
+  .articles-page main,
+  .highlights-page main,
+  .consulting-page main,
+  .pipeline-page main,
+  .boring-nodes-page main,
+  .highlight-card,
+  .article-index-card,
+  html.nav-enhanced nav ul,
+  html.nav-enhanced nav ul li {
+    animation: none;
+    transition: none;
   }
 }
 
@@ -1270,12 +1461,116 @@ html.js body.homepage .lazy-fade.is-loaded {
     height: 28px;
   }
 
+  nav {
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    padding: 0.75rem 1rem;
+  }
+
   nav ul {
-    gap: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.35rem 0.7rem;
   }
 
   nav a {
-    font-size: 0.96rem;
+    font-size: 0.82rem;
+  }
+
+  html.nav-enhanced header {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+  }
+
+  html.nav-enhanced nav {
+    flex-wrap: nowrap;
+    min-height: 2rem;
+  }
+
+  html.nav-enhanced .site-logo,
+  html.nav-enhanced .nav-toggle {
+    position: relative;
+    z-index: 2;
+  }
+
+  html.nav-enhanced .nav-toggle {
+    display: inline-flex;
+  }
+
+  html.nav-enhanced nav ul {
+    position: fixed;
+    z-index: 1;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0;
+    padding: 6.5rem 1.5rem 2rem;
+    overflow-y: auto;
+    background:
+      radial-gradient(circle at 76% 12%, rgba(255, 51, 102, 0.2), transparent 30%),
+      linear-gradient(135deg, rgba(14, 14, 14, 0.98), rgba(0, 0, 0, 0.99));
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1.25rem);
+    transition: opacity 220ms ease, transform 220ms ease, visibility 220ms step-end;
+  }
+
+  html.nav-enhanced nav ul li {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    transform: translateY(0.65rem);
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+
+  html.nav-enhanced nav ul a {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.78rem 0;
+    font-size: clamp(2rem, 10vw, 3.3rem);
+    font-weight: 600;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+
+  html.nav-enhanced.nav-open,
+  html.nav-enhanced.nav-open body {
+    overflow: hidden;
+  }
+
+  html.nav-enhanced.nav-open nav ul {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 220ms ease, transform 220ms ease, visibility 0s;
+  }
+
+  html.nav-enhanced.nav-open nav ul li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  html.nav-enhanced.nav-open nav ul li:nth-child(1) { transition-delay: 40ms; }
+  html.nav-enhanced.nav-open nav ul li:nth-child(2) { transition-delay: 75ms; }
+  html.nav-enhanced.nav-open nav ul li:nth-child(3) { transition-delay: 110ms; }
+  html.nav-enhanced.nav-open nav ul li:nth-child(4) { transition-delay: 145ms; }
+  html.nav-enhanced.nav-open nav ul li:nth-child(5) { transition-delay: 180ms; }
+
+  html.nav-enhanced.nav-open .nav-toggle-mark {
+    transform: rotate(90deg);
+  }
+
+  .about-page::before,
+  .articles-page::before,
+  .highlights-page::before,
+  .consulting-page::before,
+  .pipeline-page::before,
+  .boring-nodes-page::before {
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    opacity: 0.52;
   }
 
   .contact-section {

@@ -34,7 +34,7 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/styles.css?v=20260710a" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -50,7 +50,11 @@
       <a href="/" class="site-logo">
         <img src="/assets/meta/logo.png" alt="lostless logo" />
       </a>
-      <ul>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+        <span class="nav-toggle-label">menu</span>
+        <span class="nav-toggle-mark" aria-hidden="true"></span>
+      </button>
+      <ul class="nav-menu" id="site-menu">
         <li><a href="/">work</a></li>
         <li><a href="/highlights/">highlights</a></li>
         <li><a href="/ai-pipeline-consulting/">consulting</a></li>
@@ -100,6 +104,8 @@
       </div>
     </section>
   </main>
+
+  <script defer src="/assets/js/site-nav.js?v=20260710a"></script>
 
 </body>
 </html>

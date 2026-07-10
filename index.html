@@ -112,7 +112,7 @@
     }
    }
   </style>
-  <link href="/css/styles.css?v=20260603a" rel="stylesheet">
+  <link href="/css/styles.css?v=20260710a" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -129,7 +129,11 @@
    <a class="site-logo" href="/">
      <img alt="lostless logo" src="/assets/meta/logo.png">
     </a>
-    <ul>
+    <button aria-controls="site-menu" aria-expanded="false" class="nav-toggle" type="button">
+     <span class="nav-toggle-label">menu</span>
+     <span aria-hidden="true" class="nav-toggle-mark"></span>
+    </button>
+    <ul class="nav-menu" id="site-menu">
      <li>
       <a class="active" href="/">
        work
@@ -184,19 +188,19 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video30.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video30.jpg" preload="none" width="608">
       <source data-src="assets/media/video30.webm" type="video/webm">
       <source data-src="assets/media/video30.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="606" loop muted playsinline poster="assets/media/video74.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="606" loop muted playsinline data-poster="assets/media/video74.jpg" preload="none" width="1080">
       <source data-src="assets/media/video74.webm" type="video/webm">
       <source data-src="assets/media/video74.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video62.jpg" preload="none" width="594">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video62.jpg" preload="none" width="594">
       <source data-src="assets/media/video62.webm" type="video/webm">
       <source data-src="assets/media/video62.mp4" type="video/mp4">
      </video>
@@ -244,19 +248,19 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video10.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video10.jpg" preload="none" width="606">
       <source data-src="assets/media/video10.webm" type="video/webm">
       <source data-src="assets/media/video10.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video32.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video32.jpg" preload="none" width="608">
       <source data-src="assets/media/video32.webm" type="video/webm">
       <source data-src="assets/media/video32.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video16.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video16.jpg" preload="none" width="608">
       <source data-src="assets/media/video16.webm" type="video/webm">
       <source data-src="assets/media/video16.mp4" type="video/mp4">
      </video>
@@ -276,7 +280,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video77.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video77.jpg" preload="none" width="606">
       <source data-src="assets/media/video77.webm" type="video/webm">
       <source data-src="assets/media/video77.mp4" type="video/mp4">
      </video>
@@ -289,13 +293,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="594" loop muted playsinline poster="assets/media/video70.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="594" loop muted playsinline data-poster="assets/media/video70.jpg" preload="none" width="1080">
       <source data-src="assets/media/video70.webm" type="video/webm">
       <source data-src="assets/media/video70.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video48.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video48.jpg" preload="none" width="606">
       <source data-src="assets/media/video48.webm" type="video/webm">
       <source data-src="assets/media/video48.mp4" type="video/mp4">
      </video>
@@ -308,13 +312,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="606" loop muted playsinline poster="assets/media/video50.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="606" loop muted playsinline data-poster="assets/media/video50.jpg" preload="none" width="1080">
       <source data-src="assets/media/video50.webm" type="video/webm">
       <source data-src="assets/media/video50.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1928" loop muted playsinline poster="assets/media/video31.jpg" preload="none" width="1088">
+     <video data-lazy="true" height="1928" loop muted playsinline data-poster="assets/media/video31.jpg" preload="none" width="1088">
       <source data-src="assets/media/video31.webm" type="video/webm">
       <source data-src="assets/media/video31.mp4" type="video/mp4">
      </video>
@@ -341,19 +345,19 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video42.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video42.jpg" preload="none" width="606">
       <source data-src="assets/media/video42.webm" type="video/webm">
       <source data-src="assets/media/video42.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="606" loop muted playsinline poster="assets/media/video44.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="606" loop muted playsinline data-poster="assets/media/video44.jpg" preload="none" width="1080">
       <source data-src="assets/media/video44.webm" type="video/webm">
       <source data-src="assets/media/video44.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video9.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video9.jpg" preload="none" width="1080">
       <source data-src="assets/media/video9.webm" type="video/webm">
       <source data-src="assets/media/video9.mp4" type="video/mp4">
      </video>
@@ -366,37 +370,37 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video8.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video8.jpg" preload="none" width="608">
       <source data-src="assets/media/video8.webm" type="video/webm">
       <source data-src="assets/media/video8.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="610" loop muted playsinline poster="assets/media/video26.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="610" loop muted playsinline data-poster="assets/media/video26.jpg" preload="none" width="1080">
       <source data-src="assets/media/video26.webm" type="video/webm">
       <source data-src="assets/media/video26.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video36.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video36.jpg" preload="none" width="1080">
       <source data-src="assets/media/video36.webm" type="video/webm">
       <source data-src="assets/media/video36.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video54.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video54.jpg" preload="none" width="606">
       <source data-src="assets/media/video54.webm" type="video/webm">
       <source data-src="assets/media/video54.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video64.jpg" preload="none" width="594">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video64.jpg" preload="none" width="594">
       <source data-src="assets/media/video64.webm" type="video/webm">
       <source data-src="assets/media/video64.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video15.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video15.jpg" preload="none" width="608">
       <source data-src="assets/media/video15.webm" type="video/webm">
       <source data-src="assets/media/video15.mp4" type="video/mp4">
      </video>
@@ -444,7 +448,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video14.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video14.jpg" preload="none" width="1080">
       <source data-src="assets/media/video14.webm" type="video/webm">
       <source data-src="assets/media/video14.mp4" type="video/mp4">
      </video>
@@ -471,13 +475,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video33.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video33.jpg" preload="none" width="608">
       <source data-src="assets/media/video33.webm" type="video/webm">
       <source data-src="assets/media/video33.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video2.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video2.jpg" preload="none" width="608">
       <source data-src="assets/media/video2.webm" type="video/webm">
       <source data-src="assets/media/video2.mp4" type="video/mp4">
      </video>
@@ -497,13 +501,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="594" loop muted playsinline poster="assets/media/video68.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="594" loop muted playsinline data-poster="assets/media/video68.jpg" preload="none" width="1080">
       <source data-src="assets/media/video68.webm" type="video/webm">
       <source data-src="assets/media/video68.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video72.jpg" preload="none" width="612">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video72.jpg" preload="none" width="612">
       <source data-src="assets/media/video72.webm" type="video/webm">
       <source data-src="assets/media/video72.mp4" type="video/mp4">
      </video>
@@ -530,7 +534,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video19.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video19.jpg" preload="none" width="608">
       <source data-src="assets/media/video19.webm" type="video/webm">
       <source data-src="assets/media/video19.mp4" type="video/mp4">
      </video>
@@ -543,19 +547,19 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="610" loop muted playsinline poster="assets/media/video27.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="610" loop muted playsinline data-poster="assets/media/video27.jpg" preload="none" width="1080">
       <source data-src="assets/media/video27.webm" type="video/webm">
       <source data-src="assets/media/video27.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video52.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video52.jpg" preload="none" width="606">
       <source data-src="assets/media/video52.webm" type="video/webm">
       <source data-src="assets/media/video52.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="606" loop muted playsinline poster="assets/media/video75.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="606" loop muted playsinline data-poster="assets/media/video75.jpg" preload="none" width="1080">
       <source data-src="assets/media/video75.webm" type="video/webm">
       <source data-src="assets/media/video75.mp4" type="video/mp4">
      </video>
@@ -568,25 +572,25 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video34.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video34.jpg" preload="none" width="608">
       <source data-src="assets/media/video34.webm" type="video/webm">
       <source data-src="assets/media/video34.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video6.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video6.jpg" preload="none" width="608">
       <source data-src="assets/media/video6.webm" type="video/webm">
       <source data-src="assets/media/video6.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video1.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video1.jpg" preload="none" width="608">
       <source data-src="assets/media/video1.webm" type="video/webm">
       <source data-src="assets/media/video1.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="606" loop muted playsinline poster="assets/media/video60.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="606" loop muted playsinline data-poster="assets/media/video60.jpg" preload="none" width="1080">
       <source data-src="assets/media/video60.webm" type="video/webm">
       <source data-src="assets/media/video60.mp4" type="video/mp4">
      </video>
@@ -613,13 +617,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video11.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video11.jpg" preload="none" width="608">
       <source data-src="assets/media/video11.webm" type="video/webm">
       <source data-src="assets/media/video11.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="612" loop muted playsinline poster="assets/media/video71.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="612" loop muted playsinline data-poster="assets/media/video71.jpg" preload="none" width="1080">
       <source data-src="assets/media/video71.webm" type="video/webm">
       <source data-src="assets/media/video71.mp4" type="video/mp4">
      </video>
@@ -639,7 +643,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="610" loop muted playsinline poster="assets/media/video25.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="610" loop muted playsinline data-poster="assets/media/video25.jpg" preload="none" width="1080">
       <source data-src="assets/media/video25.webm" type="video/webm">
       <source data-src="assets/media/video25.mp4" type="video/mp4">
      </video>
@@ -652,7 +656,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video21.jpg" preload="none" width="610">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video21.jpg" preload="none" width="610">
       <source data-src="assets/media/video21.webm" type="video/webm">
       <source data-src="assets/media/video21.mp4" type="video/mp4">
      </video>
@@ -665,7 +669,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video28.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video28.jpg" preload="none" width="608">
       <source data-src="assets/media/video28.webm" type="video/webm">
       <source data-src="assets/media/video28.mp4" type="video/mp4">
      </video>
@@ -678,7 +682,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video22.jpg" preload="none" width="810">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video22.jpg" preload="none" width="810">
       <source data-src="assets/media/video22.webm" type="video/webm">
       <source data-src="assets/media/video22.mp4" type="video/mp4">
      </video>
@@ -691,7 +695,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video40.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video40.jpg" preload="none" width="608">
       <source data-src="assets/media/video40.webm" type="video/webm">
       <source data-src="assets/media/video40.mp4" type="video/mp4">
      </video>
@@ -725,7 +729,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video29.jpg" preload="none" width="810">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video29.jpg" preload="none" width="810">
       <source data-src="assets/media/video29.webm" type="video/webm">
       <source data-src="assets/media/video29.mp4" type="video/mp4">
      </video>
@@ -752,13 +756,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video58.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video58.jpg" preload="none" width="606">
       <source data-src="assets/media/video58.webm" type="video/webm">
       <source data-src="assets/media/video58.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="606" loop muted playsinline poster="assets/media/video76.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="606" loop muted playsinline data-poster="assets/media/video76.jpg" preload="none" width="1080">
       <source data-src="assets/media/video76.webm" type="video/webm">
       <source data-src="assets/media/video76.mp4" type="video/mp4">
      </video>
@@ -778,7 +782,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video17.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video17.jpg" preload="none" width="608">
       <source data-src="assets/media/video17.webm" type="video/webm">
       <source data-src="assets/media/video17.mp4" type="video/mp4">
      </video>
@@ -798,25 +802,25 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video66.jpg" preload="none" width="594">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video66.jpg" preload="none" width="594">
       <source data-src="assets/media/video66.webm" type="video/webm">
       <source data-src="assets/media/video66.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video35.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video35.jpg" preload="none" width="1080">
       <source data-src="assets/media/video35.webm" type="video/webm">
       <source data-src="assets/media/video35.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video12.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video12.jpg" preload="none" width="1080">
       <source data-src="assets/media/video12.webm" type="video/webm">
       <source data-src="assets/media/video12.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video20.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video20.jpg" preload="none" width="1080">
       <source data-src="assets/media/video20.webm" type="video/webm">
       <source data-src="assets/media/video20.mp4" type="video/mp4">
      </video>
@@ -843,13 +847,13 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video7.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video7.jpg" preload="none" width="608">
       <source data-src="assets/media/video7.webm" type="video/webm">
       <source data-src="assets/media/video7.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video46.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video46.jpg" preload="none" width="606">
       <source data-src="assets/media/video46.webm" type="video/webm">
       <source data-src="assets/media/video46.mp4" type="video/mp4">
      </video>
@@ -862,7 +866,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video5.jpg" preload="none" width="612">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video5.jpg" preload="none" width="612">
       <source data-src="assets/media/video5.webm" type="video/webm">
       <source data-src="assets/media/video5.mp4" type="video/mp4">
      </video>
@@ -875,25 +879,25 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video18.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video18.jpg" preload="none" width="608">
       <source data-src="assets/media/video18.webm" type="video/webm">
       <source data-src="assets/media/video18.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video23.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video23.jpg" preload="none" width="608">
       <source data-src="assets/media/video23.webm" type="video/webm">
       <source data-src="assets/media/video23.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video3.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video3.jpg" preload="none" width="608">
       <source data-src="assets/media/video3.webm" type="video/webm">
       <source data-src="assets/media/video3.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video56.jpg" preload="none" width="606">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video56.jpg" preload="none" width="606">
       <source data-src="assets/media/video56.webm" type="video/webm">
       <source data-src="assets/media/video56.mp4" type="video/mp4">
      </video>
@@ -906,7 +910,7 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video24.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video24.jpg" preload="none" width="608">
       <source data-src="assets/media/video24.webm" type="video/webm">
       <source data-src="assets/media/video24.mp4" type="video/mp4">
      </video>
@@ -919,19 +923,19 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video38.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video38.jpg" preload="none" width="1080">
       <source data-src="assets/media/video38.webm" type="video/webm">
       <source data-src="assets/media/video38.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="608" loop muted playsinline poster="assets/media/video13.jpg" preload="none" width="1080">
+     <video data-lazy="true" height="608" loop muted playsinline data-poster="assets/media/video13.jpg" preload="none" width="1080">
       <source data-src="assets/media/video13.webm" type="video/webm">
       <source data-src="assets/media/video13.mp4" type="video/mp4">
      </video>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video4.jpg" preload="none" width="608">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video4.jpg" preload="none" width="608">
       <source data-src="assets/media/video4.webm" type="video/webm">
       <source data-src="assets/media/video4.mp4" type="video/mp4">
      </video>
@@ -944,14 +948,15 @@
      </picture>
     </div>
     <div class="gallery-item">
-     <video data-lazy="true" height="1080" loop muted playsinline poster="assets/media/video73.jpg" preload="none" width="612">
+     <video data-lazy="true" height="1080" loop muted playsinline data-poster="assets/media/video73.jpg" preload="none" width="612">
       <source data-src="assets/media/video73.webm" type="video/webm">
       <source data-src="assets/media/video73.mp4" type="video/mp4">
      </video>
     </div>
   </section>
  </main>
-  <script defer src="/assets/js/homepage-media.js?v=20260603a"></script>
+  <script defer src="/assets/js/site-nav.js?v=20260710a"></script>
+  <script defer src="/assets/js/homepage-media.js?v=20260710a"></script>
   <script>
    document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.gallery-item').forEach(item => {

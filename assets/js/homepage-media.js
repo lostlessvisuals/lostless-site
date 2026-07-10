@@ -35,10 +35,20 @@
     finishReveal();
   };
 
+  const loadVideoPoster = (video) => {
+    if (!video || video.poster || !video.dataset.poster) {
+      return;
+    }
+
+    video.poster = video.dataset.poster;
+  };
+
   const loadVideoSources = (video) => {
     if (!video || video.dataset[videoLoadedFlag] === 'true') {
       return;
     }
+
+    loadVideoPoster(video);
 
     const sources = video.querySelectorAll('source[data-src]');
     sources.forEach((source) => {
@@ -113,7 +123,7 @@
       return;
     }
 
-    // Keep the poster visible immediately; only the playable sources load lazily.
+    // Defer both poster and playable sources until the video nears the viewport.
     video.classList.add(boundClass);
     video.muted = true;
     video.autoplay = true;
