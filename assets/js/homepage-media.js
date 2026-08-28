@@ -138,8 +138,9 @@
       return;
     }
 
-    // Keep the poster visible immediately; only the playable sources load lazily.
-    video.classList.add(boundClass);
+    // Keep the native video surface hidden until the first frame is ready.
+    // Mobile Safari can otherwise flash a light edge around an empty player.
+    video.classList.add(fadeClass, boundClass);
     video.muted = true;
     video.autoplay = !prefersReducedMotion;
     video.controls = prefersReducedMotion;

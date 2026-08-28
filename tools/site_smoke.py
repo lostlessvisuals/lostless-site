@@ -150,10 +150,14 @@ def main() -> int:
     homepage_js = (ROOT / "assets/js/homepage-media.js").read_text(encoding="utf-8")
     if "prefers-reduced-motion: reduce" not in homepage_js:
         errors.append("homepage videos do not respect reduced-motion preferences")
+    if "video.classList.add(fadeClass, boundClass)" not in homepage_js:
+        errors.append("homepage videos are exposed before their fade-in reveal")
 
     homepage_html = (ROOT / "index.html").read_text(encoding="utf-8")
     if "media.getAttribute('src').split" in homepage_html:
         errors.append("homepage media click handler can split a missing src attribute")
+    if "html.js .homepage .gallery-item video:not(.is-loaded)" not in homepage_html:
+        errors.append("homepage videos lack a critical pre-loader hidden state")
 
     commands = (
         (["node", "--check", "assets/js/homepage-media.js"], "homepage JavaScript"),
