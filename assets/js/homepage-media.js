@@ -8,6 +8,9 @@
   const loadedClass = 'is-loaded';
   const boundClass = 'lazy-fade-bound';
   const videoLoadedFlag = 'videoLoaded';
+  const posterLoadedFlag = 'posterLoaded';
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const preferMp4 = window.matchMedia('(pointer: coarse)').matches;
   const revealOnNextPaint = (node) => {
     if (!node || node.classList.contains(loadedClass)) {
       return;
@@ -40,8 +43,18 @@
       return;
     }
 
-    const sources = video.querySelectorAll('source[data-src]');
+    const sources = [...video.querySelectorAll('source[data-src]')];
+    // H.264 MP4 is the dependable choice on mobile Safari and older phones.
+    // Keep WebM first on computers because it is substantially lighter there.
+    if (preferMp4) {
+      sources.sort((a, b) => {
+        const aIsMp4 = a.type === 'video/mp4' ? 0 : 1;
+        const bIsMp4 = b.type === 'video/mp4' ? 0 : 1;
+        return aIsMp4 - bIsMp4;
+      });
+    }
     sources.forEach((source) => {
+      video.appendChild(source);
       if (!source.src) {
         source.src = source.dataset.src;
       }
@@ -52,6 +65,18 @@
     }
 
     video.dataset[videoLoadedFlag] = 'true';
+  };
+
+  const loadVideoPoster = (video) => {
+    if (!video || video.dataset[posterLoadedFlag] === 'true') {
+      return;
+    }
+
+    if (video.dataset.poster) {
+      video.poster = video.dataset.poster;
+    }
+
+    video.dataset[posterLoadedFlag] = 'true';
   };
 
   const playVideo = (video) => {
@@ -116,7 +141,9 @@
     // Keep the poster visible immediately; only the playable sources load lazily.
     video.classList.add(boundClass);
     video.muted = true;
-    video.autoplay = true;
+    video.autoplay = !prefersReducedMotion;
+    video.controls = prefersReducedMotion;
+    video.loop = !prefersReducedMotion;
 
     if (video.readyState >= 2) {
       video.classList.add(loadedClass);
@@ -147,7 +174,12 @@
           return;
         }
 
+        loadVideoPoster(video);
         loadVideoSources(video);
+
+        if (prefersReducedMotion) {
+          return;
+        }
 
         if (video.readyState >= 2) {
           playVideo(video);
@@ -156,7 +188,9 @@
         }
       });
     },
-    { rootMargin: '300px' }
+    // Keep the look-ahead tight so a masonry page does not queue a whole row
+    // of large videos while the visitor is still reading the header.
+    { rootMargin: '100px 0px' }
   );
 
   const registerMedia = (node) => {

@@ -1250,6 +1250,11 @@ html.js body.homepage .lazy-fade.is-loaded {
 }
 
 @media (max-width: 600px) {
+  nav {
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+  }
+
   .home-intro {
     padding: 0.85rem 1rem 0.25rem;
   }
@@ -1271,11 +1276,19 @@ html.js body.homepage .lazy-fade.is-loaded {
   }
 
   nav ul {
-    gap: 0.85rem;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.1rem;
   }
 
   nav a {
-    font-size: 0.96rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 0.2rem;
+    font-size: 0.86rem;
   }
 
   .contact-section {
