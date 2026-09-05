@@ -136,7 +136,11 @@
     (!prefersReducedMotion || state.intent === 'play');
 
   const renderControl = (video, state) => {
-    const action = state.failed ? 'Retry' : (!video.paused || state.pending ? 'Pause' : 'Play');
+    const action = state.failed ? 'Retry' : 'Play';
+    // Keep normal playback visually clean. Offer an action only when playback
+    // needs recovery or reduced-motion preferences require a manual start.
+    state.button.hidden = !state.failed &&
+      (!video.paused || Boolean(state.pending) || (!state.blocked && !prefersReducedMotion));
     state.button.textContent = action;
     state.button.setAttribute('aria-label', `${action}: ${video.getAttribute('aria-label') || 'portfolio video'}`);
   };
@@ -270,11 +274,7 @@
     }));
     button.addEventListener('click', (event) => {
       event.stopPropagation();
-      if (!state.failed && (!video.paused || state.pending)) {
-        state.intent = 'pause';
-        stopVideo(video, state);
-        return;
-      }
+      if (button.hidden) return;
       const retry = state.failed;
       state.intent = 'play';
       state.blocked = false;

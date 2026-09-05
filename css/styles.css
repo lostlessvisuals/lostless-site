@@ -1243,6 +1243,10 @@ html.js body.homepage .home-intro-mark .hero-logo.is-loaded {
   cursor: pointer;
 }
 
+.video-toggle[hidden] {
+  display: none;
+}
+
 .video-toggle:focus-visible {
   outline: 2px solid #ff3366;
   outline-offset: 2px;

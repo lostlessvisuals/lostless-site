@@ -155,13 +155,14 @@ test('blocked autoplay exposes Play and a decoded poster; a button gesture start
   f.ready();
   f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
   assert.equal(f.button.textContent, 'Play');
+  assert.equal(f.button.hidden, false);
   f.visible.enter(); f.video.emit('canplay');
   assert.equal(f.attempts.length, 1);
   f.button.emit('click');
   assert.equal(f.attempts.length, 2);
   f.attempts[1].resolve(); await settle();
-  assert.equal(f.button.textContent, 'Pause');
-  assert.equal(f.button.getAttribute('aria-label'), 'Pause: Sample clip');
+  assert.equal(f.button.hidden, true);
+  assert.equal(f.button.getAttribute('aria-label'), 'Play: Sample clip');
 });
 
 test('video error keeps native surface hidden and Retry reloads existing sources', async () => {
@@ -169,12 +170,13 @@ test('video error keeps native surface hidden and Retry reloads existing sources
   f.near.enter(); f.onscreen();
   f.video.emit('error');
   assert.equal(f.button.textContent, 'Retry');
+  assert.equal(f.button.hidden, false);
   assert.equal(f.video.classList.contains('is-loaded'), false);
   f.button.emit('click');
   assert.equal(f.video.loads, 2);
   assert.equal(f.attempts.length, 1);
   f.ready(); f.attempts[0].resolve(); await settle();
-  assert.equal(f.button.textContent, 'Pause');
+  assert.equal(f.button.hidden, true);
 });
 
 test('all source failures expose Retry, but a single failed format allows fallback', () => {
@@ -204,7 +206,7 @@ test('source errors from replaced candidates do not override usable media', asyn
   f.video.networkState = 2;
   f.video.children.forEach(s => s.emit('error'));
   f.ready(); f.attempts[0].resolve(); await settle();
-  assert.equal(f.button.textContent, 'Pause');
+  assert.equal(f.button.hidden, true);
   assert.equal(f.video.classList.contains('is-loaded'), true);
 });
 
@@ -222,15 +224,18 @@ test('backgrounding cancels playback and stale rejection cannot block foreground
   assert.equal(f.video.paused, true);
 });
 
-test('user Pause survives readiness, re-entry, and tab visibility changes', async () => {
+test('normal loading, playback, and offscreen pausing never show controls', async () => {
   const f = fixture();
+  assert.equal(f.button.hidden, true);
   f.onscreen(); f.visible.enter(); f.ready();
+  assert.equal(f.button.hidden, true);
   f.attempts[0].resolve(); await settle();
+  assert.equal(f.button.hidden, true);
   f.button.emit('click');
-  f.visible.exit(); f.visible.enter(); f.ready();
-  f.document.emit('visibilitychange');
+  assert.equal(f.video.paused, false);
+  f.offscreen(); f.visible.exit();
   assert.equal(f.video.paused, true);
-  assert.equal(f.attempts.length, 1);
+  assert.equal(f.button.hidden, true);
   assert.equal(f.button.textContent, 'Play');
 });
 
@@ -238,11 +243,14 @@ test('reduced motion waits for a gesture, which can start play before data arriv
   const f = fixture({ reducedMotion: true, coarse: true });
   f.onscreen(); f.near.enter(); f.visible.enter();
   assert.equal(f.attempts.length, 0);
+  assert.equal(f.button.hidden, false);
   assert.equal(f.video.loop, false);
   assert.equal(f.video.children[0].type, 'video/mp4');
   f.button.emit('click');
   assert.equal(f.attempts.length, 1);
   f.ready(); f.attempts[0].resolve(); await settle();
+  assert.equal(f.button.hidden, true);
   f.video.paused = true; f.video.emit('ended'); f.visible.enter();
   assert.equal(f.attempts.length, 1);
+  assert.equal(f.button.hidden, false);
 });
