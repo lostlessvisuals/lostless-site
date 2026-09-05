@@ -188,7 +188,9 @@
     }
     loadVideoPoster(video);
     loadVideoSources(video);
-    if (video.readyState >= 2) playVideo(video, state);
+    // play() must initiate the visible load: browsers honoring preload="none"
+    // may never emit loadeddata until playback has actually been requested.
+    playVideo(video, state);
   };
 
   const handleVideo = (video) => {
@@ -221,6 +223,7 @@
     video.controls = false;
     video.loop = !prefersReducedMotion;
     video.addEventListener('loadstart', () => {
+      if (video.dataset[videoLoadedFlag] !== 'true') return;
       clearTimeout(state.sourceErrorTimer);
       state.loadingStarted = true;
       state.failedSources.clear();
@@ -246,7 +249,7 @@
       stopVideo(video, state);
     });
     const failed = () => {
-      if (!state.loadingStarted) return;
+      if (!state.loadingStarted || video.dataset[videoLoadedFlag] !== 'true') return;
       state.failed = true;
       video.classList.remove(loadedClass);
       stopVideo(video, state);
@@ -254,7 +257,7 @@
     video.addEventListener('error', failed);
     const sources = [...video.querySelectorAll('source[data-src]')];
     sources.forEach(source => source.addEventListener('error', () => {
-      if (!state.loadingStarted) return;
+      if (!state.loadingStarted || video.dataset[videoLoadedFlag] !== 'true') return;
       state.failedSources.add(source);
       // Source selection can emit errors for candidates it subsequently replaces.
       // Only treat an exhausted selection as failure (NETWORK_NO_SOURCE = 3).

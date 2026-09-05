@@ -125,7 +125,15 @@ test('data arriving after viewport exit does not start playback', () => {
   f.onscreen(); f.visible.enter();
   f.offscreen(); f.visible.exit();
   f.ready();
-  assert.equal(f.attempts.length, 0);
+  assert.equal(f.attempts.length, 1);
+  assert.equal(f.video.paused, true);
+});
+
+test('visible playback starts loading even when preload none has provided no data', () => {
+  const f = fixture();
+  f.onscreen(); f.visible.enter();
+  assert.equal(f.video.readyState, 0);
+  assert.equal(f.attempts.length, 1);
 });
 
 test('late play completion is stopped after exit and can resume on re-entry', async () => {
@@ -183,8 +191,10 @@ test('all source failures expose Retry, but a single failed format allows fallba
 test('empty lazy sources cannot report a failure before loading begins', () => {
   const f = fixture();
   f.video.networkState = 3;
+  f.video.emit('loadstart');
   f.video.children.forEach(s => s.emit('error'));
   f.video.emit('error');
+  f.flushTimers();
   assert.equal(f.button.textContent, 'Play');
 });
 
