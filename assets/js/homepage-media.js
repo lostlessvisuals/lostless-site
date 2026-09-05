@@ -11,6 +11,7 @@
   const posterLoadedFlag = 'posterLoaded';
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const preferMp4 = window.matchMedia('(pointer: coarse)').matches;
+  const videoStates = new Map();
   const revealOnNextPaint = (node) => {
     if (!node || node.classList.contains(loadedClass)) {
       return;
@@ -54,17 +55,16 @@
       });
     }
     sources.forEach((source) => {
-      video.appendChild(source);
       if (!source.src) {
         source.src = source.dataset.src;
       }
+      video.appendChild(source);
     });
 
+    video.dataset[videoLoadedFlag] = 'true';
     if (sources.length > 0) {
       video.load();
     }
-
-    video.dataset[videoLoadedFlag] = 'true';
   };
 
   const loadVideoPoster = (video) => {
@@ -73,21 +73,10 @@
     }
 
     if (video.dataset.poster) {
-      video.poster = video.dataset.poster;
+      videoStates.get(video).poster.src = video.dataset.poster;
     }
 
     video.dataset[posterLoadedFlag] = 'true';
-  };
-
-  const playVideo = (video) => {
-    if (!video) {
-      return;
-    }
-
-    const playAttempt = video.play();
-    if (playAttempt && typeof playAttempt.catch === 'function') {
-      playAttempt.catch(() => {});
-    }
   };
 
   const handleImage = (img) => {
@@ -133,66 +122,197 @@
     );
   };
 
-  const handleVideo = (video, observerInstance) => {
+  // Read current geometry again at readiness/promise boundaries: observer entries
+  // can become stale while a request is pending or masonry columns settle.
+  const isVisible = (video) => {
+    const rect = video.getBoundingClientRect();
+    return video.isConnected && !document.hidden && rect.width > 0 && rect.height > 0 &&
+      rect.bottom > 0 && rect.top < window.innerHeight &&
+      rect.right > 0 && rect.left < window.innerWidth;
+  };
+
+  const wantsPlayback = (video, state) => isVisible(video) &&
+    state.intent !== 'pause' && !state.blocked && !state.failed &&
+    (!prefersReducedMotion || state.intent === 'play');
+
+  const renderControl = (video, state) => {
+    const action = state.failed ? 'Retry' : (!video.paused || state.pending ? 'Pause' : 'Play');
+    state.button.textContent = action;
+    state.button.setAttribute('aria-label', `${action}: ${video.getAttribute('aria-label') || 'portfolio video'}`);
+  };
+
+  const stopVideo = (video, state) => {
+    const wasPending = state.pending !== null;
+    state.pending = null;
+    state.generation += 1;
+    if (!video.paused || wasPending) video.pause();
+    renderControl(video, state);
+  };
+
+  const playVideo = (video, state) => {
+    if (!wantsPlayback(video, state) || state.pending || !video.paused) return;
+    const generation = ++state.generation;
+    state.pending = generation;
+    renderControl(video, state);
+    // Calling play in the button handler preserves the browser's user gesture,
+    // including when data is not ready yet.
+    try {
+      Promise.resolve(video.play()).then(() => {
+        if (!wantsPlayback(video, state)) video.pause();
+        if (state.generation !== generation) return;
+        state.pending = null;
+        renderControl(video, state);
+      }).catch((error) => {
+        if (state.generation !== generation) return;
+        state.pending = null;
+        if (error.name === 'NotSupportedError') {
+          state.failed = true;
+          video.classList.remove(loadedClass);
+        }
+        if (isVisible(video) && state.intent !== 'pause') state.blocked = true;
+        renderControl(video, state);
+      });
+    } catch (_) {
+      state.pending = null;
+      state.blocked = true;
+      renderControl(video, state);
+    }
+  };
+
+  const syncVideo = (video) => {
+    const state = videoStates.get(video);
+    if (!state) return;
+    if (!wantsPlayback(video, state)) {
+      stopVideo(video, state);
+      return;
+    }
+    loadVideoPoster(video);
+    loadVideoSources(video);
+    if (video.readyState >= 2) playVideo(video, state);
+  };
+
+  const handleVideo = (video) => {
     if (!video || video.classList.contains(boundClass)) {
       return;
     }
 
-    // Keep the native video surface hidden until the first frame is ready.
-    // Mobile Safari can otherwise flash a light edge around an empty player.
+    const container = video.closest('.gallery-item');
+    if (!container) return;
+    const poster = document.createElement('img');
+    poster.alt = '';
+    poster.setAttribute('aria-hidden', 'true');
+    poster.classList.add('video-poster', fadeClass, boundClass);
+    poster.addEventListener('load', () => revealAfterDecode(poster));
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.classList.add('video-toggle');
+    const state = { poster, button, intent: 'auto', blocked: false, failed: false,
+      pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
+      failedSources: new Set() };
+    videoStates.set(video, state);
+    container.appendChild(poster);
+    container.appendChild(button);
+
+    // A separate decoded poster is visible even when video loading fails. Keep
+    // the native player hidden until a frame is ready to avoid its white edge.
     video.classList.add(fadeClass, boundClass);
     video.muted = true;
-    video.autoplay = !prefersReducedMotion;
-    video.controls = prefersReducedMotion;
+    video.autoplay = false;
+    video.controls = false;
     video.loop = !prefersReducedMotion;
-
-    if (video.readyState >= 2) {
-      video.classList.add(loadedClass);
-    } else {
-      video.addEventListener(
-        'loadeddata',
-        () => {
-          video.classList.add(loadedClass);
-        },
-        { once: true }
-      );
-    }
-
-    if (observerInstance) {
-      observerInstance.observe(video);
-    }
+    video.addEventListener('loadstart', () => {
+      clearTimeout(state.sourceErrorTimer);
+      state.loadingStarted = true;
+      state.failedSources.clear();
+    });
+    const ready = () => {
+      if (video.readyState >= 2 && !video.error) {
+        clearTimeout(state.sourceErrorTimer);
+        state.failed = false;
+        state.failedSources.clear();
+        video.classList.add(loadedClass);
+      }
+      syncVideo(video);
+    };
+    video.addEventListener('loadeddata', ready);
+    video.addEventListener('canplay', ready);
+    video.addEventListener('playing', () => {
+      if (!wantsPlayback(video, state)) stopVideo(video, state);
+      else renderControl(video, state);
+    });
+    video.addEventListener('pause', () => renderControl(video, state));
+    video.addEventListener('ended', () => {
+      state.intent = 'pause';
+      stopVideo(video, state);
+    });
+    const failed = () => {
+      if (!state.loadingStarted) return;
+      state.failed = true;
+      video.classList.remove(loadedClass);
+      stopVideo(video, state);
+    };
+    video.addEventListener('error', failed);
+    const sources = [...video.querySelectorAll('source[data-src]')];
+    sources.forEach(source => source.addEventListener('error', () => {
+      if (!state.loadingStarted) return;
+      state.failedSources.add(source);
+      // Source selection can emit errors for candidates it subsequently replaces.
+      // Only treat an exhausted selection as failure (NETWORK_NO_SOURCE = 3).
+      if (state.failedSources.size === sources.length) {
+        clearTimeout(state.sourceErrorTimer);
+        state.sourceErrorTimer = setTimeout(() => {
+          if (video.networkState === 3) failed();
+        }, 100);
+      }
+    }));
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+      if (!state.failed && (!video.paused || state.pending)) {
+        state.intent = 'pause';
+        stopVideo(video, state);
+        return;
+      }
+      const retry = state.failed;
+      state.intent = 'play';
+      state.blocked = false;
+      state.failed = false;
+      state.failedSources.clear();
+      clearTimeout(state.sourceErrorTimer);
+      loadVideoPoster(video);
+      loadVideoSources(video);
+      if (retry) {
+        state.loadingStarted = false;
+        video.load();
+      }
+      playVideo(video, state);
+    });
+    renderControl(video, state);
+    if (video.readyState >= 2) ready();
+    loadObserver.observe(video);
+    playbackObserver.observe(video);
   };
 
-  const observer = new IntersectionObserver(
-    (entries, observerInstance) => {
+  const loadObserver = new IntersectionObserver(
+    (entries) => {
       entries.forEach((entry) => {
-        const video = entry.target;
-
-        if (!entry.isIntersecting) {
-          if (!video.paused) {
-            video.pause();
-          }
-          return;
-        }
-
-        loadVideoPoster(video);
-        loadVideoSources(video);
-
-        if (prefersReducedMotion) {
-          return;
-        }
-
-        if (video.readyState >= 2) {
-          playVideo(video);
-        } else {
-          video.addEventListener('loadeddata', () => playVideo(video), { once: true });
-        }
+        if (!entry.isIntersecting) return;
+        loadVideoPoster(entry.target);
+        loadVideoSources(entry.target);
+        loadObserver.unobserve(entry.target);
       });
     },
     // Keep the look-ahead tight so a masonry page does not queue a whole row
     // of large videos while the visitor is still reading the header.
     { rootMargin: '100px 0px' }
   );
+
+  const playbackObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => syncVideo(entry.target));
+  }, { rootMargin: '0px' });
+
+  document.addEventListener('visibilitychange', () => {
+    videoStates.forEach((state, video) => syncVideo(video));
+  });
 
   const registerMedia = (node) => {
     if (!node) {
@@ -204,13 +324,13 @@
     }
 
     if (node.matches && node.matches('video')) {
-      handleVideo(node, observer);
+      handleVideo(node);
     }
 
     if (node.querySelectorAll) {
       node.querySelectorAll('img').forEach(handleImage);
       node.querySelectorAll('video').forEach((video) => {
-        handleVideo(video, observer);
+        handleVideo(video);
       });
     }
   };

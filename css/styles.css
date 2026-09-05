@@ -1208,6 +1208,51 @@ html.js body.homepage .home-intro-mark .hero-logo.is-loaded {
   display: block;
 }
 
+.homepage .gallery-item {
+  position: relative;
+}
+
+.homepage .gallery-item video {
+  position: relative;
+  z-index: 1;
+}
+
+.homepage .gallery-item .video-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.video-toggle {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font: inherit;
+  font-size: 0.8rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.video-toggle:focus-visible {
+  outline: 2px solid #ff3366;
+  outline-offset: 2px;
+}
+
+/* Keep undecoded posters hidden even with reduced motion. */
+html.js body.homepage .video-poster:not(.is-loaded) {
+  opacity: 0;
+}
+
 /* Lazy-loaded media fade-in */
 html.js body.homepage .lazy-fade {
   opacity: 0;
