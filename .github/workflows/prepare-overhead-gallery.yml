@@ -1,4 +1,4 @@
-name: Prepare Overhead gallery
+name: Finalize eight-video gallery
 on:
   push:
     branches: [overhead-gallery-20261011]
@@ -6,86 +6,45 @@ on:
 permissions:
   contents: write
 jobs:
-  prepare:
+  finalize:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
-      - name: Prepare static gallery markup and review snapshot
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          ref: overhead-gallery-20261011
+          fetch-depth: 1
+      - name: Include pastel flower clip without changing existing gallery items
         run: |
           python3 - <<'PY'
-          import base64, concurrent.futures, hashlib, json, os, pathlib, re, urllib.request, zipfile
-          repo = 'lostlessvisuals/lostless-site'
-          branch = 'overhead-gallery-20261011'
-          base = '060ad7b9319977e1ba4c6fd263bea4a224c4da56'
-          raw = 'https://raw.githubusercontent.com/' + repo + '/' + base + '/'
-          api = 'https://api.github.com/repos/' + repo
-          root = pathlib.Path('snapshot')
-          root.mkdir()
-          def download(path):
-              with urllib.request.urlopen(raw + path, timeout=40) as response:
-                  data = response.read()
-              target = root / path
-              target.parent.mkdir(parents=True, exist_ok=True)
-              target.write_bytes(data)
-              return data
-          original = download('index.html')
-          actual_sha = hashlib.sha1(b'blob ' + str(len(original)).encode() + b'\0' + original).hexdigest()
-          assert actual_sha == 'cf430b622c3a648105dfd507503280dabd3a6132', actual_sha
-          text = original.decode('utf-8')
+          import hashlib, pathlib, re
+          def blob_sha(data):
+              return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
+          path = pathlib.Path('index.html')
+          data = path.read_bytes()
+          assert blob_sha(data) == 'f1e06f478d8e3d33279d4ed152fd5715490df44a', 'Gallery changed; refusing to overwrite it'
+          text = data.decode('utf-8')
           section = re.search(r'<section class="gallery-grid grid">(.*?)</section>', text, re.S)
-          assert section, 'Expected homepage gallery not found'
+          assert section
           items = list(re.finditer(r'    <div class="gallery-item">.*?    </div>', section.group(1), re.S))
-          assert len(items) >= 35
-          additions = [
-              (1, 'overhead-scarlet-stairwell', 'endless red stairwell', 720, 1280),
-              (4, 'overhead-liquid-alloy', 'liquid silver and gold', 720, 1280),
-              (8, 'overhead-echo-dancer', 'echo dancer', 720, 1280),
-              (13, 'overhead-tidal-filaments', 'teal and amber filaments', 720, 1280),
-              (19, 'overhead-chrome-ribbons', 'chrome ribbons and red accents', 720, 1280),
-              (26, 'overhead-ember-chrome', 'black chrome and red light', 720, 1280),
-              (34, 'overhead-obsidian-cells', 'rippling obsidian cells', 1280, 720),
-          ]
-          for position, slug, label, width, height in reversed(additions):
-              markup = ('    <div class="gallery-item">\n'
-                  f'     <video aria-label="Portfolio video: Overhead {label}" data-lazy="true" height="{height}" loop muted playsinline data-poster="assets/media/{slug}.jpg" preload="none" width="{width}">\n'
-                  f'      <source data-src="assets/media/{slug}.webm" type="video/webm">\n'
-                  f'      <source data-src="assets/media/{slug}.mp4" type="video/mp4">\n'
-                  '     </video>\n    </div>\n')
-              offset = section.start(1) + items[position].start()
-              text = text[:offset] + markup + text[offset:]
-          assert text.count('Portfolio video: Overhead ') == 7
-          (root / 'index-original.html').write_bytes(original)
-          (root / 'index.html').write_text(text, encoding='utf-8')
-          (root / 'gallery-additions.json').write_text(json.dumps(additions, indent=2))
-          payload = json.dumps({'message': 'Mix seven new Overhead loops into the homepage gallery',
-              'branch': branch, 'sha': actual_sha,
-              'content': base64.b64encode(text.encode('utf-8')).decode('ascii')}).encode('utf-8')
-          request = urllib.request.Request(api + '/contents/index.html', data=payload, method='PUT', headers={
-              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
-              'Accept': 'application/vnd.github+json',
-              'Content-Type': 'application/json',
-              'X-GitHub-Api-Version': '2022-11-28'})
-          with urllib.request.urlopen(request, timeout=40) as response:
-              result = json.load(response)
-          print('Gallery commit:', result['commit']['sha'])
-          print('Original gallery items:', len(items))
-          paths = {'css/styles.css', 'assets/js/homepage-media.js'}
-          for path in re.findall(r'(?:/)?(assets/[^\s"<>?,]+\.(?:avif|webp|jpg|png))', original.decode('utf-8')):
-              paths.add(path)
-          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-              for path, result in zip(sorted(paths), executor.map(download, sorted(paths))):
-                  pass
-          with zipfile.ZipFile('overhead-site-snapshot.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
-              for path in root.rglob('*'):
-                  if path.is_file():
-                      archive.write(path, path.relative_to(root))
-          print('Snapshot bytes:', pathlib.Path('overhead-site-snapshot.zip').stat().st_size)
+          originals = [item for item in items if 'Portfolio video: Overhead ' not in item.group()]
+          assert len(items) == 126 and len(originals) == 119
+          markup = ('    <div class="gallery-item">\n'
+              '     <video aria-label="Portfolio video: pastel flowers in bloom" data-lazy="true" height="1280" loop muted playsinline data-poster="assets/media/pastel-flowers.jpg" preload="none" width="720">\n'
+              '      <source data-src="assets/media/pastel-flowers.webm" type="video/webm">\n'
+              '      <source data-src="assets/media/pastel-flowers.mp4" type="video/mp4">\n'
+              '     </video>\n    </div>\n')
+          offset = section.start(1) + originals[6].start()
+          result = (text[:offset] + markup + text[offset:]).encode('utf-8')
+          assert blob_sha(result) == '5d7b2b94eb94ab06abf7d87ddf1c4ac67c7c4ce7', 'Unexpected gallery output'
+          path.write_bytes(result)
+          pathlib.Path('.github/workflows/prepare-overhead-gallery.yml').unlink()
+          print('Eight additions; 119 original items preserved. Review branch only; media upload still required.')
           PY
-      - name: Save review snapshot
-        uses: actions/upload-artifact@v4
-        with:
-          name: overhead-site-snapshot
-          path: overhead-site-snapshot.zip
-          retention-days: 1
+      - name: Commit gallery and remove temporary workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html .github/workflows/prepare-overhead-gallery.yml
+          git commit -m 'Include pastel flower loop in eight-video gallery mix'
+          git push origin HEAD:overhead-gallery-20261011
