@@ -1,0 +1,93 @@
+name: Import optimized gallery media
+on:
+  push:
+    branches: [publish-overhead-videos-20261011]
+    paths: [.github/overhead-source.json]
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          sparse-checkout: |
+            /.github/
+            /index.html
+          sparse-checkout-cone-mode: false
+      - name: Verify and import the eight prepared clips
+        run: |
+          python3 - <<'PY'
+          import hashlib, io, json, pathlib, re, subprocess, urllib.parse, urllib.request, zipfile
+          source_path = pathlib.Path('.github/overhead-source.json')
+          source = json.loads(source_path.read_text())
+          url = source['url']
+          parsed = urllib.parse.urlparse(url)
+          assert parsed.scheme == 'https' and parsed.hostname.endswith('.oaiusercontent.com')
+          with urllib.request.urlopen(url, timeout=120) as response:
+              archive_bytes = response.read(100_000_001)
+          assert len(archive_bytes) <= 100_000_000
+          assert hashlib.sha256(archive_bytes).hexdigest() == source['sha256'], 'Archive checksum mismatch'
+          slugs = ['overhead-echo-dancer', 'overhead-liquid-alloy', 'overhead-chrome-ribbons',
+              'overhead-obsidian-cells', 'overhead-ember-chrome', 'overhead-scarlet-stairwell',
+              'overhead-tidal-filaments', 'prismatic-bloom']
+          allowed = {'index.html'} | {'assets/media/' + slug + '.' + ext for slug in slugs for ext in ['mp4', 'webm', 'jpg']}
+          old = pathlib.Path('index.html').read_bytes()
+          old_sha = hashlib.sha1(b'blob ' + str(len(old)).encode() + b'\0' + old).hexdigest()
+          assert old_sha == 'cf430b622c3a648105dfd507503280dabd3a6132', 'Existing homepage changed'
+          with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
+              assert len(archive.namelist()) == 26
+              assert set(archive.namelist()) == allowed | {'manifest.json'}, 'Unexpected archive paths'
+              assert sum(info.file_size for info in archive.infolist()) < 100_000_000
+              manifest = json.loads(archive.read('manifest.json'))
+              assert manifest['repository'] == 'lostlessvisuals/lostless-site'
+              assert manifest['base_index_git_sha'] == old_sha
+              assert set(entry['path'] for entry in manifest['files']) == allowed
+              payloads = {}
+              for entry in manifest['files']:
+                  name = entry['path']
+                  data = archive.read(name)
+                  assert len(data) == entry['bytes']
+                  assert hashlib.sha256(data).hexdigest() == entry['sha256'], name
+                  if name.endswith('.mp4'): assert data[4:8] == b'ftyp'
+                  if name.endswith('.webm'): assert data[:4] == b'\x1aE\xdf\xa3'
+                  if name.endswith('.jpg'): assert data[:2] == b'\xff\xd8'
+                  payloads[name] = data
+          before = old.decode('utf-8')
+          after = payloads['index.html'].decode('utf-8')
+          section_pattern = r'<section class="gallery-grid grid">(.*?)</section>'
+          before_section = re.search(section_pattern, before, re.S)
+          after_section = re.search(section_pattern, after, re.S)
+          assert before_section and after_section
+          item_pattern = r'    <div class="gallery-item">.*?    </div>'
+          old_items = re.findall(item_pattern, before_section.group(1), re.S)
+          new_items = re.findall(item_pattern, after_section.group(1), re.S)
+          is_new = lambda item: any('assets/media/' + slug + '.jpg' in item for slug in slugs)
+          assert len(old_items) == 119 and len(new_items) == 127
+          assert [item for item in new_items if not is_new(item)] == old_items
+          assert before[:before_section.start(1)] == after[:after_section.start(1)]
+          assert before[before_section.end(1):] == after[after_section.end(1):]
+          for slug in slugs:
+              assert after.count('assets/media/' + slug + '.jpg') == 1
+              for ext in ['mp4', 'webm']:
+                  assert after.count('assets/media/' + slug + '.' + ext) == 1
+          for name, data in payloads.items():
+              path = pathlib.Path(name)
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_bytes(data)
+          subprocess.run(['git', 'add', '--sparse', '--'] + sorted(allowed), check=True)
+          subprocess.run(['git', 'rm', '--sparse', '--', '.github/overhead-source.json', '.github/workflows/import-overhead-media.yml'], check=True)
+          print('Verified: eight clips, 24 media files, 127 gallery items; all 119 original items preserved.')
+          print('Imported media bytes:', sum(len(data) for name, data in payloads.items() if name != 'index.html'))
+          PY
+      - name: Commit the completed gallery on the publishing branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Add eight optimized video loops and interleave homepage gallery'
+          git push origin HEAD:publish-overhead-videos-20261011
+          echo "Prepared commit: $(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Prepared tree: $(git rev-parse HEAD^{tree})" >> "$GITHUB_STEP_SUMMARY"
