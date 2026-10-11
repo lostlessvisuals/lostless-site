@@ -1250,11 +1250,6 @@ html.js body.homepage .lazy-fade {
   transition: opacity 1s ease-in-out;
 }
 
-/* Reveal a ready video directly from black, without blending two frames. */
-html.js body.homepage .gallery-item video {
-  transition: none;
-}
-
 html.js body.homepage .lazy-fade.is-loaded {
   opacity: 1;
 }
