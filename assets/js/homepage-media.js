@@ -8,7 +8,6 @@
   const loadedClass = 'is-loaded';
   const boundClass = 'lazy-fade-bound';
   const videoLoadedFlag = 'videoLoaded';
-  const posterLoadedFlag = 'posterLoaded';
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const preferMp4 = window.matchMedia('(pointer: coarse)').matches;
   const videoStates = new Map();
@@ -65,18 +64,6 @@
     if (sources.length > 0) {
       video.load();
     }
-  };
-
-  const loadVideoPoster = (video) => {
-    if (!video || video.dataset[posterLoadedFlag] === 'true') {
-      return;
-    }
-
-    if (video.dataset.poster) {
-      videoStates.get(video).poster.src = video.dataset.poster;
-    }
-
-    video.dataset[posterLoadedFlag] = 'true';
   };
 
   const handleImage = (img) => {
@@ -190,7 +177,6 @@
       stopVideo(video, state);
       return;
     }
-    loadVideoPoster(video);
     loadVideoSources(video);
     // play() must initiate the visible load: browsers honoring preload="none"
     // may never emit loadeddata until playback has actually been requested.
@@ -204,23 +190,17 @@
 
     const container = video.closest('.gallery-item');
     if (!container) return;
-    const poster = document.createElement('img');
-    poster.alt = '';
-    poster.setAttribute('aria-hidden', 'true');
-    poster.classList.add('video-poster', fadeClass, boundClass);
-    poster.addEventListener('load', () => revealAfterDecode(poster));
     const button = document.createElement('button');
     button.type = 'button';
     button.classList.add('video-toggle');
-    const state = { poster, button, intent: 'auto', blocked: false, failed: false,
+    const state = { button, intent: 'auto', blocked: false, failed: false,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
-    container.appendChild(poster);
     container.appendChild(button);
 
-    // A separate decoded poster is visible even when video loading fails. Keep
-    // the native player hidden until a frame is ready to avoid its white edge.
+    // Keep the card black until a decoded video frame is available. A separate
+    // poster underneath the video would blend with it during the first reveal.
     video.classList.add(fadeClass, boundClass);
     video.muted = true;
     video.autoplay = false;
@@ -281,7 +261,6 @@
       state.failed = false;
       state.failedSources.clear();
       clearTimeout(state.sourceErrorTimer);
-      loadVideoPoster(video);
       loadVideoSources(video);
       if (retry) {
         state.loadingStarted = false;
@@ -299,7 +278,6 @@
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        loadVideoPoster(entry.target);
         loadVideoSources(entry.target);
         loadObserver.unobserve(entry.target);
       });

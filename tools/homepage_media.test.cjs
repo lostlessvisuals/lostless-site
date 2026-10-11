@@ -146,12 +146,10 @@ test('late play completion is stopped after exit and can resume on re-entry', as
   assert.equal(f.attempts.length, 2);
 });
 
-test('blocked autoplay exposes Play and a decoded poster; a button gesture starts playback', async () => {
+test('blocked autoplay exposes Play without a poster; a button gesture starts playback', async () => {
   const f = fixture();
   f.onscreen(); f.visible.enter();
-  f.poster.emit('load'); await settle();
-  assert.equal(f.poster.src, '/poster.jpg');
-  assert.equal(f.poster.classList.contains('is-loaded'), true);
+  assert.equal(f.poster, undefined);
   f.ready();
   f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
   assert.equal(f.button.textContent, 'Play');
@@ -253,4 +251,19 @@ test('reduced motion waits for a gesture, which can start play before data arriv
   f.video.paused = true; f.video.emit('ended'); f.visible.enter();
   assert.equal(f.attempts.length, 1);
   assert.equal(f.button.hidden, false);
+});
+
+test('video cards stay black without a still-image layer until a decoded frame is ready', () => {
+  const f = fixture();
+  f.onscreen(); f.visible.enter();
+  assert.equal(f.poster, undefined, 'a still-image overlay must not show underneath the video');
+  assert.equal(f.video.getAttribute('poster'), null);
+  assert.equal(f.video.classList.contains('is-loaded'), false);
+  f.video.readyState = 1; f.video.emit('canplay');
+  assert.equal(f.video.classList.contains('is-loaded'), false);
+  f.ready();
+  assert.equal(f.video.classList.contains('is-loaded'), true);
+  f.video.emit('error');
+  assert.equal(f.video.classList.contains('is-loaded'), false);
+  assert.equal(f.button.textContent, 'Retry');
 });
