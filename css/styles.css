@@ -1217,31 +1217,15 @@ html.js body.homepage .home-intro-mark .hero-logo.is-loaded {
   z-index: 1;
 }
 
-.video-toggle {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  z-index: 2;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0.4rem 0.7rem;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font: inherit;
-  font-size: 0.8rem;
-  line-height: 1.2;
-  cursor: pointer;
+.homepage .gallery-item video::-webkit-media-controls-start-playback-button,
+.homepage .gallery-item video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+  -webkit-appearance: none;
 }
 
-.video-toggle[hidden] {
-  display: none;
-}
-
-.video-toggle:focus-visible {
+.homepage .gallery-item video[role="button"]:focus-visible {
   outline: 2px solid #ff3366;
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 
 /* Lazy-loaded media fade-in */

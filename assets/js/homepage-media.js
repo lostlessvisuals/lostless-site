@@ -122,37 +122,42 @@
     state.intent !== 'pause' && !state.blocked && !state.failed &&
     (!prefersReducedMotion || state.intent === 'play');
 
-  const renderControl = (video, state) => {
-    const action = state.failed ? 'Retry' : 'Play';
-    // Keep normal playback visually clean. Offer an action only when playback
-    // needs recovery or reduced-motion preferences require a manual start.
-    state.button.hidden = !state.failed &&
-      (!video.paused || Boolean(state.pending) || (!state.blocked && !prefersReducedMotion));
-    state.button.textContent = action;
-    state.button.setAttribute('aria-label', `${action}: ${video.getAttribute('aria-label') || 'portfolio video'}`);
+  const updatePlaybackAction = (video, state) => {
+    // The artwork itself is the recovery target; never cover it with controls.
+    const needsAction = video.paused && !state.pending &&
+      (state.failed || state.blocked || prefersReducedMotion);
+    if (needsAction) {
+      video.setAttribute('role', 'button');
+      video.setAttribute('tabindex', '0');
+      video.setAttribute('aria-label', `${state.failed ? 'Retry' : 'Play'}: ${state.label}`);
+    } else {
+      video.removeAttribute('role');
+      video.removeAttribute('tabindex');
+      video.setAttribute('aria-label', state.label);
+    }
   };
 
   const stopVideo = (video, state) => {
     const wasPending = state.pending !== null;
     state.pending = null;
     state.generation += 1;
+    video.autoplay = false;
     if (!video.paused || wasPending) video.pause();
-    renderControl(video, state);
+    updatePlaybackAction(video, state);
   };
 
   const playVideo = (video, state) => {
     if (!wantsPlayback(video, state) || state.pending || !video.paused) return;
     const generation = ++state.generation;
     state.pending = generation;
-    renderControl(video, state);
-    // Calling play in the button handler preserves the browser's user gesture,
-    // including when data is not ready yet.
+    updatePlaybackAction(video, state);
+    // Gesture recovery calls play synchronously, before any readiness events.
     try {
       Promise.resolve(video.play()).then(() => {
         if (!wantsPlayback(video, state)) video.pause();
         if (state.generation !== generation) return;
         state.pending = null;
-        renderControl(video, state);
+        updatePlaybackAction(video, state);
       }).catch((error) => {
         if (state.generation !== generation) return;
         state.pending = null;
@@ -160,13 +165,14 @@
           state.failed = true;
           video.classList.remove(loadedClass);
         }
-        if (isVisible(video) && state.intent !== 'pause') state.blocked = true;
-        renderControl(video, state);
+        // A load/visibility interruption is not an autoplay-policy denial.
+        if (error.name === 'NotAllowedError' && isVisible(video)) state.blocked = true;
+        updatePlaybackAction(video, state);
       });
     } catch (_) {
       state.pending = null;
       state.blocked = true;
-      renderControl(video, state);
+      updatePlaybackAction(video, state);
     }
   };
 
@@ -177,6 +183,9 @@
       stopVideo(video, state);
       return;
     }
+    // Let Safari use its native muted-autoplay path as well as play(). Keep
+    // autoplay disabled offscreen and when reduced motion requests a still card.
+    video.autoplay = !prefersReducedMotion;
     loadVideoSources(video);
     // play() must initiate the visible load: browsers honoring preload="none"
     // may never emit loadeddata until playback has actually been requested.
@@ -190,19 +199,18 @@
 
     const container = video.closest('.gallery-item');
     if (!container) return;
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.classList.add('video-toggle');
-    const state = { button, intent: 'auto', blocked: false, failed: false,
+    const state = { label: video.getAttribute('aria-label') || 'portfolio video',
+      intent: 'auto', blocked: false, failed: false,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
-    container.appendChild(button);
 
     // Keep the card black until a decoded video frame is available. A separate
     // poster underneath the video would blend with it during the first reveal.
     video.classList.add(fadeClass, boundClass);
+    video.defaultMuted = true;
     video.muted = true;
+    video.playsInline = true;
     video.autoplay = false;
     video.controls = false;
     video.loop = !prefersReducedMotion;
@@ -224,10 +232,12 @@
     video.addEventListener('loadeddata', ready);
     video.addEventListener('canplay', ready);
     video.addEventListener('playing', () => {
+      // Native autoplay may succeed after an earlier play() denial.
+      state.blocked = false;
       if (!wantsPlayback(video, state)) stopVideo(video, state);
-      else renderControl(video, state);
+      else updatePlaybackAction(video, state);
     });
-    video.addEventListener('pause', () => renderControl(video, state));
+    video.addEventListener('pause', () => updatePlaybackAction(video, state));
     video.addEventListener('ended', () => {
       state.intent = 'pause';
       stopVideo(video, state);
@@ -252,9 +262,8 @@
         }, 100);
       }
     }));
-    button.addEventListener('click', (event) => {
-      event.stopPropagation();
-      if (button.hidden) return;
+    const recoverVideo = () => {
+      if (!video.paused || state.pending || !isVisible(video)) return;
       const retry = state.failed;
       state.intent = 'play';
       state.blocked = false;
@@ -266,9 +275,15 @@
         state.loadingStarted = false;
         video.load();
       }
-      playVideo(video, state);
+      syncVideo(video);
+    };
+    video.addEventListener('click', recoverVideo);
+    video.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      recoverVideo();
     });
-    renderControl(video, state);
+    updatePlaybackAction(video, state);
     if (video.readyState >= 2) ready();
     loadObserver.observe(video);
     playbackObserver.observe(video);
@@ -293,6 +308,22 @@
 
   document.addEventListener('visibilitychange', () => {
     videoStates.forEach((state, video) => syncVideo(video));
+  });
+
+  // Some mobile settings require a real gesture even for muted media. A normal
+  // page interaction can unlock visible clips without a separate Play button.
+  const recoverBlockedPlayback = () => {
+    if (prefersReducedMotion) return;
+    videoStates.forEach((state, video) => {
+      if (!state.blocked || state.failed || !isVisible(video)) return;
+      state.blocked = false;
+      syncVideo(video);
+    });
+  };
+  document.addEventListener('touchend', recoverBlockedPlayback, { passive: true });
+  document.addEventListener('click', recoverBlockedPlayback);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') recoverBlockedPlayback();
   });
 
   const registerMedia = (node) => {

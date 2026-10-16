@@ -22,14 +22,15 @@ class Element {
   }
   setAttribute(k, v) { this.attrs[k] = v; }
   getAttribute(k) { return this.attrs[k] ?? null; }
+  removeAttribute(k) { delete this.attrs[k]; }
   hasAttribute(k) { return k in this.attrs; }
   addEventListener(name, fn) {
     const list = this.listeners.get(name) || [];
     list.push(fn);
     this.listeners.set(name, list);
   }
-  emit(name) {
-    for (const fn of this.listeners.get(name) || []) fn({ stopPropagation() {} });
+  emit(name, event = {}) {
+    for (const fn of this.listeners.get(name) || []) fn({ stopPropagation() {}, preventDefault() {}, ...event });
   }
   appendChild(child) {
     this.children = this.children.filter(c => c !== child);
@@ -116,6 +117,10 @@ test('nearby media preloads but only visible media starts; listeners do not accu
   assert.equal(f.attempts.length, 0);
   f.onscreen();
   for (let i = 0; i < 5; i++) f.visible.enter();
+  assert.equal(f.video.autoplay, true);
+  assert.equal(f.video.defaultMuted, true);
+  assert.equal(f.video.muted, true);
+  assert.equal(f.video.playsInline, true);
   assert.equal(f.attempts.length, 1);
   assert.equal(f.video.listeners.get('loadeddata').length, 1);
 });
@@ -127,6 +132,7 @@ test('data arriving after viewport exit does not start playback', () => {
   f.ready();
   assert.equal(f.attempts.length, 1);
   assert.equal(f.video.paused, true);
+  assert.equal(f.video.autoplay, false);
 });
 
 test('visible playback starts loading even when preload none has provided no data', () => {
@@ -146,46 +152,47 @@ test('late play completion is stopped after exit and can resume on re-entry', as
   assert.equal(f.attempts.length, 2);
 });
 
-test('blocked autoplay exposes Play without a poster; a button gesture starts playback', async () => {
+test('blocked mobile autoplay recovers on a page touch without any overlay button', async () => {
   const f = fixture();
   f.onscreen(); f.visible.enter();
   assert.equal(f.poster, undefined);
   f.ready();
   f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
-  assert.equal(f.button.textContent, 'Play');
-  assert.equal(f.button.hidden, false);
+  assert.equal(f.button, undefined);
+  assert.equal(f.video.getAttribute('aria-label'), 'Play: Sample clip');
   f.visible.enter(); f.video.emit('canplay');
   assert.equal(f.attempts.length, 1);
-  f.button.emit('click');
+  f.document.emit('touchend');
   assert.equal(f.attempts.length, 2);
   f.attempts[1].resolve(); await settle();
-  assert.equal(f.button.hidden, true);
-  assert.equal(f.button.getAttribute('aria-label'), 'Play: Sample clip');
+  assert.equal(f.video.paused, false);
+  assert.equal(f.video.getAttribute('role'), null);
+  assert.equal(f.video.getAttribute('aria-label'), 'Sample clip');
 });
 
 test('video error keeps native surface hidden and Retry reloads existing sources', async () => {
   const f = fixture();
   f.near.enter(); f.onscreen();
   f.video.emit('error');
-  assert.equal(f.button.textContent, 'Retry');
-  assert.equal(f.button.hidden, false);
+  assert.equal(f.button, undefined);
+  assert.equal(f.video.getAttribute('aria-label'), 'Retry: Sample clip');
   assert.equal(f.video.classList.contains('is-loaded'), false);
-  f.button.emit('click');
+  f.video.emit('keydown', { key: 'Enter' });
   assert.equal(f.video.loads, 2);
   assert.equal(f.attempts.length, 1);
   f.ready(); f.attempts[0].resolve(); await settle();
-  assert.equal(f.button.hidden, true);
+  assert.equal(f.video.getAttribute('role'), null);
 });
 
-test('all source failures expose Retry, but a single failed format allows fallback', () => {
+test('all source failures allow recovery on the artwork, but a single format failure allows fallback', () => {
   const f = fixture();
   f.near.enter();
   f.video.networkState = 3;
   f.video.children[0].emit('error');
-  assert.equal(f.button.textContent, 'Play');
+  assert.equal(f.video.getAttribute('aria-label'), 'Sample clip');
   f.video.children[1].emit('error');
   f.flushTimers();
-  assert.equal(f.button.textContent, 'Retry');
+  assert.equal(f.video.getAttribute('aria-label'), 'Retry: Sample clip');
 });
 
 test('empty lazy sources cannot report a failure before loading begins', () => {
@@ -195,7 +202,7 @@ test('empty lazy sources cannot report a failure before loading begins', () => {
   f.video.children.forEach(s => s.emit('error'));
   f.video.emit('error');
   f.flushTimers();
-  assert.equal(f.button.textContent, 'Play');
+  assert.equal(f.video.getAttribute('aria-label'), 'Sample clip');
 });
 
 test('source errors from replaced candidates do not override usable media', async () => {
@@ -204,7 +211,7 @@ test('source errors from replaced candidates do not override usable media', asyn
   f.video.networkState = 2;
   f.video.children.forEach(s => s.emit('error'));
   f.ready(); f.attempts[0].resolve(); await settle();
-  assert.equal(f.button.hidden, true);
+  assert.equal(f.video.getAttribute('role'), null);
   assert.equal(f.video.classList.contains('is-loaded'), true);
 });
 
@@ -224,33 +231,36 @@ test('backgrounding cancels playback and stale rejection cannot block foreground
 
 test('normal loading, playback, and offscreen pausing never show controls', async () => {
   const f = fixture();
-  assert.equal(f.button.hidden, true);
+  assert.equal(f.button, undefined);
   f.onscreen(); f.visible.enter(); f.ready();
-  assert.equal(f.button.hidden, true);
+  assert.equal(f.video.getAttribute('role'), null);
   f.attempts[0].resolve(); await settle();
-  assert.equal(f.button.hidden, true);
-  f.button.emit('click');
+  assert.equal(f.video.getAttribute('role'), null);
+  f.video.emit('click');
   assert.equal(f.video.paused, false);
   f.offscreen(); f.visible.exit();
   assert.equal(f.video.paused, true);
-  assert.equal(f.button.hidden, true);
-  assert.equal(f.button.textContent, 'Play');
+  assert.equal(f.video.getAttribute('role'), null);
 });
 
 test('reduced motion waits for a gesture, which can start play before data arrives', async () => {
   const f = fixture({ reducedMotion: true, coarse: true });
   f.onscreen(); f.near.enter(); f.visible.enter();
   assert.equal(f.attempts.length, 0);
-  assert.equal(f.button.hidden, false);
+  assert.equal(f.button, undefined);
+  assert.equal(f.video.getAttribute('role'), 'button');
+  assert.equal(f.video.autoplay, false);
   assert.equal(f.video.loop, false);
   assert.equal(f.video.children[0].type, 'video/mp4');
-  f.button.emit('click');
+  f.document.emit('touchend');
+  assert.equal(f.attempts.length, 0, 'page gestures must respect reduced motion');
+  f.video.emit('click');
   assert.equal(f.attempts.length, 1);
   f.ready(); f.attempts[0].resolve(); await settle();
-  assert.equal(f.button.hidden, true);
+  assert.equal(f.video.getAttribute('role'), null);
   f.video.paused = true; f.video.emit('ended'); f.visible.enter();
   assert.equal(f.attempts.length, 1);
-  assert.equal(f.button.hidden, false);
+  assert.equal(f.video.getAttribute('role'), 'button');
 });
 
 test('video cards stay black without a still-image layer until a decoded frame is ready', () => {
@@ -265,5 +275,37 @@ test('video cards stay black without a still-image layer until a decoded frame i
   assert.equal(f.video.classList.contains('is-loaded'), true);
   f.video.emit('error');
   assert.equal(f.video.classList.contains('is-loaded'), false);
-  assert.equal(f.button.textContent, 'Retry');
+  assert.equal(f.video.getAttribute('aria-label'), 'Retry: Sample clip');
+});
+
+test('an interrupted load does not permanently block automatic playback', async () => {
+  const f = fixture();
+  f.onscreen(); f.visible.enter();
+  f.attempts[0].reject({ name: 'AbortError' }); await settle();
+  f.ready();
+  assert.equal(f.attempts.length, 2);
+  f.attempts[1].resolve(); await settle();
+  assert.equal(f.video.paused, false);
+});
+
+test('native autoplay can recover after an earlier rejected play request', async () => {
+  const f = fixture();
+  f.onscreen(); f.visible.enter();
+  f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
+  f.video.paused = false;
+  f.video.emit('playing');
+  assert.equal(f.video.paused, false);
+  assert.equal(f.video.getAttribute('role'), null);
+});
+
+test('page gestures do not start blocked videos outside the viewport', async () => {
+  const f = fixture();
+  f.onscreen(); f.visible.enter();
+  f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
+  f.offscreen(); f.visible.exit();
+  f.document.emit('touchend');
+  assert.equal(f.attempts.length, 1);
+  f.onscreen(); f.visible.enter();
+  f.document.emit('click');
+  assert.equal(f.attempts.length, 2);
 });
