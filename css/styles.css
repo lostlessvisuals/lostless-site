@@ -647,6 +647,12 @@ nav a:focus-visible {
   text-align: left;
 }
 
+.overhead-page-shell {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1000px;
+}
+
 .pipeline-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
