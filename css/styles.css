@@ -648,20 +648,47 @@ nav a:focus-visible {
 }
 
 .overhead-page-shell {
+  font-family: "Segoe UI", Inter, sans-serif;
   display: grid;
   gap: 1.25rem;
   max-width: 1000px;
 }
 
-.overhead-heading {
-  display: flex;
-  align-items: center;
-  gap: 0.45em;
+.overhead-page-shell figcaption strong {
+  font-family: Bahnschrift, "DIN Alternate", Inter, sans-serif;
 }
 
-.overhead-heading img {
-  width: 1.2em;
-  height: 1.2em;
+.pipeline-intro-card .overhead-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font: 400 16px / 1 "Segoe UI", system-ui, sans-serif;
+  white-space: nowrap;
+}
+
+.overhead-canopy {
+  position: relative;
+  flex: 0 0 44px;
+  aspect-ratio: 186 / 82;
+  overflow: hidden;
+}
+
+.overhead-canopy img {
+  position: absolute;
+  width: 137.6344%;
+  height: auto;
+  top: -106.0976%;
+  left: -18.8172%;
+}
+
+.overhead-page-shell .overhead-tagline {
+  margin: 0.65em 0 0;
+  font-family: Bahnschrift, "DIN Alternate", Inter, sans-serif;
+  font-size: clamp(1.9rem, 5vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
 }
 
 .pipeline-hero {
