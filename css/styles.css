@@ -691,6 +691,43 @@ nav a:focus-visible {
   line-height: 1.05;
 }
 
+.overhead-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.overhead-step h2 {
+  margin: 0;
+  font-family: Bahnschrift, "DIN Alternate", Inter, sans-serif;
+  font-size: clamp(1.4rem, 3vw, 1.85rem);
+  line-height: 1.15;
+}
+
+.overhead-step p {
+  margin: 0.65rem 0 0;
+  color: #cfcfcf;
+  line-height: 1.65;
+}
+
+.overhead-step figure a {
+  display: block;
+}
+
+.overhead-step figure a:focus-visible {
+  outline: 2px solid #f2f2f2;
+  outline-offset: -4px;
+}
+
+@media (max-width: 700px) {
+  .overhead-step {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .pipeline-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);

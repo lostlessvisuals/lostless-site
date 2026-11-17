@@ -12,12 +12,12 @@
   <meta property="og:title" content="Overhead — Lostless">
   <meta property="og:description" content="Overhead is the tool I built to make generative visuals and perform them live.">
   <meta property="og:url" content="https://lostless.live/overhead/">
-  <meta property="og:image" content="https://lostless.live/assets/overhead/set-performance.jpg?v=difference">
+  <meta property="og:image" content="https://lostless.live/assets/overhead/set-performance.jpg?v=performance-study">
   <meta property="og:image:width" content="1280">
   <meta property="og:image:height" content="720">
-  <meta property="og:image:alt" content="Blue and copper ribbons curling across a dark background in the False Gravity visual">
+  <meta property="og:image:alt" content="Blue and gold ribbons curling across a dark background in False Gravity">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="/css/styles.css?v=20261116b" />
+  <link rel="stylesheet" href="/css/styles.css?v=20261116c" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -47,20 +47,45 @@
     <div class="pipeline-intro-card">
       <h1 class="overhead-heading" aria-label="Overhead"><span class="overhead-canopy"><img src="/assets/overhead/overhead-mark.png" alt="" width="256" height="256"></span><span aria-hidden="true">O V E R H E A D</span></h1>
       <p class="overhead-tagline">Build with an agent.<br>Direct in real time.</p>
-      <p class="pipeline-subhead">I built Overhead to make generative visuals. I use an agent to build editable Looks, shape how they respond to music, then cue and blend them live.</p>
+      <p class="pipeline-subhead">I built Overhead to make generative visuals and direct them in real time. In this demo, I perform four visuals to one track and choose when and how to move between them.</p>
     </div>
 
     <figure class="pipeline-figure">
-      <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=difference" width="1920" height="1080" aria-label="Directing a set in Overhead" aria-describedby="performance-caption">
-        <source src="/assets/overhead/set-performance.mp4?v=difference" type="video/mp4" />
-        <a href="/assets/overhead/set-performance.mp4?v=difference">Open the Overhead performance video</a>
+      <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=performance-study" width="1920" height="1080" aria-label="Directing a set in Overhead" aria-describedby="performance-caption">
+        <source src="/assets/overhead/set-performance.mp4?v=performance-study" type="video/mp4" />
+        <a href="/assets/overhead/set-performance.mp4?v=performance-study">Open the Overhead performance video</a>
       </video>
       <figcaption class="pipeline-figcaption" id="performance-caption">
         <strong>Performance demo</strong><br />
-        I use Overhead’s Difference mode to blend between four saved Looks. The track you hear also drives the visuals.<br />
         Music by Ternion Sound, <cite>Artifice (Buunshin Remix)</cite>.
       </figcaption>
     </figure>
+
+    <section class="overhead-step" aria-labelledby="overhead-music">
+      <div>
+        <h2 id="overhead-music">Working with the track</h2>
+        <p>I use the agent to try variations, then play them against the track to decide what should react. In Signal Archive, the opening piece, the kick makes the grid pulse and the snare briefly cuts across the image.</p>
+      </div>
+      <figure class="pipeline-figure">
+        <a href="/assets/overhead/signal-archive-workspace.png" aria-label="Open the full-size Signal Archive screenshot">
+          <img src="/assets/overhead/signal-archive-workspace.png" width="1920" height="1032" loading="lazy" alt="Signal Archive’s grid of numbers in Overhead, with the performance queue on the left and live audio meters on the right">
+        </a>
+        <figcaption class="pipeline-figcaption">Signal Archive with the track’s audio meters.</figcaption>
+      </figure>
+    </section>
+
+    <section class="overhead-step" aria-labelledby="overhead-cue">
+      <div>
+        <h2 id="overhead-cue">Bringing in the next visual</h2>
+        <p>I keep finished pieces in a library so I can bring different combinations together for each set. In the demo, I cue the next visual while the current one is still running. Each change uses a two-second Difference blend. In the last one, the shape from Obscura stays visible as the blue and gold ribbons of False Gravity appear.</p>
+      </div>
+      <figure class="pipeline-figure">
+        <a href="/assets/overhead/biolume-library.png" aria-label="Open the full-size Biolume library screenshot">
+          <img src="/assets/overhead/biolume-library.png" width="1920" height="1032" loading="lazy" alt="A preview of Biolume’s branching forms beside a library of saved visuals in Overhead">
+        </a>
+        <figcaption class="pipeline-figcaption">Biolume, another piece from my visual library.</figcaption>
+      </figure>
+    </section>
   </main>
 
 </body>
