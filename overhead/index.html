@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Overhead — Lostless</title>
-  <meta name="description" content="Overhead is the tool I built to make generative visuals and perform them live.">
+  <title>Overhead — Real-time visual tools</title>
+  <meta name="description" content="Overhead gives agents tools to build real-time visuals. I use it to make effects, add controls and blend pieces live.">
   <meta name="author" content="lostless">
   <link rel="canonical" href="https://lostless.live/overhead/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="lostless">
-  <meta property="og:title" content="Overhead — Lostless">
-  <meta property="og:description" content="Overhead is the tool I built to make generative visuals and perform them live.">
+  <meta property="og:title" content="Overhead — Real-time visual tools">
+  <meta property="og:description" content="Overhead gives agents tools to build real-time visuals. I use it to make effects, add controls and blend pieces live.">
   <meta property="og:url" content="https://lostless.live/overhead/">
   <meta property="og:image" content="https://lostless.live/assets/overhead/set-performance.jpg?v=live-blends">
   <meta property="og:image:width" content="1280">
   <meta property="og:image:height" content="720">
   <meta property="og:image:alt" content="Blue and gold ribbons curling across a dark background in False Gravity">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="/css/styles.css?v=20261116c" />
+  <link rel="stylesheet" href="/css/styles.css?v=20261121-overhead-capabilities" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -46,25 +46,40 @@
   <main class="centered-section pipeline-page-shell overhead-page-shell">
     <div class="pipeline-intro-card">
       <h1 class="overhead-heading" aria-label="Overhead"><span class="overhead-canopy"><img src="/assets/overhead/overhead-mark.png" alt="" width="256" height="256"></span><span aria-hidden="true">O V E R H E A D</span></h1>
-      <p class="overhead-tagline">Build with an agent.<br>Direct in real time.</p>
-      <p class="pipeline-subhead">I built Overhead to make generative visuals and direct them in real time. In this demo, I perform four visuals to one track and choose when and how to move between them.</p>
+      <p class="overhead-tagline">A harness for agents<br>to build live visuals.</p>
+      <p class="pipeline-subhead">I use it to perform live, with effects and processes that can run on their own, respond to music or follow my cues.</p>
     </div>
 
     <figure class="pipeline-figure">
-      <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=live-blends" width="1920" height="1080" aria-label="Directing a set in Overhead" aria-describedby="performance-caption">
+      <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=live-blends" width="1920" height="1080" aria-label="Cueing and blending visuals in Overhead" aria-describedby="performance-caption">
         <source src="/assets/overhead/set-performance.mp4?v=live-blends" type="video/mp4" />
         <a href="/assets/overhead/set-performance.mp4?v=live-blends">Open the Overhead performance video</a>
       </video>
       <figcaption class="pipeline-figcaption" id="performance-caption">
-        <strong>Performance demo</strong><br />
+        <strong>Performance demo</strong><br>
         Music by Ternion Sound, <cite>Artifice (Buunshin Remix)</cite>.
       </figcaption>
     </figure>
 
+    <section class="overhead-capabilities" id="walkthrough" aria-labelledby="overhead-process">
+      <h2 id="overhead-process">Making Ion Storm</h2>
+      <p>Ion Storm is built around a field of fine indigo strands that gather into ridges and drift apart. I had the agent link the field’s speed to the bass and build the lightning as a separate layer.</p>
+      <p>The kick triggers a new bolt and the snare lights up the edges. Around 13 seconds in, you can still see the strands moving behind the strike.</p>
+      <figure class="pipeline-figure">
+        <video controls playsinline preload="none" poster="/assets/overhead/ion-storm.jpg" width="1280" height="720" aria-label="Making Ion Storm in Overhead" aria-describedby="walkthrough-caption">
+          <source src="/assets/overhead/ion-storm-walkthrough.mp4?v=single-take" type="video/mp4">
+          <track kind="captions" src="/assets/overhead/ion-storm-walkthrough.vtt?v=single-take" srclang="en" label="English">
+          <a href="/assets/overhead/ion-storm-walkthrough.mp4?v=single-take">Open the Ion Storm walkthrough</a>
+        </video>
+        <figcaption class="pipeline-figcaption" id="walkthrough-caption">Music by Cece Natalie, <cite>Like a taxi (Oh well)</cite>.</figcaption>
+      </figure>
+      <p><a class="highlight-card-link" href="/articles/overhead/">Read how I made Ion Storm</a></p>
+    </section>
+
     <section class="overhead-step" aria-labelledby="overhead-music">
       <div>
         <h2 id="overhead-music">Working with the track</h2>
-        <p>I use the agent to try variations, then play them against the track to decide what should react. In Signal Archive, the opening piece, the kick makes the grid pulse and the snare briefly cuts across the image.</p>
+        <p>I try a visual against a track and adjust how it reacts. Signal Archive combines a moving camera with details that respond to the drums.</p>
       </div>
       <figure class="pipeline-figure">
         <a href="/assets/overhead/signal-archive-workspace.png" aria-label="Open the full-size Signal Archive screenshot">
@@ -76,8 +91,8 @@
 
     <section class="overhead-step" aria-labelledby="overhead-cue">
       <div>
-        <h2 id="overhead-cue">Bringing in the next visual</h2>
-        <p>I keep finished pieces in a library so I can bring different combinations together for each set. In the demo, I cue the next visual while the current one is still running. Each change uses a two-second Difference blend, with both visuals moving through the overlap.</p>
+        <h2 id="overhead-cue">Cueing the next visual</h2>
+        <p>I save the pieces I want to perform. When I cue one, I can choose how it blends with the visual that’s already running.</p>
       </div>
       <figure class="pipeline-figure">
         <a href="/assets/overhead/biolume-library.png" aria-label="Open the full-size Biolume library screenshot">
@@ -86,6 +101,37 @@
         <figcaption class="pipeline-figcaption">Biolume, another piece from my visual library.</figcaption>
       </figure>
     </section>
+
+    <section class="overhead-capabilities" id="capabilities" aria-labelledby="overhead-internals">
+      <h2 id="overhead-internals">Inside Overhead</h2>
+      <dl>
+        <div>
+          <dt>Agent authoring</dt>
+          <dd>An agent can write and revise HLSL shaders from the Agent Terminal. Custom effects can expose their own controls and be saved as reusable modules. Shaders reload in place, and a failed compile leaves the last working shader active.</dd>
+        </div>
+        <div>
+          <dt>Rendering and compositing</dt>
+          <dd>The Direct3D 11 renderer mixes stills, video and live camera feeds with generated imagery. It can composite masks, run particle or fluid simulations and feed earlier frames back in for trails and warps. An optional SDXL Turbo pipeline can restyle incoming frames, with depth guidance on compatible model bundles.</dd>
+        </div>
+        <div>
+          <dt>Audio analysis</dt>
+          <dd>Overhead can listen to a track, an audio interface or the system output. Frequency bands and loudness envelopes can drive motion or light continuously. Separate kick, snare and high-percussion signals can trigger individual events.</dd>
+        </div>
+        <div>
+          <dt>Controls and timing</dt>
+          <dd>I can map MIDI knobs and local OSC messages to parameters, or drive them internally with oscillators, expressions and timeline keyframes. The timeline can follow MIDI clock or MTC/LTC timecode.</dd>
+        </div>
+        <div>
+          <dt>Visual library and sets</dt>
+          <dd>I save visuals with their effect settings and find them again by tag, favorite or orientation. In a set I can cue each piece by hand or let the queue advance on a timer or a drum hit. Transitions include cut, dissolve, luma, screen and difference.</dd>
+        </div>
+        <div>
+          <dt>Output and recording</dt>
+          <dd>I can send the final image to a second display in fullscreen. Spout shares video with other apps and optional NDI sends and receives video on the local network. I can record H.264 with AAC audio or HAP Alpha with PCM audio when I need transparency.</dd>
+        </div>
+      </dl>
+    </section>
+
   </main>
 
 </body>

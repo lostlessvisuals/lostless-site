@@ -4,21 +4,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>lostless highlights - featured ai, vfx and real-time work</title>
-  <meta name="description" content="selected reels, featured AI and VFX projects, TouchDesigner work and live visuals by lostless.">
+  <title>lostless highlights - music, performance and visual systems</title>
+  <meta name="description" content="AI visuals and live performance work by lostless.">
   <meta name="author" content="lostless">
   <link rel="canonical" href="https://lostless.live/highlights/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="lostless">
-  <meta property="og:title" content="lostless highlights - featured ai, vfx and real-time work">
-  <meta property="og:description" content="selected reels, featured AI and VFX projects, TouchDesigner work and live visuals by lostless.">
+  <meta property="og:title" content="lostless highlights - music, performance and visual systems">
+  <meta property="og:description" content="AI visuals and live performance work by lostless.">
   <meta property="og:url" content="https://lostless.live/highlights/">
   <meta property="og:image" content="https://lostless.live/assets/meta/preview.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="lostless highlights - featured ai, vfx and real-time work">
-  <meta name="twitter:description" content="selected reels, featured AI and VFX projects, TouchDesigner work and live visuals by lostless.">
+  <meta name="twitter:title" content="lostless highlights - music, performance and visual systems">
+  <meta name="twitter:description" content="AI visuals and live performance work by lostless.">
   <meta name="twitter:image" content="https://lostless.live/assets/meta/preview.jpg">
   <script type="application/ld+json">
   {
@@ -26,10 +26,10 @@
     "@type": "CollectionPage",
     "name": "lostless highlights",
     "url": "https://lostless.live/highlights/",
-    "description": "Selected reels, featured AI and VFX projects, TouchDesigner work and live visuals by lostless."
+    "description": "AI visuals and live performance work by lostless."
   }
   </script>
-  <link rel="stylesheet" href="/css/styles.css?v=20261109a" />
+  <link rel="stylesheet" href="/css/styles.css?v=20261120-review" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -47,7 +47,7 @@
       </a>
       <ul>
         <li><a href="/">work</a></li>
-        <li><a href="/highlights/" class="active">highlights</a></li>
+        <li><a href="/highlights/" class="active" aria-current="page">highlights</a></li>
         <li><a href="/overhead/">overhead</a></li>
         <li><a href="/articles/">articles</a></li>
         <li><a href="/about/">about</a></li>
@@ -57,17 +57,17 @@
 
   <main class="centered-section highlights-shell">
     <section class="highlights-intro">
-      <p class="highlights-kicker">selected reels + featured work</p>
+      <p class="highlights-kicker">music + performance</p>
       <h1>highlights</h1>
-      <p>Selected reels, live visuals and featured AI/VFX work.</p>
+      <p>AI visuals and live performance.</p>
     </section>
 
-    <section class="highlights-grid">
-      <article class="highlight-card highlight-card-featured">
+    <section class="highlights-grid" aria-label="Selected visual work">
+      <article class="highlight-card highlight-card-featured" id="ai-reel">
         <div class="highlight-card-copy">
           <p class="highlight-card-kicker">ai reel</p>
-          <h2>2026 reel</h2>
-          <p>Surreal AI visuals across live performance, music videos and film.</p>
+          <h2>AI reel</h2>
+          <p>A selection of my AI visual work.</p>
           <a class="highlight-card-link" href="https://www.youtube.com/watch?v=sF_8TQ9QIZ4" target="_blank" rel="noopener noreferrer">watch on youtube</a>
         </div>
         <div class="video-link">
@@ -77,20 +77,7 @@
         </div>
       </article>
 
-      <article class="highlight-card">
-        <div class="highlight-card-copy">
-          <p class="highlight-card-kicker">featured project</p>
-          <h2>wizard of oz at sphere</h2>
-          <p>CBS Sunday Morning featured this project. I contributed to the broader production effort and it is a good example of the kind of production-facing AI/VFX workflow work I help support.</p>
-          <a class="highlight-card-link" href="https://www.youtube.com/watch?v=0gpwcaNyIrY" target="_blank" rel="noopener noreferrer">watch on youtube</a>
-        </div>
-        <div class="video-link">
-          <iframe src="https://www.youtube.com/embed/0gpwcaNyIrY" title="CBS Sunday Morning feature on Wizard of Oz at Sphere" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          <noscript><a href="https://www.youtube.com/watch?v=0gpwcaNyIrY" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></noscript>
-        </div>
-      </article>
-
-      <article class="highlight-card">
+      <article class="highlight-card" id="live-performance">
         <div class="highlight-card-copy">
           <p class="highlight-card-kicker">live visuals</p>
           <h2>live performance showcase</h2>
@@ -102,17 +89,19 @@
           <noscript><a href="https://www.youtube.com/watch?v=8xX1yvvVVNE" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></noscript>
         </div>
       </article>
+    </section>
 
+    <section class="highlights-grid highlights-grid--credits" id="earlier-work" aria-label="Earlier work" style="margin-top: 1.25rem">
       <article class="highlight-card">
         <div class="highlight-card-copy">
-          <p class="highlight-card-kicker">touchdesigner</p>
-          <h2>touchdesigner reel</h2>
-          <p>System-based motion, generative scenes and real-time visual structures built specifically through TouchDesigner.</p>
-          <a class="highlight-card-link" href="https://www.youtube.com/watch?v=FmUmwU6VAus" target="_blank" rel="noopener noreferrer">watch on youtube</a>
+          <p class="highlight-card-kicker">featured project</p>
+          <h2>wizard of oz at sphere</h2>
+          <p>I contributed to the broader production of The Wizard of Oz at Sphere Las Vegas. This CBS feature gives some context for the project.</p>
+          <a class="highlight-card-link" href="https://www.youtube.com/watch?v=0gpwcaNyIrY" target="_blank" rel="noopener noreferrer">watch on youtube</a>
         </div>
         <div class="video-link">
-          <iframe src="https://www.youtube.com/embed/FmUmwU6VAus" title="TouchDesigner Reel" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          <noscript><a href="https://www.youtube.com/watch?v=FmUmwU6VAus" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></noscript>
+          <iframe src="https://www.youtube.com/embed/0gpwcaNyIrY" title="CBS Sunday Morning feature on Wizard of Oz at Sphere" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <noscript><a href="https://www.youtube.com/watch?v=0gpwcaNyIrY" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></noscript>
         </div>
       </article>
 
@@ -126,6 +115,19 @@
         <div class="video-link">
           <iframe src="https://www.youtube.com/embed/kRWGWl6brkA" title="Emergence" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           <noscript><a href="https://www.youtube.com/watch?v=kRWGWl6brkA" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></noscript>
+        </div>
+      </article>
+    </section>
+
+    <section class="highlights-grid" aria-label="Google Cloud Next project" style="margin-top: 1.25rem">
+      <article class="highlight-card highlight-card-featured" id="cloud-next-26">
+        <div class="highlight-card-copy">
+          <p class="highlight-card-kicker">featured project</p>
+          <h2>google cloud next ’26 opener</h2>
+          <p>I created AI visuals for the keynote opener, set to Weezer’s <cite>In the Garage</cite>. I made stills with Nano Banana 2 and used Veo 3.1 to generate motion between start and end frames.</p>
+        </div>
+        <div class="video-link">
+          <iframe src="https://www.youtube.com/embed/A01DQ8_xy7Q?start=8&amp;end=121&amp;playsinline=1&amp;rel=0" title="Google Cloud Next ’26 Developer Keynote opening film" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
       </article>
     </section>
