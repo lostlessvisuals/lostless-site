@@ -170,13 +170,14 @@ test('blocked mobile autoplay recovers on a page touch without any overlay butto
   assert.equal(f.video.getAttribute('aria-label'), 'Sample clip');
 });
 
-test('video error keeps native surface hidden and Retry reloads existing sources', async () => {
+test('video error keeps the native poster visible and Retry reloads existing sources', async () => {
   const f = fixture();
   f.near.enter(); f.onscreen();
   f.video.emit('error');
   assert.equal(f.button, undefined);
   assert.equal(f.video.getAttribute('aria-label'), 'Retry: Sample clip');
-  assert.equal(f.video.classList.contains('is-loaded'), false);
+  assert.equal(f.video.getAttribute('poster'), '/poster.jpg');
+  assert.equal(f.video.classList.contains('is-loaded'), true);
   f.video.emit('keydown', { key: 'Enter' });
   assert.equal(f.video.loads, 2);
   assert.equal(f.attempts.length, 1);
@@ -243,7 +244,7 @@ test('normal loading, playback, and offscreen pausing never show controls', asyn
   assert.equal(f.video.getAttribute('role'), null);
 });
 
-test('reduced motion waits for a gesture, which can start play before data arrives', async () => {
+test('reduced motion shows the native poster and defers video until a gesture', async () => {
   const f = fixture({ reducedMotion: true, coarse: true });
   f.onscreen(); f.near.enter(); f.visible.enter();
   assert.equal(f.attempts.length, 0);
@@ -251,11 +252,15 @@ test('reduced motion waits for a gesture, which can start play before data arriv
   assert.equal(f.video.getAttribute('role'), 'button');
   assert.equal(f.video.autoplay, false);
   assert.equal(f.video.loop, false);
-  assert.equal(f.video.children[0].type, 'video/mp4');
+  assert.equal(f.video.getAttribute('poster'), '/poster.jpg');
+  assert.equal(f.video.classList.contains('is-loaded'), true);
+  assert.equal(f.video.loads, 0);
+  assert.ok(f.video.children.every(source => !source.src));
   f.document.emit('touchend');
   assert.equal(f.attempts.length, 0, 'page gestures must respect reduced motion');
   f.video.emit('click');
   assert.equal(f.attempts.length, 1);
+  assert.equal(f.video.children[0].type, 'video/mp4');
   f.ready(); f.attempts[0].resolve(); await settle();
   assert.equal(f.video.getAttribute('role'), null);
   f.video.paused = true; f.video.emit('ended'); f.visible.enter();
@@ -263,18 +268,20 @@ test('reduced motion waits for a gesture, which can start play before data arriv
   assert.equal(f.video.getAttribute('role'), 'button');
 });
 
-test('video cards stay black without a still-image layer until a decoded frame is ready', () => {
+test('video cards lazy-load the native poster without a separate image layer', () => {
   const f = fixture();
+  assert.equal(f.video.getAttribute('poster'), null, 'offscreen cards stay lazy');
+  assert.equal(f.video.classList.contains('is-loaded'), false);
   f.onscreen(); f.visible.enter();
   assert.equal(f.poster, undefined, 'a still-image overlay must not show underneath the video');
-  assert.equal(f.video.getAttribute('poster'), null);
-  assert.equal(f.video.classList.contains('is-loaded'), false);
+  assert.equal(f.video.getAttribute('poster'), '/poster.jpg');
+  assert.equal(f.video.classList.contains('is-loaded'), true);
   f.video.readyState = 1; f.video.emit('canplay');
-  assert.equal(f.video.classList.contains('is-loaded'), false);
+  assert.equal(f.video.classList.contains('is-loaded'), true);
   f.ready();
   assert.equal(f.video.classList.contains('is-loaded'), true);
   f.video.emit('error');
-  assert.equal(f.video.classList.contains('is-loaded'), false);
+  assert.equal(f.video.classList.contains('is-loaded'), true);
   assert.equal(f.video.getAttribute('aria-label'), 'Retry: Sample clip');
 });
 

@@ -38,11 +38,19 @@
     finishReveal();
   };
 
+  const loadVideoPoster = (video) => {
+    if (!video.getAttribute('poster') && video.dataset.poster) {
+      video.setAttribute('poster', video.dataset.poster);
+    }
+    if (video.getAttribute('poster')) video.classList.add(loadedClass);
+  };
+
   const loadVideoSources = (video) => {
     if (!video || video.dataset[videoLoadedFlag] === 'true') {
       return;
     }
 
+    loadVideoPoster(video);
     const sources = [...video.querySelectorAll('source[data-src]')];
     // H.264 MP4 is the dependable choice on mobile Safari and older phones.
     // Keep WebM first on computers because it is substantially lighter there.
@@ -163,7 +171,7 @@
         state.pending = null;
         if (error.name === 'NotSupportedError') {
           state.failed = true;
-          video.classList.remove(loadedClass);
+          if (!video.getAttribute('poster')) video.classList.remove(loadedClass);
         }
         // A load/visibility interruption is not an autoplay-policy denial.
         if (error.name === 'NotAllowedError' && isVisible(video)) state.blocked = true;
@@ -205,8 +213,7 @@
       failedSources: new Set() };
     videoStates.set(video, state);
 
-    // Keep the card black until a decoded video frame is available. A separate
-    // poster underneath the video would blend with it during the first reveal.
+    // The native poster and the decoded video share the same surface.
     video.classList.add(fadeClass, boundClass);
     video.defaultMuted = true;
     video.muted = true;
@@ -245,7 +252,7 @@
     const failed = () => {
       if (!state.loadingStarted || video.dataset[videoLoadedFlag] !== 'true') return;
       state.failed = true;
-      video.classList.remove(loadedClass);
+      if (!video.getAttribute('poster')) video.classList.remove(loadedClass);
       stopVideo(video, state);
     };
     video.addEventListener('error', failed);
@@ -293,7 +300,8 @@
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        loadVideoSources(entry.target);
+        if (prefersReducedMotion) loadVideoPoster(entry.target);
+        else loadVideoSources(entry.target);
         loadObserver.unobserve(entry.target);
       });
     },

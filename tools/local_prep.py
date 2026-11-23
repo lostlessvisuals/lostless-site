@@ -21,8 +21,14 @@ import argparse, os, re, shutil, subprocess, sys, time
 from pathlib import Path
 from typing import List, Dict, Optional
 
-from PIL import Image
+from PIL import Image, UnidentifiedImageError
 from bs4 import BeautifulSoup
+
+# Match the gallery's 2/4 columns, 1rem padding/gaps and 1600px content cap.
+GALLERY_SIZES = (
+    "(max-width: 1024px) calc(50vw - 1.5rem), "
+    "min(calc(25vw - 1.25rem), calc(400px - 0.75rem))"
+)
 
 # ---------------- Utilities ----------------
 
@@ -245,39 +251,50 @@ def gather_generated(images_dir: Path, base: str) -> Dict[str,List[Path]]:
     return out
 
 def build_srcset(paths: List[Path], html_dir: Path) -> str:
-    parts = []
-    for p in sorted(paths, key=lambda x: x.name):
-        m = re.search(r"-(\d+)\.(?:webp|avif|jpe?g|png)$", p.name)
-        width = (m.group(1) + "w") if m else ""
-        parts.append(f"{relpath(p, html_dir)} {width}".strip())
-    return ", ".join(parts)
+    by_width = {}
+    for path in sorted(paths):
+        try:
+            with Image.open(path) as image:
+                width = image.width
+        except UnidentifiedImageError:
+            if path.suffix.lower() != ".avif":
+                raise
+            width = int(run([
+                "ffprobe", "-v", "error", "-select_streams", "v:0",
+                "-show_entries", "stream=width", "-of", "default=nw=1:nk=1", str(path),
+            ]).stdout)
+        by_width.setdefault(width, path)
+    return ", ".join(f"{relpath(path, html_dir)} {width}w" for width, path in sorted(by_width.items()))
 
-def pick_fallback(bundles: Dict[str,List[Path]], target_w: int, html_dir: Path, default_src: str) -> str:
+def pick_fallback(bundles: Dict[str,List[Path]], target_w: int, html_dir: Path, default_src: str,
+                  webp_srcset: str) -> tuple[str, str]:
     if not bundles["fallback"]:
-        return default_src
+        return default_src, webp_srcset if Path(default_src).suffix.lower() == ".webp" else ""
     pick = None
     for p in bundles["fallback"]:
         m = re.search(r"-(\d+)\.", p.name)
         if m and int(m.group(1)) == target_w:
             pick = p; break
     if not pick: pick = bundles["fallback"][0]
-    return relpath(pick, html_dir)
+    return relpath(pick, html_dir), build_srcset(bundles["fallback"], html_dir)
 
-def wrap_img_to_picture(soup, img, avif_srcset, webp_srcset, fallback_src, sizes_val):
+def wrap_img_to_picture(soup, img, avif_srcset, webp_srcset, fallback_src, fallback_srcset, sizes_val):
     picture = soup.new_tag("picture")
     attrs = {k:v for k,v in img.attrs.items() if k not in ("src","srcset","sizes")}
     s1 = soup.new_tag("source", **{"type":"image/avif"}); s1["srcset"] = avif_srcset
     s2 = soup.new_tag("source", **{"type":"image/webp"}); s2["srcset"] = webp_srcset
+    s1["sizes"] = s2["sizes"] = sizes_val
     new_img = soup.new_tag("img", **attrs)
     new_img["src"] = fallback_src
-    new_img["srcset"] = webp_srcset
+    if fallback_srcset:
+        new_img["srcset"] = fallback_srcset
     new_img["sizes"] = sizes_val
     if "loading" not in new_img.attrs: new_img["loading"] = "lazy"
     if "decoding" not in new_img.attrs: new_img["decoding"] = "async"
     picture.append(s1); picture.append(s2); picture.append(new_img)
     img.replace_with(picture)
 
-def update_picture_block(soup, picture, avif_srcset, webp_srcset, fallback_src, sizes_val):
+def update_picture_block(soup, picture, avif_srcset, webp_srcset, fallback_src, fallback_srcset, sizes_val):
     s_avif = None; s_webp = None
     for s in picture.find_all("source"):
         if s.get("type") == "image/avif": s_avif = s
@@ -290,8 +307,13 @@ def update_picture_block(soup, picture, avif_srcset, webp_srcset, fallback_src, 
         s_webp = soup.new_tag("source", **{"type":"image/webp"})
         picture.insert(1, s_webp)
     s_webp["srcset"] = webp_srcset
+    s_avif["sizes"] = s_webp["sizes"] = sizes_val
     img = picture.find("img") or soup.new_tag("img")
     img["src"] = fallback_src
+    if fallback_srcset:
+        img["srcset"] = fallback_srcset
+    else:
+        img.attrs.pop("srcset", None)
     img["sizes"] = sizes_val
     if "loading" not in img.attrs: img["loading"] = "lazy"
     if "decoding" not in img.attrs: img["decoding"] = "async"
@@ -313,13 +335,13 @@ def process_html_images(html_file: Path, images_dir: Path, sizes_val: str, width
 
         avif_srcset = build_srcset(bundles["avif"], html_dir)
         webp_srcset = build_srcset(bundles["webp"], html_dir)
-        fallback_src = pick_fallback(bundles, target_w=800, html_dir=html_dir, default_src=src)
+        fallback_src, fallback_srcset = pick_fallback(bundles, 800, html_dir, src, webp_srcset)
         sizes_attr = img.get("sizes") or sizes_val
 
         if dry:
             log(f"[DRY] Would wrap <img src='{src}'> into <picture>")
         else:
-            wrap_img_to_picture(soup, img, avif_srcset, webp_srcset, fallback_src, sizes_attr)
+            wrap_img_to_picture(soup, img, avif_srcset, webp_srcset, fallback_src, fallback_srcset, sizes_attr)
             changed = True
 
     # Pass 2: existing <picture>
@@ -334,13 +356,13 @@ def process_html_images(html_file: Path, images_dir: Path, sizes_val: str, width
 
         avif_srcset = build_srcset(bundles["avif"], html_dir)
         webp_srcset = build_srcset(bundles["webp"], html_dir)
-        fallback_src = pick_fallback(bundles, target_w=800, html_dir=html_dir, default_src=src)
+        fallback_src, fallback_srcset = pick_fallback(bundles, 800, html_dir, src, webp_srcset)
         sizes_attr = img.get("sizes") or sizes_val
 
         if dry:
             log(f"[DRY] Would update <picture> for base '{base}'")
         else:
-            update_picture_block(soup, picture, avif_srcset, webp_srcset, fallback_src, sizes_attr)
+            update_picture_block(soup, picture, avif_srcset, webp_srcset, fallback_src, fallback_srcset, sizes_attr)
             changed = True
 
     if changed and not dry:
@@ -405,7 +427,7 @@ def main():
     p.add_argument("--images-dir", default="assets/images", help="Directory of images")
     p.add_argument("--media-dir", default="assets/media", help="Directory of videos")
     p.add_argument("--widths", nargs="+", type=int, default=[480,800,1080], help="Widths for responsive images")
-    p.add_argument("--sizes", default="(min-width:1200px) 33vw, (min-width:768px) 50vw, 100vw", help="sizes= attribute value")
+    p.add_argument("--sizes", default=GALLERY_SIZES, help="sizes= attribute value")
     p.add_argument("--only-images", action="store_true", help="Process only images (+ HTML).")
     p.add_argument("--only-videos", action="store_true", help="Process only videos (+ HTML).")
     p.add_argument("--force-images", action="store_true", help="Force-regenerate image variants even if up-to-date.")
