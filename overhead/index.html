@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="720">
   <meta property="og:image:alt" content="Blue and gold ribbons curling across a dark background in False Gravity">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="/css/styles.css?v=20261121-overhead-capabilities" />
+  <link rel="stylesheet" href="/css/styles.css?v=20261122-arrival" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -44,22 +44,25 @@
   </header>
 
   <main class="centered-section pipeline-page-shell overhead-page-shell">
-    <div class="pipeline-intro-card">
+    <div class="pipeline-intro-card page-arrival">
       <h1 class="overhead-heading" aria-label="Overhead"><span class="overhead-canopy"><img src="/assets/overhead/overhead-mark.png" alt="" width="256" height="256"></span><span aria-hidden="true">O V E R H E A D</span></h1>
       <p class="overhead-tagline">A harness for agents<br>to build live visuals.</p>
       <p class="pipeline-subhead">Overhead is a visual instrument. I use it to perform live, with effects and processes that can run on their own, respond to music or follow my cues.</p>
     </div>
 
-    <figure class="pipeline-figure">
-      <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=live-blends" width="1920" height="1080" aria-label="Cueing and blending visuals in Overhead" aria-describedby="performance-caption">
-        <source src="/assets/overhead/set-performance.mp4?v=live-blends" type="video/mp4" />
-        <a href="/assets/overhead/set-performance.mp4?v=live-blends">Open the Overhead performance video</a>
-      </video>
-      <figcaption class="pipeline-figcaption" id="performance-caption">
-        <strong>Performance demo</strong><br>
-        Music by Ternion Sound, <cite>Artifice (Buunshin Remix)</cite>.
-      </figcaption>
-    </figure>
+    <section class="overhead-step page-arrival" id="performance" aria-labelledby="overhead-performance">
+      <div>
+        <h2 id="overhead-performance">Performance demo</h2>
+        <p>I cue the next visual while the current one is still running. Both keep moving through the transition.</p>
+      </div>
+      <figure class="pipeline-figure">
+        <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=live-blends" width="1920" height="1080" aria-label="Cueing and blending visuals in Overhead" aria-describedby="performance-caption">
+          <source src="/assets/overhead/set-performance.mp4?v=live-blends" type="video/mp4" />
+          <a href="/assets/overhead/set-performance.mp4?v=live-blends">Open the Overhead performance video</a>
+        </video>
+        <figcaption class="pipeline-figcaption" id="performance-caption">Music by Ternion Sound, <cite>Artifice (Buunshin Remix)</cite>.</figcaption>
+      </figure>
+    </section>
 
     <section class="overhead-capabilities" id="walkthrough" aria-labelledby="overhead-process">
       <h2 id="overhead-process">Making Ion Storm</h2>
@@ -92,13 +95,13 @@
     <section class="overhead-step" aria-labelledby="overhead-cue">
       <div>
         <h2 id="overhead-cue">Cueing the next visual</h2>
-        <p>I save the pieces I want to perform. When I cue one, I can choose how it blends with the visual that’s already running.</p>
+        <p>The Sets panel shows what’s playing and what’s queued. I can set the blend and its timing before I switch.</p>
       </div>
       <figure class="pipeline-figure">
-        <a href="/assets/overhead/biolume-library.png" aria-label="Open the full-size Biolume library screenshot">
-          <img src="/assets/overhead/biolume-library.png" width="1920" height="1032" loading="lazy" alt="A preview of Biolume’s branching forms beside a library of saved visuals in Overhead">
+        <a href="/assets/overhead/ruby-chambers-sets.webp" aria-label="Open the full-size Ruby Chambers screenshot">
+          <img src="/assets/overhead/ruby-chambers-sets.webp" width="1920" height="1032" loading="lazy" alt="Nested red diamond shapes in Overhead’s preview, with the set queue on the left and drum meters on the right">
         </a>
-        <figcaption class="pipeline-figcaption">Biolume, another piece from my visual library.</figcaption>
+        <figcaption class="pipeline-figcaption">Ruby Chambers playing with Eye Tunnel queued next.</figcaption>
       </figure>
     </section>
 
