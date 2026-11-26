@@ -1183,11 +1183,52 @@ video[data-playback-toggle][role="button"] {
 .home-intro {
   max-width: 1070px;
   margin: 0 auto;
-  padding: clamp(1.35rem, 3vw, 2.75rem) 1rem;
+  padding: 1rem 1rem clamp(1.35rem, 3vw, 2.75rem);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.38fr);
-  gap: clamp(1.25rem, 4vw, 3rem);
+  gap: clamp(0.9rem, 2vw, 1.4rem) clamp(1.25rem, 4vw, 3rem);
   align-items: center;
+}
+
+.home-intro-mark {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
+
+.home-intro-mark img {
+  display: block;
+  width: min(160px, 45vw);
+  height: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes hero-logo-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(28px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes hero-visual-reveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  html.js .homepage .home-intro-mark img.is-loaded {
+    animation: hero-logo-reveal 1800ms cubic-bezier(0.18, 0.8, 0.22, 1) 180ms both;
+  }
+
+  html.js .homepage .home-intro-visual.is-loaded {
+    animation: hero-visual-reveal 1800ms ease-in-out 180ms backwards;
+  }
+
+  html.js .homepage .home-intro-visual:focus-within {
+    opacity: 1 !important;
+  }
 }
 
 .home-intro-visual {

@@ -23,6 +23,17 @@
     });
   };
 
+  const whenImageReady = (image, reveal) => {
+    if (typeof image.decode === 'function') {
+      image.decode().then(reveal, reveal);
+    } else if (image.complete) {
+      reveal();
+    } else {
+      image.addEventListener('load', reveal, { once: true });
+      image.addEventListener('error', reveal, { once: true });
+    }
+  };
+
   const loadVideoPoster = (video) => {
     if (!video.getAttribute('poster') && video.dataset.poster) {
       video.setAttribute('poster', video.dataset.poster);
@@ -64,6 +75,12 @@
       return;
     }
 
+    if (img.dataset.heroReveal === 'true') {
+      img.classList.add(boundClass);
+      whenImageReady(img, () => revealOnNextPaint(img));
+      return;
+    }
+
     img.classList.add(fadeClass, boundClass);
 
     if (!img.hasAttribute('loading')) {
@@ -95,6 +112,7 @@
 
   const wantsPlayback = (video, state) => isVisible(video) &&
     state.intent !== 'pause' && !state.blocked && !state.failed &&
+    (!state.waitingForReveal || state.intent === 'play') &&
     (!prefersReducedMotion || state.intent === 'play');
 
   const updatePlaybackAction = (video, state) => {
@@ -185,8 +203,11 @@
     const control = sibling?.hasAttribute('data-video-playback-control') ? sibling : null;
     const togglePlayback = Boolean(control) || video.hasAttribute('data-playback-toggle');
     if (!togglePlayback && !video.closest('.gallery-item')) return;
+    const parent = video.parentElement;
+    const revealVisual = !prefersReducedMotion && parent?.hasAttribute('data-video-reveal');
     const state = { label: video.getAttribute('aria-label') || 'portfolio video',
       intent: 'auto', blocked: false, failed: false, togglePlayback, control,
+      waitingForReveal: revealVisual,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
@@ -280,6 +301,21 @@
     if (video.readyState >= 2) ready();
     loadObserver.observe(video);
     playbackObserver.observe(video);
+    if (revealVisual) {
+      const reveal = () => {
+        parent.classList.add(loadedClass);
+        state.waitingForReveal = false;
+        syncVideo(video);
+      };
+      // Start at the beginning when the still is ready, even on a slow connection.
+      if (video.poster) {
+        const poster = new Image();
+        poster.src = video.poster;
+        whenImageReady(poster, reveal);
+      } else {
+        reveal();
+      }
+    }
   };
 
   const loadObserver = new IntersectionObserver(
@@ -306,8 +342,11 @@
 
   // Some mobile settings require a real gesture even for muted media. A normal
   // page interaction can unlock visible clips without a separate Play button.
-  const recoverBlockedPlayback = () => {
-    if (prefersReducedMotion) return;
+  const recoverBlockedPlayback = (event) => {
+    // An explicit Play tap owns its gesture. Retrying on touchend would make
+    // the following click look like a request to pause that same video.
+    const explicitControl = event.target?.closest?.('[data-video-playback-control], video[data-playback-toggle]');
+    if (prefersReducedMotion || explicitControl) return;
     videoStates.forEach((state, video) => {
       if (!state.blocked || state.failed || !isVisible(video)) return;
       state.blocked = false;
@@ -317,7 +356,7 @@
   document.addEventListener('touchend', recoverBlockedPlayback, { passive: true });
   document.addEventListener('click', recoverBlockedPlayback);
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') recoverBlockedPlayback();
+    if (event.key === 'Enter' || event.key === ' ') recoverBlockedPlayback(event);
   });
 
   const registerMedia = (node) => {

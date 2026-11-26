@@ -54,6 +54,7 @@
    }
 
    .site-logo img,
+   .home-intro-mark img,
    .gallery-item img,
    .gallery-item video {
     display: block;
@@ -62,6 +63,13 @@
    .site-logo img,
    .gallery-item img {
     color: transparent;
+   }
+
+   @media (prefers-reduced-motion: no-preference) {
+    html.js .homepage .home-intro-mark img:not(.is-loaded),
+    html.js .homepage .home-intro-visual:not(.is-loaded):not(:focus-within) {
+     opacity: 0;
+    }
    }
 
    @media (prefers-reduced-motion: reduce) {
@@ -73,7 +81,7 @@
     }
    }
   </style>
-  <link href="/css/styles.css?v=20261126-false-gravity" rel="stylesheet">
+  <link href="/css/styles.css?v=20261126-hero-reveal" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -121,11 +129,14 @@
   </header>
   <main>
    <section aria-labelledby="homepage-title" class="home-intro">
+    <div class="home-intro-mark">
+     <img alt="Lostless" data-hero-reveal="true" decoding="async" fetchpriority="high" height="512" src="/assets/meta/logo-big.png" width="512">
+    </div>
     <div class="home-intro-copy">
      <h1 id="homepage-title">I build visuals and tools for live music and installations.</h1>
      <a href="/overhead/#performance">See Overhead in action</a>
     </div>
-    <div class="home-intro-visual">
+    <div class="home-intro-visual" data-video-reveal>
      <video id="home-intro-animation" aria-label="Surrealism in motion over the blue and gold ribbons of False Gravity" data-playback-toggle width="960" height="540" loop muted playsinline poster="/assets/media/false-gravity-hero.jpg" preload="none">
       <source data-src="/assets/media/false-gravity-hero.webm" type="video/webm">
       <source data-src="/assets/media/false-gravity-hero.mp4" type="video/mp4">
@@ -975,7 +986,7 @@
     </div>
   </section>
  </main>
-  <script defer src="/assets/js/homepage-media.js?v=20261126-false-gravity"></script>
+  <script defer src="/assets/js/homepage-media.js?v=20261126-hero-reveal"></script>
   <script>
    document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.gallery-item').forEach(item => {
