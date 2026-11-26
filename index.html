@@ -43,21 +43,9 @@
    }
 
    .site-logo,
-   .home-intro-mark,
    .gallery-item,
    .gallery-item picture {
     line-height: 0;
-   }
-
-   .home-intro-mark {
-    display: flex;
-    justify-content: center;
-   }
-
-   .home-intro-mark img {
-    max-width: 160px;
-    width: min(100%, 160px);
-    height: auto;
    }
 
    html.js .homepage .lazy-fade,
@@ -65,27 +53,18 @@
     opacity: 0;
    }
 
-   html.js body.homepage .home-intro-mark .hero-logo {
-    opacity: 0;
-    transform: translate3d(0, 28px, 0) scale(0.985);
-    will-change: transform, opacity;
-   }
-
    .site-logo img,
-   .home-intro-mark img,
    .gallery-item img,
    .gallery-item video {
     display: block;
    }
 
    .site-logo img,
-   .home-intro-mark img,
    .gallery-item img {
     color: transparent;
    }
 
    @media (prefers-reduced-motion: reduce) {
-    html.js body.homepage .home-intro-mark .hero-logo,
     html.js .homepage .lazy-fade {
      opacity: 1;
      transform: none;
@@ -94,14 +73,14 @@
     }
    }
   </style>
-  <link href="/css/styles.css?v=20261126-cinder-fold" rel="stylesheet">
+  <link href="/css/styles.css?v=20261126-false-gravity" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.webmanifest">
-  <link as="image" href="/assets/meta/logo-big.png" rel="preload">
+  <link as="image" href="/assets/media/false-gravity-hero.jpg" rel="preload">
   <script data-domain="lostless.live" defer src="https://plausible.io/js/script.js">
   </script>
  </head>
@@ -142,12 +121,16 @@
   </header>
   <main>
    <section aria-labelledby="homepage-title" class="home-intro">
-    <div class="home-intro-mark">
-     <img alt="lostless large logo" class="hero-logo" data-hero-reveal="true" decoding="async" fetchpriority="high" height="512" src="/assets/meta/logo-big.png" width="512">
-    </div>
     <div class="home-intro-copy">
      <h1 id="homepage-title">I build visuals and tools for live music and installations.</h1>
-     <a href="/overhead/">Check out Overhead</a>
+     <a href="/overhead/#performance">See Overhead in action</a>
+    </div>
+    <div class="home-intro-visual">
+     <video id="home-intro-animation" aria-label="Surrealism in motion over the blue and gold ribbons of False Gravity" data-playback-toggle width="960" height="540" loop muted playsinline poster="/assets/media/false-gravity-hero.jpg" preload="none">
+      <source data-src="/assets/media/false-gravity-hero.webm" type="video/webm">
+      <source data-src="/assets/media/false-gravity-hero.mp4" type="video/mp4">
+     </video>
+     <button class="home-intro-playback" type="button" data-video-playback-control aria-controls="home-intro-animation" aria-label="Play animation" hidden>Play</button>
     </div>
    </section>
   <section class="gallery-grid grid" aria-label="Visual portfolio">
@@ -992,7 +975,7 @@
     </div>
   </section>
  </main>
-  <script defer src="/assets/js/homepage-media.js?v=20261126-cinder-fold"></script>
+  <script defer src="/assets/js/homepage-media.js?v=20261126-false-gravity"></script>
   <script>
    document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.gallery-item').forEach(item => {

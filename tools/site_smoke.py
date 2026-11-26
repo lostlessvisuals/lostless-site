@@ -98,10 +98,10 @@ def main() -> int:
     for index, video in enumerate(homepage_videos, start=1):
         sources = json.loads(video.get("sources", "[]"))
         source_types = {source.get("type") for source in sources}
-        if video.get("poster"):
+        if video.get("data-lazy") == "true" and video.get("poster"):
             errors.append(f"video {index} eagerly loads poster={video['poster']}")
-        if not video.get("data-poster"):
-            errors.append(f"video {index} is missing data-poster")
+        if not (video.get("poster") or video.get("data-poster")):
+            errors.append(f"video {index} is missing a poster")
         if not video.get("aria-label"):
             errors.append(f"video {index} is missing aria-label")
         if video.get("preload") != "none":

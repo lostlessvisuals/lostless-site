@@ -23,21 +23,6 @@
     });
   };
 
-  const revealAfterDecode = (img) => {
-    if (!img) {
-      return;
-    }
-
-    const finishReveal = () => revealOnNextPaint(img);
-
-    if (typeof img.decode === 'function') {
-      img.decode().catch(() => {}).finally(finishReveal);
-      return;
-    }
-
-    finishReveal();
-  };
-
   const loadVideoPoster = (video) => {
     if (!video.getAttribute('poster') && video.dataset.poster) {
       video.setAttribute('poster', video.dataset.poster);
@@ -79,24 +64,6 @@
       return;
     }
 
-    if (img.dataset.heroReveal === 'true') {
-      img.classList.add(boundClass);
-
-      if (img.complete && img.naturalWidth > 0) {
-        revealAfterDecode(img);
-        return;
-      }
-
-      img.addEventListener(
-        'load',
-        () => {
-          revealAfterDecode(img);
-        },
-        { once: true }
-      );
-      return;
-    }
-
     img.classList.add(fadeClass, boundClass);
 
     if (!img.hasAttribute('loading')) {
@@ -131,7 +98,15 @@
     (!prefersReducedMotion || state.intent === 'play');
 
   const updatePlaybackAction = (video, state) => {
-    // The artwork itself is the recovery target; never cover it with controls.
+    if (state.control) {
+      const waitingToPlay = state.pending !== null && state.intent !== 'pause';
+      const action = state.failed ? 'Retry' : !video.paused || waitingToPlay ? 'Pause' : 'Play';
+      state.control.textContent = action;
+      state.control.setAttribute('aria-label', `${action} animation`);
+      state.control.hidden = false;
+      return;
+    }
+    // Gallery artwork is its own recovery target.
     const needsAction = state.togglePlayback || (video.paused && !state.pending &&
       (state.failed || state.blocked || prefersReducedMotion));
     if (needsAction) {
@@ -206,16 +181,19 @@
       return;
     }
 
-    const togglePlayback = video.hasAttribute('data-playback-toggle');
+    const sibling = video.nextElementSibling;
+    const control = sibling?.hasAttribute('data-video-playback-control') ? sibling : null;
+    const togglePlayback = Boolean(control) || video.hasAttribute('data-playback-toggle');
     if (!togglePlayback && !video.closest('.gallery-item')) return;
     const state = { label: video.getAttribute('aria-label') || 'portfolio video',
-      intent: 'auto', blocked: false, failed: false, togglePlayback,
+      intent: 'auto', blocked: false, failed: false, togglePlayback, control,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
 
     // The native poster and the decoded video share the same surface.
     video.classList.add(fadeClass, boundClass);
+    if (video.getAttribute('poster')) video.classList.add(loadedClass);
     video.defaultMuted = true;
     video.muted = true;
     video.playsInline = true;
@@ -291,6 +269,7 @@
       }
       syncVideo(video);
     };
+    control?.addEventListener('click', activateVideo);
     video.addEventListener('click', activateVideo);
     video.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
