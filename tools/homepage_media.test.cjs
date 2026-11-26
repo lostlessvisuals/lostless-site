@@ -45,7 +45,7 @@ class Element {
   decode() { return Promise.resolve(); }
 }
 
-function fixture({ reducedMotion = false, coarse = false, explicitControl = false } = {}) {
+function fixture({ reducedMotion = false, coarse = false, togglePlayback = false } = {}) {
   const main = new Element('main');
   const container = new Element('div');
   const video = new Element('video');
@@ -55,12 +55,7 @@ function fixture({ reducedMotion = false, coarse = false, explicitControl = fals
   document.querySelector = () => main;
   main.querySelectorAll = selector => selector === 'video' ? [video] : [];
   container.appendChild(video);
-  if (explicitControl) {
-    const control = new Element('button');
-    control.setAttribute('data-video-playback-control', '');
-    container.appendChild(control);
-    video.nextElementSibling = control;
-  }
+  if (togglePlayback) video.setAttribute('data-playback-toggle', '');
   video.dataset.poster = '/poster.jpg';
   video.setAttribute('aria-label', 'Sample clip');
   video.paused = true;
@@ -176,19 +171,19 @@ test('blocked mobile autoplay recovers on a page touch without any overlay butto
   assert.equal(f.video.getAttribute('aria-label'), 'Sample clip');
 });
 
-test('one touch on the Play button recovers blocked autoplay without toggling back to pause', async () => {
-  const f = fixture({ coarse: true, explicitControl: true });
+test('one tap on toggleable artwork recovers blocked autoplay without toggling back to pause', async () => {
+  const f = fixture({ coarse: true, togglePlayback: true });
   f.onscreen(); f.visible.enter();
   f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
-  assert.equal(f.button.getAttribute('aria-label'), 'Play animation');
+  assert.equal(f.video.getAttribute('aria-label'), 'Play: Sample clip');
 
-  f.document.emit('touchend', { target: f.button });
-  assert.equal(f.attempts.length, 1, 'the document must leave this tap to the button click');
-  f.button.emit('click');
+  f.document.emit('touchend', { target: f.video });
+  assert.equal(f.attempts.length, 1, 'the document must leave this tap to the video click');
+  f.video.emit('click');
   assert.equal(f.attempts.length, 2);
   f.attempts[1].resolve(); await settle();
   assert.equal(f.video.paused, false);
-  assert.equal(f.button.getAttribute('aria-label'), 'Pause animation');
+  assert.equal(f.video.getAttribute('aria-label'), 'Pause: Sample clip');
 });
 
 test('video error keeps the native poster visible and Retry reloads existing sources', async () => {

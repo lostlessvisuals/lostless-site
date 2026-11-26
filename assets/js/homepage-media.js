@@ -116,15 +116,7 @@
     (!prefersReducedMotion || state.intent === 'play');
 
   const updatePlaybackAction = (video, state) => {
-    if (state.control) {
-      const waitingToPlay = state.pending !== null && state.intent !== 'pause';
-      const action = state.failed ? 'Retry' : !video.paused || waitingToPlay ? 'Pause' : 'Play';
-      state.control.textContent = action;
-      state.control.setAttribute('aria-label', `${action} animation`);
-      state.control.hidden = false;
-      return;
-    }
-    // Gallery artwork is its own recovery target.
+    // The artwork is its own playback and recovery target.
     const needsAction = state.togglePlayback || (video.paused && !state.pending &&
       (state.failed || state.blocked || prefersReducedMotion));
     if (needsAction) {
@@ -199,14 +191,12 @@
       return;
     }
 
-    const sibling = video.nextElementSibling;
-    const control = sibling?.hasAttribute('data-video-playback-control') ? sibling : null;
-    const togglePlayback = Boolean(control) || video.hasAttribute('data-playback-toggle');
+    const togglePlayback = video.hasAttribute('data-playback-toggle');
     if (!togglePlayback && !video.closest('.gallery-item')) return;
     const parent = video.parentElement;
     const revealVisual = !prefersReducedMotion && parent?.hasAttribute('data-video-reveal');
     const state = { label: video.getAttribute('aria-label') || 'portfolio video',
-      intent: 'auto', blocked: false, failed: false, togglePlayback, control,
+      intent: 'auto', blocked: false, failed: false, togglePlayback,
       waitingForReveal: revealVisual,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
@@ -290,7 +280,6 @@
       }
       syncVideo(video);
     };
-    control?.addEventListener('click', activateVideo);
     video.addEventListener('click', activateVideo);
     video.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
@@ -343,10 +332,10 @@
   // Some mobile settings require a real gesture even for muted media. A normal
   // page interaction can unlock visible clips without a separate Play button.
   const recoverBlockedPlayback = (event) => {
-    // An explicit Play tap owns its gesture. Retrying on touchend would make
+    // A toggleable video owns its tap. Retrying on touchend would make
     // the following click look like a request to pause that same video.
-    const explicitControl = event.target?.closest?.('[data-video-playback-control], video[data-playback-toggle]');
-    if (prefersReducedMotion || explicitControl) return;
+    const toggledVideo = event.target?.closest?.('video[data-playback-toggle]');
+    if (prefersReducedMotion || toggledVideo) return;
     videoStates.forEach((state, video) => {
       if (!state.blocked || state.failed || !isVisible(video)) return;
       state.blocked = false;
