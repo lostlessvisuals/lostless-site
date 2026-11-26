@@ -132,12 +132,13 @@
 
   const updatePlaybackAction = (video, state) => {
     // The artwork itself is the recovery target; never cover it with controls.
-    const needsAction = video.paused && !state.pending &&
-      (state.failed || state.blocked || prefersReducedMotion);
+    const needsAction = state.togglePlayback || (video.paused && !state.pending &&
+      (state.failed || state.blocked || prefersReducedMotion));
     if (needsAction) {
       video.setAttribute('role', 'button');
       video.setAttribute('tabindex', '0');
-      video.setAttribute('aria-label', `${state.failed ? 'Retry' : 'Play'}: ${state.label}`);
+      const action = state.failed ? 'Retry' : video.paused ? 'Play' : 'Pause';
+      video.setAttribute('aria-label', `${action}: ${state.label}`);
     } else {
       video.removeAttribute('role');
       video.removeAttribute('tabindex');
@@ -205,10 +206,10 @@
       return;
     }
 
-    const container = video.closest('.gallery-item');
-    if (!container) return;
+    const togglePlayback = video.hasAttribute('data-playback-toggle');
+    if (!togglePlayback && !video.closest('.gallery-item')) return;
     const state = { label: video.getAttribute('aria-label') || 'portfolio video',
-      intent: 'auto', blocked: false, failed: false,
+      intent: 'auto', blocked: false, failed: false, togglePlayback,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
@@ -269,8 +270,14 @@
         }, 100);
       }
     }));
-    const recoverVideo = () => {
-      if (!video.paused || state.pending || !isVisible(video)) return;
+    const activateVideo = () => {
+      if (!isVisible(video)) return;
+      if (togglePlayback && (!video.paused || state.pending)) {
+        state.intent = 'pause';
+        stopVideo(video, state);
+        return;
+      }
+      if (!video.paused || state.pending) return;
       const retry = state.failed;
       state.intent = 'play';
       state.blocked = false;
@@ -284,11 +291,11 @@
       }
       syncVideo(video);
     };
-    video.addEventListener('click', recoverVideo);
+    video.addEventListener('click', activateVideo);
     video.addEventListener('keydown', (event) => {
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
-      recoverVideo();
+      activateVideo();
     });
     updatePlaybackAction(video, state);
     if (video.readyState >= 2) ready();

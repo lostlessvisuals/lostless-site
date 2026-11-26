@@ -735,6 +735,24 @@ nav a:focus-visible {
   outline-offset: -4px;
 }
 
+.overhead-portrait {
+  width: min(100%, 20rem);
+  justify-self: center;
+}
+
+.pipeline-figure.overhead-portrait video {
+  aspect-ratio: 9 / 16;
+}
+
+video[data-playback-toggle][role="button"] {
+  cursor: pointer;
+}
+
+.overhead-portrait video[role="button"]:focus-visible {
+  outline: 2px solid #f2f2f2;
+  outline-offset: -4px;
+}
+
 .overhead-capabilities h2 {
   margin: 0;
   font: 600 1.55rem / 1.2 Bahnschrift, "DIN Alternate", Inter, sans-serif;
