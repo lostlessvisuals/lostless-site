@@ -17,7 +17,7 @@
   <meta property="og:image:height" content="720">
   <meta property="og:image:alt" content="Blue and gold ribbons curling across a dark background in False Gravity">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="/css/styles.css?v=20261126-cinder-fold" />
+  <link rel="stylesheet" href="/css/styles.css?v=20261126-overhead-details" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
@@ -53,7 +53,7 @@
     <section class="overhead-step page-arrival" id="performance" aria-labelledby="overhead-performance">
       <div>
         <h2 id="overhead-performance">Performance demo</h2>
-        <p>I cue the next visual while the current one is still running. Both keep moving through the transition.</p>
+        <p>I perform four visuals to one track and cue each change live. At the start, the kick makes a grid of numbers pulse and the snare cuts across it. In the last blend, blue and gold ribbons curl through the outgoing image while both visuals keep moving.</p>
       </div>
       <figure class="pipeline-figure">
         <video controls playsinline preload="metadata" poster="/assets/overhead/set-performance.jpg?v=live-blends" width="1920" height="1080" aria-label="Cueing and blending visuals in Overhead" aria-describedby="performance-caption">
@@ -64,18 +64,41 @@
       </figure>
     </section>
 
-    <section class="overhead-step" id="cinder-fold" aria-labelledby="overhead-cinder-fold">
-      <div>
-        <h2 id="overhead-cinder-fold">Cinder Fold</h2>
-        <p>I used the kick to twist the form and the snare to light its edges.</p>
-      </div>
-      <figure class="pipeline-figure overhead-portrait">
+    <section class="overhead-capabilities overhead-details" id="capabilities" aria-labelledby="overhead-internals">
+      <h2 id="overhead-internals">Inside Overhead</h2>
+      <figure class="pipeline-figure overhead-portrait" id="cinder-fold">
         <video data-playback-toggle poster="/assets/overhead/cinder-fold-club.jpg" width="540" height="960" loop muted playsinline preload="none" aria-label="Cinder Fold above a dance floor" aria-describedby="cinder-fold-caption">
           <source data-src="/assets/overhead/cinder-fold-club.webm" type="video/webm">
           <source data-src="/assets/overhead/cinder-fold-club.mp4" type="video/mp4">
         </video>
-        <figcaption class="pipeline-figcaption" id="cinder-fold-caption">Overhead recording paired with dance floor footage by Marc Mueller.</figcaption>
+        <figcaption class="pipeline-figcaption" id="cinder-fold-caption">Cinder Fold · Dance floor footage by Marc Mueller</figcaption>
       </figure>
+      <dl>
+        <div>
+          <dt>Agent authoring</dt>
+          <dd>An agent can write and revise HLSL shaders from the Agent Terminal. Custom effects can expose their own controls and be saved as reusable modules. Shaders reload in place, and a failed compile leaves the last working shader active.</dd>
+        </div>
+        <div>
+          <dt>Rendering and compositing</dt>
+          <dd>The Direct3D 11 renderer mixes stills, video and live camera feeds with generated imagery. It can composite masks, run particle or fluid simulations and feed earlier frames back in for trails and warps. An optional SDXL Turbo pipeline can restyle incoming frames, with depth guidance on compatible model bundles.</dd>
+        </div>
+        <div>
+          <dt>Audio analysis</dt>
+          <dd>Overhead can listen to a track, an audio interface or the system output. Frequency bands and loudness envelopes can drive motion or light continuously. Separate kick, snare and high-percussion signals can trigger individual events.</dd>
+        </div>
+        <div>
+          <dt>Controls and timing</dt>
+          <dd>I can map MIDI knobs and local OSC messages to parameters, or drive them internally with oscillators, expressions and timeline keyframes. The timeline can follow MIDI clock or MTC/LTC timecode.</dd>
+        </div>
+        <div>
+          <dt>Visual library and sets</dt>
+          <dd>I save visuals with their effect settings and find them again by tag, favorite or orientation. In a set I can cue each piece by hand or let the queue advance on a timer or a drum hit. Transitions include cut, dissolve, luma, screen and difference.</dd>
+        </div>
+        <div>
+          <dt>Output and recording</dt>
+          <dd>I can send the final image to a second display in fullscreen. Spout shares video with other apps and optional NDI sends and receives video on the local network. I can record H.264 with AAC audio or HAP Alpha with PCM audio when I need transparency.</dd>
+        </div>
+      </dl>
     </section>
 
     <section class="overhead-capabilities" id="walkthrough" aria-labelledby="overhead-process">
@@ -116,36 +139,6 @@
         </a>
         <figcaption class="pipeline-figcaption">Ruby Chambers playing with Eye Tunnel queued next.</figcaption>
       </figure>
-    </section>
-
-    <section class="overhead-capabilities" id="capabilities" aria-labelledby="overhead-internals">
-      <h2 id="overhead-internals">Inside Overhead</h2>
-      <dl>
-        <div>
-          <dt>Agent authoring</dt>
-          <dd>An agent can write and revise HLSL shaders from the Agent Terminal. Custom effects can expose their own controls and be saved as reusable modules. Shaders reload in place, and a failed compile leaves the last working shader active.</dd>
-        </div>
-        <div>
-          <dt>Rendering and compositing</dt>
-          <dd>The Direct3D 11 renderer mixes stills, video and live camera feeds with generated imagery. It can composite masks, run particle or fluid simulations and feed earlier frames back in for trails and warps. An optional SDXL Turbo pipeline can restyle incoming frames, with depth guidance on compatible model bundles.</dd>
-        </div>
-        <div>
-          <dt>Audio analysis</dt>
-          <dd>Overhead can listen to a track, an audio interface or the system output. Frequency bands and loudness envelopes can drive motion or light continuously. Separate kick, snare and high-percussion signals can trigger individual events.</dd>
-        </div>
-        <div>
-          <dt>Controls and timing</dt>
-          <dd>I can map MIDI knobs and local OSC messages to parameters, or drive them internally with oscillators, expressions and timeline keyframes. The timeline can follow MIDI clock or MTC/LTC timecode.</dd>
-        </div>
-        <div>
-          <dt>Visual library and sets</dt>
-          <dd>I save visuals with their effect settings and find them again by tag, favorite or orientation. In a set I can cue each piece by hand or let the queue advance on a timer or a drum hit. Transitions include cut, dissolve, luma, screen and difference.</dd>
-        </div>
-        <div>
-          <dt>Output and recording</dt>
-          <dd>I can send the final image to a second display in fullscreen. Spout shares video with other apps and optional NDI sends and receives video on the local network. I can record H.264 with AAC audio or HAP Alpha with PCM audio when I need transparency.</dd>
-        </div>
-      </dl>
     </section>
 
   </main>

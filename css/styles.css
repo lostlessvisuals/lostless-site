@@ -779,6 +779,42 @@ video[data-playback-toggle][role="button"] {
   margin: 0.35rem 0 0;
 }
 
+.overhead-details {
+  display: grid;
+  align-items: start;
+  gap: 1.15rem clamp(1rem, 3vw, 2rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.overhead-details dl {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14.5rem), 1fr));
+  margin: 0;
+}
+
+@media (min-width: 820px) {
+  .overhead-details {
+    grid-template-columns: minmax(0, 1fr) 30%;
+    grid-template-areas:
+      "heading visual"
+      "details visual";
+    grid-template-rows: auto 1fr;
+  }
+
+  .overhead-details h2 {
+    grid-area: heading;
+  }
+
+  .overhead-details dl {
+    grid-area: details;
+  }
+
+  .overhead-details .overhead-portrait {
+    grid-area: visual;
+    justify-self: end;
+  }
+}
+
 .about-credits {
   margin-top: 1.75rem;
   padding-top: 1.25rem;
