@@ -57,14 +57,14 @@
         return aIsMp4 - bIsMp4;
       });
     }
+    if (preferMp4) sources.forEach(source => video.appendChild(source));
+    video.dataset[videoLoadedFlag] = 'true';
     sources.forEach((source) => {
       if (!source.src) {
         source.src = source.dataset.src;
       }
-      video.appendChild(source);
     });
 
-    video.dataset[videoLoadedFlag] = 'true';
     if (sources.length > 0) {
       video.load();
     }
@@ -111,11 +111,11 @@
   };
 
   const wantsPlayback = (video, state) => isVisible(video) &&
-    state.intent !== 'pause' && !state.blocked && !state.failed &&
-    (!state.waitingForReveal || state.intent === 'play') &&
+    state.intent !== 'pause' && !state.failed &&
     (!prefersReducedMotion || state.intent === 'play');
 
   const updatePlaybackAction = (video, state) => {
+    if (state.nativeControls) return;
     // The artwork is its own playback and recovery target.
     const needsAction = state.togglePlayback || (video.paused && !state.pending &&
       (state.failed || state.blocked || prefersReducedMotion));
@@ -131,24 +131,29 @@
     }
   };
 
+  const pauseVideo = (video, state) => {
+    if (state.nativeControls && !video.paused) state.internalPause = true;
+    video.pause();
+  };
+
   const stopVideo = (video, state) => {
     const wasPending = state.pending !== null;
     state.pending = null;
     state.generation += 1;
     video.autoplay = false;
-    if (!video.paused || wasPending) video.pause();
+    if (!video.paused || wasPending) pauseVideo(video, state);
     updatePlaybackAction(video, state);
   };
 
   const playVideo = (video, state) => {
-    if (!wantsPlayback(video, state) || state.pending || !video.paused) return;
+    if (!wantsPlayback(video, state) || state.blocked || state.pending || !video.paused) return;
     const generation = ++state.generation;
     state.pending = generation;
     updatePlaybackAction(video, state);
     // Gesture recovery calls play synchronously, before any readiness events.
     try {
       Promise.resolve(video.play()).then(() => {
-        if (!wantsPlayback(video, state)) video.pause();
+        if (!wantsPlayback(video, state) && !video.paused) pauseVideo(video, state);
         if (state.generation !== generation) return;
         state.pending = null;
         updatePlaybackAction(video, state);
@@ -174,11 +179,11 @@
     const state = videoStates.get(video);
     if (!state) return;
     if (!wantsPlayback(video, state)) {
+      if (!isVisible(video)) state.blocked = false;
       stopVideo(video, state);
       return;
     }
-    // Let Safari use its native muted-autoplay path as well as play(). Keep
-    // autoplay disabled offscreen and when reduced motion requests a still card.
+    // Safari can still start natively after a rejected scripted play request.
     video.autoplay = !prefersReducedMotion;
     loadVideoSources(video);
     // play() must initiate the visible load: browsers honoring preload="none"
@@ -192,12 +197,14 @@
     }
 
     const togglePlayback = video.hasAttribute('data-playback-toggle');
-    if (!togglePlayback && !video.closest('.gallery-item')) return;
+    const autoplayVideo = video.hasAttribute('data-autoplay-video');
+    if (!autoplayVideo && !togglePlayback && !video.closest('.gallery-item')) return;
+    const nativeControls = autoplayVideo && video.hasAttribute('controls');
     const parent = video.parentElement;
     const revealVisual = !prefersReducedMotion && parent?.hasAttribute('data-video-reveal');
     const state = { label: video.getAttribute('aria-label') || 'portfolio video',
       intent: 'auto', blocked: false, failed: false, togglePlayback,
-      waitingForReveal: revealVisual,
+      nativeControls, internalPause: false,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
@@ -209,8 +216,8 @@
     video.muted = true;
     video.playsInline = true;
     video.autoplay = false;
-    video.controls = false;
-    video.loop = !prefersReducedMotion;
+    if (!nativeControls) video.controls = false;
+    video.loop = !prefersReducedMotion && (!nativeControls || video.loop);
     video.addEventListener('loadstart', () => {
       if (video.dataset[videoLoadedFlag] !== 'true') return;
       clearTimeout(state.sourceErrorTimer);
@@ -228,13 +235,25 @@
     };
     video.addEventListener('loadeddata', ready);
     video.addEventListener('canplay', ready);
+    if (nativeControls) video.addEventListener('play', () => {
+      if (video.paused || !isVisible(video)) return;
+      state.intent = 'play';
+      state.blocked = false;
+    });
     video.addEventListener('playing', () => {
       // Native autoplay may succeed after an earlier play() denial.
       state.blocked = false;
       if (!wantsPlayback(video, state)) stopVideo(video, state);
       else updatePlaybackAction(video, state);
     });
-    video.addEventListener('pause', () => updatePlaybackAction(video, state));
+    video.addEventListener('pause', () => {
+      if (nativeControls && !state.internalPause && !video.ended && isVisible(video)) {
+        state.intent = 'pause';
+        video.autoplay = false;
+      }
+      state.internalPause = false;
+      updatePlaybackAction(video, state);
+    });
     video.addEventListener('ended', () => {
       state.intent = 'pause';
       stopVideo(video, state);
@@ -280,23 +299,21 @@
       }
       syncVideo(video);
     };
-    video.addEventListener('click', activateVideo);
-    video.addEventListener('keydown', (event) => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      activateVideo();
-    });
+    if (!nativeControls) {
+      video.addEventListener('click', activateVideo);
+      video.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        activateVideo();
+      });
+    }
     updatePlaybackAction(video, state);
     if (video.readyState >= 2) ready();
     loadObserver.observe(video);
     playbackObserver.observe(video);
     if (revealVisual) {
-      const reveal = () => {
-        parent.classList.add(loadedClass);
-        state.waitingForReveal = false;
-        syncVideo(video);
-      };
-      // Start at the beginning when the still is ready, even on a slow connection.
+      const reveal = () => parent.classList.add(loadedClass);
+      video.addEventListener('playing', reveal, { once: true });
       if (video.poster) {
         const poster = new Image();
         poster.src = video.poster;
@@ -311,7 +328,8 @@
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        if (prefersReducedMotion) loadVideoPoster(entry.target);
+        // On touch devices set native autoplay before attaching lazy sources.
+        if (prefersReducedMotion || preferMp4) loadVideoPoster(entry.target);
         else loadVideoSources(entry.target);
         loadObserver.unobserve(entry.target);
       });
@@ -332,10 +350,9 @@
   // Some mobile settings require a real gesture even for muted media. A normal
   // page interaction can unlock visible clips without a separate Play button.
   const recoverBlockedPlayback = (event) => {
-    // A toggleable video owns its tap. Retrying on touchend would make
-    // the following click look like a request to pause that same video.
-    const toggledVideo = event.target?.closest?.('video[data-playback-toggle]');
-    if (prefersReducedMotion || toggledVideo) return;
+    // Let both native controls and the custom video toggle handle their own taps.
+    const videoControl = event.target?.closest?.('video[data-playback-toggle], video[data-autoplay-video]');
+    if (prefersReducedMotion || videoControl) return;
     videoStates.forEach((state, video) => {
       if (!state.blocked || state.failed || !isVisible(video)) return;
       state.blocked = false;

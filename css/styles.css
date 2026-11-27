@@ -1197,7 +1197,7 @@ video[data-playback-toggle][role="button"] {
 
 .home-intro-mark img {
   display: block;
-  width: min(160px, 45vw);
+  width: clamp(160px, 17vw, 224px);
   height: auto;
 }
 
@@ -1496,6 +1496,18 @@ html.js body.homepage .lazy-fade.is-loaded {
 @media (max-width: 700px) {
   .home-intro {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-intro-mark img {
+    width: min(160px, 45vw);
+  }
+
+  .home-intro-copy {
+    text-align: left;
+  }
+
+  .home-intro h1 {
+    text-wrap: pretty;
   }
 }
 

@@ -45,7 +45,7 @@ class Element {
   decode() { return Promise.resolve(); }
 }
 
-function fixture({ reducedMotion = false, coarse = false, togglePlayback = false } = {}) {
+function fixture({ reducedMotion = false, coarse = false, togglePlayback = false, nativeControls = false } = {}) {
   const main = new Element('main');
   const container = new Element('div');
   const video = new Element('video');
@@ -56,15 +56,26 @@ function fixture({ reducedMotion = false, coarse = false, togglePlayback = false
   main.querySelectorAll = selector => selector === 'video' ? [video] : [];
   container.appendChild(video);
   if (togglePlayback) video.setAttribute('data-playback-toggle', '');
+  if (nativeControls) {
+    video.setAttribute('data-autoplay-video', '');
+    video.setAttribute('controls', '');
+    video.controls = true;
+  }
   video.dataset.poster = '/poster.jpg';
   video.setAttribute('aria-label', 'Sample clip');
   video.paused = true;
+  video.loop = false;
   video.readyState = 0;
   video.isConnected = true;
   let rect = { top: 850, bottom: 950, left: 0, right: 100, width: 100, height: 100 };
   video.getBoundingClientRect = () => rect;
   video.loads = 0;
-  video.load = () => { video.loads++; video.readyState = 0; video.emit('loadstart'); };
+  video.load = () => {
+    video.autoplayAtLoad = video.autoplay;
+    video.loads++;
+    video.readyState = 0;
+    video.emit('loadstart');
+  };
   video.pause = () => { video.paused = true; video.emit('pause'); };
   const attempts = [];
   video.play = () => new Promise((resolve, reject) => attempts.push({
@@ -141,6 +152,38 @@ test('visible playback starts loading even when preload none has provided no dat
   f.onscreen(); f.visible.enter();
   assert.equal(f.video.readyState, 0);
   assert.equal(f.attempts.length, 1);
+});
+
+test('mobile lazy sources are attached with native autoplay and MP4 first', () => {
+  const f = fixture({ coarse: true });
+  f.near.enter();
+  assert.equal(f.video.getAttribute('poster'), '/poster.jpg');
+  assert.equal(f.video.loads, 0);
+  f.onscreen(); f.visible.enter();
+  assert.equal(f.video.autoplayAtLoad, true);
+  assert.equal(f.video.children[0].type, 'video/mp4');
+  assert.equal(f.attempts.length, 1);
+});
+
+test('autoplay previews keep native controls and respect a manual pause on re-entry', async () => {
+  const f = fixture({ nativeControls: true });
+  f.onscreen(); f.visible.enter();
+  assert.equal(f.video.controls, true);
+  assert.equal(f.video.loop, false);
+  assert.equal(f.video.muted, true);
+  f.attempts[0].resolve(); await settle();
+  f.video.pause();
+  f.offscreen(); f.visible.exit();
+  f.onscreen(); f.visible.enter();
+  assert.equal(f.attempts.length, 1);
+
+  f.video.paused = false;
+  f.video.emit('play');
+  f.video.emit('playing');
+  assert.equal(f.video.paused, false);
+  f.offscreen(); f.visible.exit();
+  f.onscreen(); f.visible.enter();
+  assert.equal(f.attempts.length, 2);
 });
 
 test('late play completion is stopped after exit and can resume on re-entry', async () => {
@@ -315,6 +358,9 @@ test('native autoplay can recover after an earlier rejected play request', async
   const f = fixture();
   f.onscreen(); f.visible.enter();
   f.attempts[0].reject({ name: 'NotAllowedError' }); await settle();
+  f.ready();
+  assert.equal(f.video.autoplay, true);
+  assert.equal(f.attempts.length, 1);
   f.video.paused = false;
   f.video.emit('playing');
   assert.equal(f.video.paused, false);
