@@ -27,7 +27,7 @@ class SiteParser(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         values = {key: value or "" for key, value in attrs}
-        for key in ("href", "src", "poster", "data-poster", "data-src"):
+        for key in ("href", "src", "poster", "data-poster", "data-src", "data-motion-preview"):
             if values.get(key):
                 self.refs.append(values[key])
         for item in values.get("srcset", "").split(","):

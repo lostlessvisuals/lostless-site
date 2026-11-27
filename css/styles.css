@@ -1448,10 +1448,45 @@ video[data-playback-toggle][role="button"] {
   z-index: 1;
 }
 
-.homepage :is(.gallery-item, .home-intro-visual) video::-webkit-media-controls-start-playback-button,
-.homepage :is(.gallery-item, .home-intro-visual) video::-webkit-media-controls-overlay-play-button {
+:is(.homepage .gallery-item video, video[data-playback-toggle], video[data-autoplay-video])::-webkit-media-controls-start-playback-button,
+:is(.homepage .gallery-item video, video[data-playback-toggle], video[data-autoplay-video])::-webkit-media-controls-overlay-play-button {
   display: none !important;
   -webkit-appearance: none;
+}
+
+.video-preview-surface {
+  position: relative;
+}
+
+.video-preview-cover,
+.video-preview-cover img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.video-preview-cover img {
+  object-fit: cover;
+  background: #000;
+}
+
+.video-preview-cover {
+  z-index: 1;
+}
+
+.video-preview-start {
+  margin: 0.65rem 1rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background: #111;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 
 .homepage :is(.gallery-item, .home-intro-visual) video[role="button"]:focus-visible {

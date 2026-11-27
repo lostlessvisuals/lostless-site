@@ -11,6 +11,7 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const preferMp4 = window.matchMedia('(pointer: coarse)').matches;
   const videoStates = new Map();
+  const previewVideos = new WeakMap();
   const revealOnNextPaint = (node) => {
     if (!node || node.classList.contains(loadedClass)) {
       return;
@@ -39,6 +40,51 @@
       video.setAttribute('poster', video.dataset.poster);
     }
     if (video.getAttribute('poster')) video.classList.add(loadedClass);
+  };
+
+  const removeMotionFallback = (state) => {
+    if (!state.motionFallback) return;
+    state.motionFallback.remove();
+    state.motionFallback = null;
+    if (state.startButton) state.startButton.hidden = true;
+  };
+
+  const showMotionFallback = (video, state) => {
+    if (!preferMp4 || state.motionFallback || !video.poster || !video.parentElement) return;
+    if (!state.surface) {
+      const surface = document.createElement('div');
+      surface.className = 'video-preview-surface';
+      video.before(surface);
+      surface.appendChild(video);
+      state.surface = surface;
+      previewVideos.set(surface, video);
+      playbackObserver.unobserve(video);
+      playbackObserver.observe(surface);
+    }
+
+    const cover = document.createElement('picture');
+    cover.className = 'video-preview-cover';
+    cover.setAttribute('aria-hidden', 'true');
+    const image = document.createElement('img');
+    image.alt = '';
+    const preview = prefersReducedMotion ? '' : video.dataset.motionPreview;
+    const mp4 = !prefersReducedMotion && !state.nativeControls &&
+      video.querySelector('source[type="video/mp4"][data-src]')?.dataset.src;
+    if (preview || mp4) {
+      const source = document.createElement('source');
+      source.type = preview ? 'image/webp' : 'video/mp4';
+      source.srcset = preview || mp4;
+      image.addEventListener('error', () => {
+        source.remove();
+        image.src = video.poster;
+      }, { once: true });
+      cover.appendChild(source);
+    }
+    image.src = video.poster;
+    cover.appendChild(image);
+    state.surface.appendChild(cover);
+    state.motionFallback = cover;
+    if (state.startButton) state.startButton.hidden = false;
   };
 
   const loadVideoSources = (video) => {
@@ -71,7 +117,7 @@
   };
 
   const handleImage = (img) => {
-    if (!img || img.classList.contains(boundClass)) {
+    if (!img || img.classList.contains(boundClass) || img.closest('.video-preview-cover')) {
       return;
     }
 
@@ -165,12 +211,16 @@
           if (!video.getAttribute('poster')) video.classList.remove(loadedClass);
         }
         // A load/visibility interruption is not an autoplay-policy denial.
-        if (error.name === 'NotAllowedError' && isVisible(video)) state.blocked = true;
+        if (error.name === 'NotAllowedError' && isVisible(video)) {
+          state.blocked = true;
+          showMotionFallback(video, state);
+        }
         updatePlaybackAction(video, state);
       });
     } catch (_) {
       state.pending = null;
       state.blocked = true;
+      if (isVisible(video)) showMotionFallback(video, state);
       updatePlaybackAction(video, state);
     }
   };
@@ -179,7 +229,12 @@
     const state = videoStates.get(video);
     if (!state) return;
     if (!wantsPlayback(video, state)) {
-      if (!isVisible(video)) state.blocked = false;
+      if (!isVisible(video)) {
+        state.blocked = false;
+        removeMotionFallback(state);
+      } else if (prefersReducedMotion && state.intent === 'auto' && state.nativeControls) {
+        showMotionFallback(video, state);
+      }
       stopVideo(video, state);
       return;
     }
@@ -205,6 +260,7 @@
     const state = { label: video.getAttribute('aria-label') || 'portfolio video',
       intent: 'auto', blocked: false, failed: false, togglePlayback,
       nativeControls, internalPause: false,
+      surface: null, motionFallback: null, startButton: null,
       pending: null, generation: 0, loadingStarted: false, sourceErrorTimer: null,
       failedSources: new Set() };
     videoStates.set(video, state);
@@ -243,6 +299,7 @@
     video.addEventListener('playing', () => {
       // Native autoplay may succeed after an earlier play() denial.
       state.blocked = false;
+      removeMotionFallback(state);
       if (!wantsPlayback(video, state)) stopVideo(video, state);
       else updatePlaybackAction(video, state);
     });
@@ -288,6 +345,7 @@
       if (!video.paused || state.pending) return;
       const retry = state.failed;
       state.intent = 'play';
+      removeMotionFallback(state);
       state.blocked = false;
       state.failed = false;
       state.failedSources.clear();
@@ -299,6 +357,21 @@
       }
       syncVideo(video);
     };
+    if (nativeControls && preferMp4) {
+      const button = document.createElement('button');
+      button.className = 'video-preview-start';
+      button.type = 'button';
+      button.textContent = 'Play with sound';
+      button.setAttribute('aria-label', `Play ${state.label} with sound`);
+      button.hidden = true;
+      button.addEventListener('click', () => {
+        if (!isVisible(video)) return;
+        video.muted = false;
+        activateVideo();
+      });
+      video.after(button);
+      state.startButton = button;
+    }
     if (!nativeControls) {
       video.addEventListener('click', activateVideo);
       video.addEventListener('keydown', (event) => {
@@ -340,7 +413,7 @@
   );
 
   const playbackObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => syncVideo(entry.target));
+    entries.forEach(entry => syncVideo(previewVideos.get(entry.target) || entry.target));
   }, { rootMargin: '0px' });
 
   document.addEventListener('visibilitychange', () => {
